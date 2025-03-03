@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini.h                                             :+:      :+:    :+:   */
+/*   ft_malloc.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/01 01:21:05 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/03/03 17:27:18 by ybouanan         ###   ########.fr       */
+/*   Created: 2025/03/03 17:13:51 by ybouanan          #+#    #+#             */
+/*   Updated: 2025/03/03 17:18:47 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FT_MALLOC_H
+# define FT_MALLOC_H
 
-#ifndef
+# include <stdlib.h>
 
-#endif //
+typedef struct s_gc
+{
+	void		*p;
+	struct s_gc	*next;
+}				t_gc;
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
-int	ft_printf(const char *mstr, ...);
+void			ft_free(void);
+struct s_gc		**get_box(void);
+void			add_to_box(void *addr);
+void			*ft_malloc(size_t bytes);
+
+#endif
