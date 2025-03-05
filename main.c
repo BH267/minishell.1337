@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/03/05 07:46:46 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,31 @@ void	init_command(void)
 	}
 }
 
-int main()
+void te(e_code x)
 {
-	init_command();
+	if (x == CMD)
+		printf("CMD\n");
+	else
+		printf("ikhjab\n");
+
 }
+
+int main(int ac, char**av, char**envp)
+{
+	(void)ac;
+	(void)av;
+	(void)envp;
+
+	// init_command();
+	te(AND);
+}
+/*
+
+
+
+allo alloc (char*) "ls      -a" > out
+["ls      -a"]
+[>]
+[out]
+NULL
+*/

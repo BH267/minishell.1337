@@ -1,0 +1,56 @@
+{
+  "todotree": {
+    "tree": [
+      {
+        "key": 1741159686131,
+        "children": [],
+        "todo": {
+          "content": "store the env in linked list",
+          "id": 1741159686131,
+          "level": "default",
+          "done": false,
+          "start": 1741159686131,
+          "focus": false,
+          "end": 1741159706763
+        }
+      },
+      {
+        "key": 1741159703859,
+        "children": [],
+        "todo": {
+          "content": "build functuions for env manipulation arry to env and vice verca",
+          "id": 1741159703859,
+          "level": "default",
+          "done": false,
+          "start": 1741159703859,
+          "focus": false,
+          "end": 1741159708811
+        }
+      },
+      {
+        "key": 1741160810285,
+        "children": [],
+        "todo": {
+          "content": "build tokenizer -> loop over the command line (kanloopi 3la line 7ta nl9a soaces wela taps )",
+          "id": 1741160810285,
+          "level": "default",
+          "done": false,
+          "start": 1741160810285
+        }
+      }
+    ],
+    "expandKeys": [],
+    "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
+    "add_mode": "bottom",
+    "virtual": false,
+    "timelines": [],
+    "showLine": false,
+    "playFontSize": 24,
+    "title": "minishell",
+    "autoSort": false,
+    "showEndTime": false,
+    "simpleMode": false,
+    "lang": "en",
+    "version": "1741160811584"
+  }
+}
