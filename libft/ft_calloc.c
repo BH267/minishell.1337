@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/23 14:18:26 by ybouanan          #+#    #+#             */
+/*   Updated: 2024/11/09 20:32:23 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include "libft.h"
 
-
-void	init_command(void)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	char	*line;
-	char	**command;
-	int		i;
+	void	*tmp;
+	size_t	max_size;
 
-	while (1)
-	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
-		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
-	}
-}
-
-int main()
-{
-	init_command();
+	max_size = (size_t)-1;
+	if (size != 0 && nmemb > max_size / size)
+		return (NULL);
+	tmp = malloc(nmemb * size);
+	if (tmp == NULL)
+		return (NULL);
+	ft_bzero(tmp, nmemb * size);
+	return ((void *)tmp);
 }

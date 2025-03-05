@@ -1,40 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 09:16:10 by ybouanan          #+#    #+#             */
+/*   Updated: 2024/11/07 20:20:10 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include <stdio.h>
 
-
-void	init_command(void)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	char	*line;
-	char	**command;
-	int		i;
+	unsigned char	*tmp;
 
-	while (1)
+	tmp = (unsigned char *)s;
+	while (n--)
 	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
-		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
+		*tmp++ = (unsigned char)c;
 	}
-}
-
-int main()
-{
-	init_command();
+	return (s);
 }

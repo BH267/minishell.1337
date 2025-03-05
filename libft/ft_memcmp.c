@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 21:20:24 by ybouanan          #+#    #+#             */
+/*   Updated: 2024/11/09 16:12:25 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include <stdio.h>
+#include <string.h>
 
-
-void	init_command(void)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char	*line;
-	char	**command;
-	int		i;
+	const unsigned char	*tmps1;
+	const unsigned char	*tmps2;
 
-	while (1)
+	tmps1 = (const unsigned char *)s1;
+	tmps2 = (const unsigned char *)s2;
+	while (n--)
 	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
-		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
+		if (*tmps1 != *tmps2)
+			return (*tmps1 - *tmps2);
+		tmps1++;
+		tmps2++;
 	}
-}
-
-int main()
-{
-	init_command();
+	return (0);
 }

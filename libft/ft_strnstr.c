@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 21:38:51 by ybouanan          #+#    #+#             */
+/*   Updated: 2024/11/09 12:02:02 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include "libft.h"
 
-
-void	init_command(void)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	char	*line;
-	char	**command;
-	int		i;
+	size_t	i;
+	size_t	j;
 
-	while (1)
+	if (needle[0] == '\0')
+		return ((char *)haystack);
+	i = 0;
+	while (i < len && haystack[i])
 	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
-		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
+		j = 0;
+		while (needle[j] && (i + j) < len && haystack[i + j] == needle[j])
+			j++;
+		if (!needle[j])
+			return ((char *)(haystack + i));
+		i++;
 	}
-}
-
-int main()
-{
-	init_command();
+	return (NULL);
 }

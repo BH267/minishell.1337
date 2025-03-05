@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 16:51:43 by ybouanan          #+#    #+#             */
+/*   Updated: 2024/11/01 12:00:26 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include "libft.h"
 
-
-void	init_command(void)
+char	*ft_strrchr(const char *s, int c)
 {
-	char	*line;
-	char	**command;
-	int		i;
+	int	i;
+	int	f;
 
-	while (1)
+	f = -1;
+	i = 0;
+	while (s[i])
 	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
-		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
+		if ((unsigned char)s[i] == (unsigned char)c)
+			f = i;
+		i++;
 	}
-}
-
-int main()
-{
-	init_command();
+	if ((unsigned char)c == '\0')
+		return ((char *)(s + i));
+	if (f != -1)
+		return ((char *)(s + f));
+	return (NULL);
 }

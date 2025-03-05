@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 15:38:09 by ybouanan          #+#    #+#             */
+/*   Updated: 2024/11/09 13:46:27 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include "libft.h"
 
-
-void	init_command(void)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	char	*line;
-	char	**command;
-	int		i;
+	size_t	ld;
+	size_t	ls;
+	size_t	lt;
+	size_t	i;
 
-	while (1)
+	if (!dst && size == 0)
+		return (ft_strlen(src));
+	ld = ft_strlen(dst);
+	ls = ft_strlen(src);
+	lt = ld + ls;
+	if (size <= ld)
+		return (size + ls);
+	i = 0;
+	while (i < (size - ld - 1) && src[i])
 	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
-		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
+		dst[i + ld] = src[i];
+		i++;
 	}
-}
-
-int main()
-{
-	init_command();
+	dst[i + ld] = '\0';
+	return (lt);
 }

@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 10:03:31 by ybouanan          #+#    #+#             */
+/*   Updated: 2024/11/10 16:41:34 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include "libft.h"
 
-
-void	init_command(void)
+size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
 {
-	char	*line;
-	char	**command;
-	int		i;
+	size_t	i;
+	size_t	src_len;
 
-	while (1)
+	src_len = ft_strlen(src);
+	if (dstsize == 0)
+		return (src_len);
+	i = 0;
+	while (src[i] && i < dstsize - 1)
 	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
-		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
+		dest[i] = src[i];
+		i++;
 	}
-}
-
-int main()
-{
-	init_command();
+	dest[i] = '\0';
+	return (src_len);
 }

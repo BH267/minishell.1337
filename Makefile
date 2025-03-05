@@ -1,30 +1,41 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+RM = rm -f
+
 SRCS = main.c
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
-PATH_PRINTF = ft_printf/
-LIBFTPRINTF = $(PATH_PRINTF)libftprintf.a
+LIBFT = libft/libft.a
+LIBFTPRINTF = ft_printf/libftprintf.a
+FTMALLOC = ft_malloc/ft_malloc.o
 LIBS = -lreadline
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFTPRINTF)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFTPRINTF) $(LIBS)
+$(NAME): $(OBJS) $(LIBFT) $(LIBFTPRINTF) $(FTMALLOC)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LIBFTPRINTF) $(FTMALLOC) $(LIBS)
+
+$(LIBFT):
+	make -C libft
 
 $(LIBFTPRINTF):
-	make -C $(PATH_PRINTF)
+	make -C ft_printf
+
+$(FTMALLOC): ft_malloc/ft_malloc.c
+	$(CC) $(CFLAGS) -c ft_malloc/ft_malloc.c -o ft_malloc/ft_malloc.o
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
-	make -C $(PATH_PRINTF) clean
+	$(RM) $(OBJS) $(FTMALLOC)
+	make -C libft clean
+	make -C ft_printf clean
 
 fclean: clean
-	rm -f $(NAME)
-	make -C $(PATH_PRINTF) fclean
+	$(RM) $(NAME)
+	make -C libft fclean
+	make -C ft_printf fclean
 
 re: fclean all
 

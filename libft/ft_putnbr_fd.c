@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/30 13:39:35 by ybouanan          #+#    #+#             */
+/*   Updated: 2024/11/10 17:36:57 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include "libft.h"
 
-
-void	init_command(void)
+static void	tputchar_fd(char c, int fd)
 {
-	char	*line;
-	char	**command;
-	int		i;
-
-	while (1)
-	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
-		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
-	}
+	write(fd, &c, 1);
 }
 
-int main()
+void	ft_putnbr_fd(int n, int fd)
 {
-	init_command();
+	if (n == -2147483648)
+	{
+		tputchar_fd('-', fd);
+		ft_putnbr_fd(214748364, fd);
+		tputchar_fd('8', fd);
+		return ;
+	}
+	if (n < 0)
+	{
+		tputchar_fd('-', fd);
+		n = -n;
+	}
+	if (n >= 10)
+	{
+		ft_putnbr_fd(n / 10, fd);
+	}
+	tputchar_fd((n % 10) + '0', fd);
 }

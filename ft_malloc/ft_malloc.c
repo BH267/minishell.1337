@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:19:37 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/03/03 17:19:39 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/03/05 02:34:37 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	*ft_malloc(size_t bytes)
 
 	p = malloc(bytes);
 	if (!p)
-		return (ft_free, exit(1), NULL);
+		return (ft_free(), exit(1), NULL);
 	add_to_box(p);
 	return (p);
 }

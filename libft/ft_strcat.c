@@ -1,40 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 09:15:41 by ybouanan          #+#    #+#             */
+/*   Updated: 2025/01/04 17:43:02 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include "libft.h"
 
-
-void	init_command(void)
+char	*ft_strcat(char *dest, const char *src)
 {
-	char	*line;
-	char	**command;
-	int		i;
+	int	i;
+	int	j;
 
-	while (1)
+	i = 0;
+	j = 0;
+	while (dest[i])
+		i++;
+	while (src[j])
 	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
-		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
+		dest[i] = src[j];
+		i++;
+		j++;
 	}
-}
-
-int main()
-{
-	init_command();
+	dest[i] = '\0';
+	return (dest);
 }

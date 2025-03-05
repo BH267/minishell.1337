@@ -1,40 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:05:14 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/05 01:59:32 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 10:00:55 by ybouanan          #+#    #+#             */
+/*   Updated: 2024/11/09 13:54:22 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
+#include "stdlib.h"
 
-
-void	init_command(void)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	char	*line;
-	char	**command;
-	int		i;
+	unsigned char	*tmpd;
+	unsigned char	*tmps;
 
-	while (1)
+	if (!dest && !src)
+		return (NULL);
+	tmpd = (unsigned char *)dest;
+	tmps = (unsigned char *)src;
+	if (tmps < tmpd)
 	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		command = ft_split(line, ' ');
-		i = 0;
-		while (command[i])
+		tmpd += n;
+		tmps += n;
+		while (n--)
 		{
-			ft_printf("command[%d] = %s\n", i, command[i]);
-			i++;
+			*--tmpd = *--tmps;
 		}
 	}
-}
-
-int main()
-{
-	init_command();
+	else
+	{
+		while (n--)
+		{
+			*tmpd++ = *tmps++;
+		}
+	}
+	return (dest);
 }
