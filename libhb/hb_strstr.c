@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hb_mtrfree.c                                       :+:      :+:    :+:   */
+/*   hb_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: habenydi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 12:12:23 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/09 12:12:57 by habenydi         ###   ########.fr       */
+/*   Created: 2024/07/05 10:27:39 by habenydi          #+#    #+#             */
+/*   Updated: 2024/07/06 11:00:28 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libhb.h"
-
-void	hb_mtrfree(char **mtr)
+char	*hb_strstr(char *str, char *to_find)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (mtr && mtr[i])
-		free(mtr[i++]);
-	free(mtr);
+	if (*to_find == '\0')
+		return (str);
+	while (*(str + i))
+	{
+		j = 0;
+		while (to_find[j] == str[i + j])
+		{
+			if (to_find[j + 1] == '\0')
+				return (str + i);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }

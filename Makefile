@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 SRCS = main.c
 OBJS = $(SRCS:.c=.o)
 LIBHB_PATH = libhb/
@@ -13,8 +13,7 @@ $(NAME): $(OBJS) $(LIBHB)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBHB) $(LIBS)
 
 $(LIBHB) : 
-	@make -C $(LIBHB_PATH) 2>/dev/null
-
+	@make -C $(LIBHB_PATH) 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
