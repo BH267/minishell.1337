@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 14:40:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2024/11/19 14:42:39 by ybouanan         ###   ########.fr       */
+/*   Created: 2025/03/09 10:43:06 by habenydi          #+#    #+#             */
+/*   Updated: 2025/03/09 10:44:28 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#ifndef MS_H
+# define MS_H
 
-int	ft_putstr(char *s)
-{
-	int	i;
+#include "header/mini.h"
+#include "libhb/libhb.h"
 
-	i = 0;
-	if (!s)
-		return (write(1, "(null)", 6));
-	while (s[i])
-	{
-		write(1, &s[i], 1);
-		i++;
-	}
-	return (i);
-}
+#endif

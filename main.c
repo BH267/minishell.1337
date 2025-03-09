@@ -10,16 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <string.h>
+#include "ms.h"
 
 char	**split_cmd(char *cmd)
 {
@@ -65,17 +56,22 @@ void	free_args(char **args)
     free(args);
 }
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	char	*cmd;
 	char	**args;
 
+	if (ac != 1)
+		printf("usage : <./minishell>\n");
+	(void)av;
+	hb_putmtr(env);
+	printf("\n");
 	while (1)
 	{
-		cmd = readline("minishel> ");
+		cmd = readline("minishell> ");
 		if (!cmd)
 		{
-			ft_printf("exit\n");
+			printf("exit\n");
 			break;
 		}
 		if (*cmd)

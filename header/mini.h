@@ -14,4 +14,10 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
-int	ft_printf(const char *mstr, ...);
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <string.h>
+
+
+void	hb_putmtr(char **mtr);
