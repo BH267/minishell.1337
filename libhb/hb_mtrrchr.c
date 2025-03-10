@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini.h                                             :+:      :+:    :+:   */
+/*   hb_mtrrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/01 01:21:05 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/03/01 01:51:22 by ybouanan         ###   ########.fr       */
+/*   Created: 2025/03/09 11:54:30 by habenydi          #+#    #+#             */
+/*   Updated: 2025/03/09 15:06:06 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
+#include "libhb.h"
 
+char	*hb_mtrrchr(char **mtr, char *str)
+{
+	int	i;
+	char	*to_find;
 
-void	hb_putmtr(char **mtr);
+	i = hb_mtrlen(mtr) - 1;
+	while (mtr && i >= 0)
+	{
+		to_find = hb_strstr(mtr[i], str);
+		if (to_find)
+			break;
+		i--;
+	}
+	return (to_find);
+}

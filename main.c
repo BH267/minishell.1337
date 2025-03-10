@@ -10,16 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/mini.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <string.h>
+#include "ms.h"
 
 char	**split_cmd(char *cmd)
 {
@@ -36,58 +27,71 @@ char	**split_cmd(char *cmd)
 	return (args);
 }
 
-void	execute_cmd(char **args)
+char	**get_path(char **env)
+{
+	char	**paths;
+
+	paths = hb_split(hb_mtrrchr(env, "PATH"), ':');
+	return (paths);
+}
+
+void	execute_cmd(char **args, char **env)
 {
 	pid_t	pid;
 	int		status;
+	char	**cmd;
+	int	i;
 
+	cmd = get_path(env);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execvp(args[0], args) == -1)
-			perror("minishell");
+		i = 0;
+		while (cmd[i])
+		{
+			cmd[i] = hb_strjoin(cmd[i], "/");
+			cmd[i] = hb_strjoin(cmd[i], args[0]);
+			if(execve(cmd[i], args, env) != -1)
+			{
+				exit(0);
+			}
+			i++;
+		}
+		perror("minishell");
 		exit(1);
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
 		perror("fork failed");
+	hb_mtrfree(cmd);
 }
 
-void	free_args(char **args)
-{
-    int i = 0;
-    while (args[i])
-    {
-        free(args[i]);
-        i++;
-    }
-    free(args);
-}
-
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	char	*cmd;
 	char	**args;
 
+	if (ac != 1)
+		printf("usage : <./minishell>\n");
+	(void)av;
 	while (1)
 	{
-		cmd = readline("minishel> ");
+		cmd = readline("minishell> ");
 		if (!cmd)
 		{
-			ft_printf("exit\n");
+			printf("exit\n");
 			break;
 		}
 		if (*cmd)
 			add_history(cmd);
 		args = split_cmd(cmd);
-		if (args[0])
-			execute_cmd(args);
 
+		if (args[0])
+			execute_cmd(args, env);
 		free(cmd);
-		free_args(args);
+		hb_mtrfree(args);
 	}
 	rl_clear_history();
 	return (0);
 }
-

@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini.h                                             :+:      :+:    :+:   */
+/*   hb_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: habenydi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/01 01:21:05 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/03/01 01:51:22 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 14:49:38 by habenydi          #+#    #+#             */
+/*   Updated: 2024/11/06 22:00:12 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
+#include "libhb.h"
 
+char	*hb_strchr(const char *str, int c)
+{
+	char	*s;
 
-void	hb_putmtr(char **mtr);
+	s = (char *)str;
+	if ((char)c == '\0')
+		return (s + hb_strlen(s));
+	while (*s)
+	{
+		if (*s == (char)c)
+			return (s);
+		s++;
+	}
+	return (NULL);
+}

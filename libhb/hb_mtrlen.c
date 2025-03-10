@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini.h                                             :+:      :+:    :+:   */
+/*   hb_mtrlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/01 01:21:05 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/03/01 01:51:22 by ybouanan         ###   ########.fr       */
+/*   Created: 2025/03/09 12:12:09 by habenydi          #+#    #+#             */
+/*   Updated: 2025/03/09 12:12:57 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
+#include "libhb.h"
 
+size_t	hb_mtrlen(char **mtr)
+{
+	size_t	i;
 
-void	hb_putmtr(char **mtr);
+	i = 0;
+	while (mtr[i])
+		i++;
+	return (i);
+}

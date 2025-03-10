@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini.h                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: habenydi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/01 01:21:05 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/03/01 01:51:22 by ybouanan         ###   ########.fr       */
+/*   Created: 2024/10/22 15:42:01 by habenydi          #+#    #+#             */
+/*   Updated: 2024/11/06 22:02:15 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
+#include "libhb.h"
 
+char	*ft_strrchr(const char *str, int c)
+{
+	char	*s;
 
-void	hb_putmtr(char **mtr);
+	s = (char *)str;
+	while (*s)
+		s++;
+	if (s - 1 == str)
+		return (s - 1);
+	while (s != str - 1)
+	{
+		if (*s == (char)c)
+			return (s);
+		s--;
+	}
+	return (NULL);
+}
