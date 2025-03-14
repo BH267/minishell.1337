@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms.h                                               :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 10:43:06 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/09 10:44:28 by habenydi         ###   ########.fr       */
+/*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
+/*   Updated: 2025/03/14 15:46:22 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_H
-# define MS_H
+#include "ms.h"
 
-#include "header/mini.h"
-#include "libhb/libhb.h"
 
-typedef enum e_type
+
+void	parsing(char *cmdl)
 {
-	word,
-	operator,
-} t_type;
-
-#endif
+	l9asm(cmdl);
+}
