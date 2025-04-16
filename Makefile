@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror
-SRCS = main.c
+SRCS = main.c builtins/cd.c
 OBJS = $(SRCS:.c=.o)
 LIBHB_PATH = libhb/
 LIBHB = $(LIBHB_PATH)libhb.a

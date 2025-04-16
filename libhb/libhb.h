@@ -43,6 +43,7 @@ int		hb_isorted(t_list *a);
 int		hb_atoi(const char *nbr);
 int		hb_lstsize(t_list *lst);
 int		hb_strncmp(char *s, char *p, size_t n);
+int		hb_strcmp(const char *s1, const char *s2);
 int		hb_memcmp(const void *s1, const void *s2, size_t n);
 char	*hb_itoa(int n);
 char	*hb_strdup(const char *s);
@@ -82,6 +83,10 @@ void	*hb_memset(void *arr, int c, size_t l);
 void	*hb_memchr(void *str, int c, size_t n);
 void	hb_lstiter(t_list *lst, void (*f)(void *));
 void	hb_lstadd_back(t_list **lst, t_list *n);
+<<<<<<< HEAD
+=======
+void	hb_lstaddin(t_list **node, t_list *n);
+>>>>>>> hassan
 void	hb_lstdelone(t_list *lst, void (*del)(void *));
 void	hb_lstclear(t_list **lst, void (*del)(void *));
 void	hb_striteri(char *s, void (*f)(unsigned int, char*));
