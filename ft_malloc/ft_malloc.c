@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/ft_malloc.h"
+#include "ft_malloc.h"
 
 void	ft_free(void)
 {
@@ -56,11 +56,4 @@ void	*ft_malloc(size_t bytes)
 		return (ft_free(), exit(1), NULL);
 	add_to_box(p);
 	return (p);
-}
-
-int main()
-{
-	char *str = ft_malloc(5);
-	
-	ft_free();
 }

@@ -1,6 +1,7 @@
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror
-SRCS = main.c builtins/cd.c
+SRCS = main.c builtins/cd.c ft_malloc/ft_malloc.c getpath.c \
+       execute.c ft_exit.c
 OBJS = $(SRCS:.c=.o)
 LIBHB_PATH = libhb/
 LIBHB = $(LIBHB_PATH)libhb.a

@@ -52,6 +52,7 @@ char	*hb_strchr(const char *str, int c);
 char	*hb_mtrchr(char **mtr, char *str);
 char	*hb_strrchr(const char *str, int c);
 char	*hb_mtrrchr(char **mtr, char *str);
+char	*hb_mtrfchr(char **mtr, char *str);
 char	*hb_strstr(char *str, char *to_find);
 char	**hb_split(char const *s, char c);
 char	**hb_mtrcpy(char **mtr);

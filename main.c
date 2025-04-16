@@ -84,7 +84,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	while (1)
 	{
-		cmd = readline("minishell> ");
+		cmd = readline("MINISHELL>");
 		if (!cmd)
 		{
 			printf("exit\n");

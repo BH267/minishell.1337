@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main2.c                                            :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 14:57:25 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/16 15:03:13 by habenydi         ###   ########.fr       */
+/*   Created: 2025/04/16 17:01:20 by habenydi          #+#    #+#             */
+/*   Updated: 2025/04/16 17:03:14 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-int	main(int ac, char **av, char **env)
+void	ft_exit(int e)
 {
-	char *cmd;
-
-	while (1)
-	{
-	//	cmd = readline("𝚖𝚒𝚗𝚒𝚜𝚑𝚎𝚕𝚕>");
-		cmd = readline("мιηιѕнєℓℓ>");
-		if (!cmd)
-		{
-			printf("exit\n");
-			break ;
-		}
-		add_history(cmd);
-		execute(cmd);
-	}
-	ft_exit(0);
+	ft_free();
+	rl_clear_history();
+	exit(e);
 }

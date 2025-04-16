@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main2.c                                            :+:      :+:    :+:   */
+/*   hb_mtrfchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 14:57:25 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/16 15:03:13 by habenydi         ###   ########.fr       */
+/*   Created: 2025/03/10 07:38:12 by habenydi          #+#    #+#             */
+/*   Updated: 2025/03/10 09:24:57 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms.h"
+#include "libhb.h"
 
-int	main(int ac, char **av, char **env)
+char	*hb_mtrfchr(char **mtr, char *str)
 {
-	char *cmd;
+	int	i;
 
-	while (1)
+	i = 0;
+	while (mtr && mtr[i])
 	{
-	//	cmd = readline("𝚖𝚒𝚗𝚒𝚜𝚑𝚎𝚕𝚕>");
-		cmd = readline("мιηιѕнєℓℓ>");
-		if (!cmd)
-		{
-			printf("exit\n");
-			break ;
-		}
-		add_history(cmd);
-		execute(cmd);
+		if (hb_strncmp(mtr[i], str, hb_strlen(str)) == 0)
+			return (mtr[i]);
+		i++;
 	}
-	ft_exit(0);
+	return (NULL);
 }
