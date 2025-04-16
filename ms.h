@@ -16,15 +16,8 @@
 #include "header/mini.h"
 #include "libhb/libhb.h"
 #include "builtins/bins.h"
+#include "ft_malloc/ft_malloc.h"
 
-<<<<<<< HEAD
-typedef enum e_type
-{
-	word,
-	operator,
-} t_type;
-
-=======
 typedef enum e_type {
 	cmd,
 	file,
@@ -37,5 +30,4 @@ typedef struct s_content {
 }	t_node;
 
 t_list	*lexer(char *cmd);
->>>>>>> hassan
 #endif

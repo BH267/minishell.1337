@@ -47,7 +47,7 @@ char	*hb_itoa(int n)
 		return (hb_strdup("-2147483648"));
 	nega = (n < 0);
 	lenum = hb_lenum (n, nega);
-	num = malloc(lenum + 1);
+	num = ft_malloc(lenum + 1);
 	if (!num)
 		return (NULL);
 	if (nega)

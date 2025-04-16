@@ -18,7 +18,7 @@ void	*hb_calloc(size_t len, size_t b)
 
 	if (b && len > SIZE_MAX / b)
 		return (NULL);
-	p = malloc(len * b);
+	p = ft_malloc(len * b);
 	if (!p)
 		return (NULL);
 	hb_bzero(p, len * b);

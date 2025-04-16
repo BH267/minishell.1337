@@ -28,7 +28,7 @@ char	*hb_strtrim(char const *s1, char const *set)
 	end = sl1;
 	while (end > start && hb_strchr(set, s1[end - 1]))
 		end--;
-	res = (char *)malloc(end - start + 1);
+	res = (char *)ft_malloc(end - start + 1);
 	if (!res)
 		return (NULL);
 	hb_strlcpy(res, s1 + start, end - start + 1);

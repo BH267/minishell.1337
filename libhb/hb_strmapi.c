@@ -19,7 +19,7 @@ char	*hb_strmapi(char const *s, char (*f)(unsigned int, char))
 
 	if (!s || !f)
 		return (NULL);
-	str = malloc(hb_strlen(s) + 1);
+	str = ft_malloc(hb_strlen(s) + 1);
 	if (!str)
 		return (NULL);
 	i = 0;

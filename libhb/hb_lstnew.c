@@ -16,7 +16,7 @@ t_list	*hb_lstnew(void *content)
 {
 	t_list	*n;
 
-	n = malloc(sizeof(t_list));
+	n = ft_malloc(sizeof(t_list));
 	if (!n)
 		return (NULL);
 	n->content = content;

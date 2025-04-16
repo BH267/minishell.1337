@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "bins.h"
-#include <unistd.h>
 
 int	cd(char *cmd)
 {
@@ -22,6 +21,7 @@ int	cd(char *cmd)
 	if (!args[2] || !args || !*args)
 	{
 		strerror(errno);
+		hb_mtrfree(args);
 		return (1);
 	}
 	if (!args[1])
@@ -31,5 +31,6 @@ int	cd(char *cmd)
 	else
 		path = args[1];
 	chdir(path);
+	hb_mtrfree(args);
 	return (0);
 }

@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hb_striteri.c                                      :+:      :+:    :+:   */
+/*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/01 14:15:51 by habenydi          #+#    #+#             */
-/*   Updated: 2024/11/09 16:11:43 by habenydi         ###   ########.fr       */
+/*   Created: 2025/04/16 14:57:25 by habenydi          #+#    #+#             */
+/*   Updated: 2025/04/16 15:03:13 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libhb.h"
+#include "ms.h"
 
-void	hb_striteri(char *s, void (*f)(unsigned int, char*))
+char	*prompt(void)
 {
-	size_t	i;
+	char *cmd;
 
-	i = 0;
-	if (!s || !f)
-		return ;
-	while (s[i])
+	while (1)
 	{
-		f(i, s + i);
-		i++;
+		cmd = readline("");
 	}
+}
+
+int	main()
+{
+	char	*cmdl;
+
+	cmdl = prompt();
 }

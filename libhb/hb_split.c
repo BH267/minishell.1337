@@ -81,7 +81,7 @@ char	**hb_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	count = hb_count_word(s, c);
-	arr = (char **)malloc((count + 1) * sizeof(char *));
+	arr = (char **)ft_malloc((count + 1) * sizeof(char *));
 	if (!arr)
 		return (NULL);
 	if (hb_write(arr, s, c) == 0)

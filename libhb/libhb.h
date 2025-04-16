@@ -20,6 +20,7 @@
 # include <stddef.h>
 # include <stdio.h>
 # include <stdarg.h>
+# include "../ft_malloc/ft_malloc.h"
 
 typedef struct s_list
 {
@@ -83,10 +84,7 @@ void	*hb_memset(void *arr, int c, size_t l);
 void	*hb_memchr(void *str, int c, size_t n);
 void	hb_lstiter(t_list *lst, void (*f)(void *));
 void	hb_lstadd_back(t_list **lst, t_list *n);
-<<<<<<< HEAD
-=======
 void	hb_lstaddin(t_list **node, t_list *n);
->>>>>>> hassan
 void	hb_lstdelone(t_list *lst, void (*del)(void *));
 void	hb_lstclear(t_list **lst, void (*del)(void *));
 void	hb_striteri(char *s, void (*f)(unsigned int, char*));

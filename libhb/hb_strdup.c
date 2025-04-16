@@ -17,7 +17,7 @@ char	*hb_strdup(const char *s)
 	int		i;
 	char	*ptr;
 
-	ptr = malloc(hb_strlen(s) + 1);
+	ptr = ft_malloc(hb_strlen(s) + 1);
 	if (!ptr)
 		return (NULL);
 	i = 0;

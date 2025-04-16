@@ -23,7 +23,7 @@ char	*hb_substr(char const *s, unsigned int start, size_t len)
 		len = hb_strlen(s) - start;
 	if (start >= hb_strlen(s))
 		return (hb_strdup(""));
-	subs = malloc(len + 1);
+	subs = ft_malloc(len + 1);
 	if (!subs)
 		return (NULL);
 	i = 0;

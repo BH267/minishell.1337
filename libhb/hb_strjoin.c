@@ -20,7 +20,7 @@ char	*hb_strjoin(char const *s1, char const *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	s = malloc(hb_strlen(s1) + hb_strlen(s2) + 1);
+	s = ft_malloc(hb_strlen(s1) + hb_strlen(s2) + 1);
 	if (!s)
 		return (NULL);
 	i = 0;
