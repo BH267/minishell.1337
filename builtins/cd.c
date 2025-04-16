@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms.h                                               :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 10:43:06 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/09 10:44:28 by habenydi         ###   ########.fr       */
+/*   Created: 2025/04/16 10:27:52 by habenydi          #+#    #+#             */
+/*   Updated: 2025/04/16 11:05:32 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_H
-# define MS_H
+#include "bins.h"
+#include <unistd.h>
 
-#include "header/mini.h"
-#include "libhb/libhb.h"
-#include "builtins/bins.h"
+int	cd(char *cmd)
+{
+	char	**args;
+	char	*path;
 
-typedef enum e_type {
-	cmd,
-	file,
-	metachar,
-}	t_type;
-
-typedef struct s_content {
-	char	*str;
-	t_type	type;
-}	t_node;
-
-t_list	*lexer(char *cmd);
-#endif
+	args = hb_split(cmd, ' ');
+	if (!args[2] || !args || !*args)
+	{
+		strerror(errno);
+		return (1);
+	}
+	if (!args[1])
+		path = getenv("HOME");
+	else if (hb_strcmp(args[1], "-") == 0)
+			path = getenv("OLDPWD");
+	else
+		path = args[1];
+	chdir(path);
+	return (0);
+}

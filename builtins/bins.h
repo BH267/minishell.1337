@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms.h                                               :+:      :+:    :+:   */
+/*   bins.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 10:43:06 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/09 10:44:28 by habenydi         ###   ########.fr       */
+/*   Created: 2025/04/16 11:11:09 by habenydi          #+#    #+#             */
+/*   Updated: 2025/04/16 11:14:40 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_H
-# define MS_H
+#ifndef BINS_H
+# define BINS_H
 
-#include "header/mini.h"
-#include "libhb/libhb.h"
-#include "builtins/bins.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include "../libhb/libhb.h"
 
-typedef enum e_type {
-	cmd,
-	file,
-	metachar,
-}	t_type;
+int cd(char *cmd);
 
-typedef struct s_content {
-	char	*str;
-	t_type	type;
-}	t_node;
-
-t_list	*lexer(char *cmd);
 #endif

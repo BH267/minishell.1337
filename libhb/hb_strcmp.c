@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms.h                                               :+:      :+:    :+:   */
+/*   hb_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 10:43:06 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/09 10:44:28 by habenydi         ###   ########.fr       */
+/*   Created: 2025/04/16 10:53:46 by habenydi          #+#    #+#             */
+/*   Updated: 2025/04/16 10:54:14 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_H
-# define MS_H
+#include "libhb.h"
 
-#include "header/mini.h"
-#include "libhb/libhb.h"
-#include "builtins/bins.h"
-
-typedef enum e_type {
-	cmd,
-	file,
-	metachar,
-}	t_type;
-
-typedef struct s_content {
-	char	*str;
-	t_type	type;
-}	t_node;
-
-t_list	*lexer(char *cmd);
-#endif
+int	hb_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 == *s2 && *s1 && *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}

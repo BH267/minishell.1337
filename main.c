@@ -41,7 +41,12 @@ void	execute_cmd(char **args, char **env)
 	int		status;
 	char	**cmd;
 	int	i;
+	char *tmp;
 
+	if (hb_strncmp(args[0], "cd", 2) == 0)
+	{
+		cd(args[0]);
+	}
 	cmd = get_path(env);
 	pid = fork();
 	if (pid == 0)
@@ -49,15 +54,17 @@ void	execute_cmd(char **args, char **env)
 		i = 0;
 		while (cmd[i])
 		{
+			tmp = cmd[i];
 			cmd[i] = hb_strjoin(cmd[i], "/");
+			free(tmp);
+			tmp = cmd[i];
 			cmd[i] = hb_strjoin(cmd[i], args[0]);
+			free(tmp);
 			if(execve(cmd[i], args, env) != -1)
-			{
 				exit(0);
-			}
 			i++;
 		}
-		perror("minishell");
+		strerror(errno);
 		exit(1);
 	}
 	else if (pid > 0)
@@ -85,6 +92,7 @@ int	main(int ac, char **av, char **env)
 		}
 		if (*cmd)
 			add_history(cmd);
+		//lexer(cmd);
 		args = split_cmd(cmd);
 
 		if (args[0])
