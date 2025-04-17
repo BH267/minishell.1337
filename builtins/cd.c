@@ -12,16 +12,13 @@
 
 #include "bins.h"
 
-int	cd(char *cmd)
+int	cd(char **args)
 {
-	char	**args;
 	char	*path;
 
-	args = hb_split(cmd, ' ');
-	if (!args[2] || !args || !*args)
+	if (!args[0])
 	{
 		strerror(errno);
-		hb_mtrfree(args);
 		return (1);
 	}
 	if (!args[1])

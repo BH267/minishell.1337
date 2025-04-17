@@ -26,12 +26,12 @@ char	**getpaths(char *cmd, char **env)
 	i = 0;
 	while (paths[i])
 	{
-		tmp = paths[i];
+	//	tmp = paths[i];
 		paths[i] = hb_strjoin(paths[i], "/");
-		free(tmp);
-		tmp = paths[i];
+	//	free(tmp);
+	//	tmp = paths[i];
 		paths[i] = hb_strjoin(paths[i], cmd);
-		free(tmp);
+	//	free(tmp);
 		i++;
 	}
 	return (paths);

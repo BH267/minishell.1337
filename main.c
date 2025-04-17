@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 	//	cmd = readline("𝚖𝚒𝚗𝚒𝚜𝚑𝚎𝚕𝚕>");
-		cmd = readline("мιηιѕнєℓℓ>");
+		cmd = readline("мιηιѕнєℓℓ> ");
 		if (!cmd)
 		{
 			printf("exit\n");
@@ -34,5 +34,5 @@ int	main(int ac, char **av, char **env)
 		add_history(cmd);
 		execute(cmd, env);
 	}
-	ft_exit(0);
+	ft_exit(0, cmd);
 }

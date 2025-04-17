@@ -32,11 +32,34 @@ int	run(char *cmd, char **args, char **env)
 	return (0);
 }
 
+int	builtins(char *cmd, char **args, char *cmdl)
+{
+	if (hb_strcmp(cmd, "cd") == 0)
+		cd(args);
+	else if (hb_strcmp(cmd, "exit") == 0)
+		ft_exit(0, cmdl);
+	else if (hb_strcmp(cmd, "echo") == 0)
+		ft_exit(0, cmdl);
+	else if (hb_strcmp(cmd, "env") == 0)
+		ft_exit(0, cmdl);
+	else if (hb_strcmp(cmd, "pwd") == 0)
+		ft_exit(0, cmdl);
+	else if (hb_strcmp(cmd, "export") == 0)
+		ft_exit(0, cmdl);
+	else if (hb_strcmp(cmd, "unset") == 0)
+		ft_exit(0, cmdl);
+	else
+		return (1);
+	return (0);
+}
+
 int	execute(char *cmd, char **env)
 {
 	char	**args;
 	
 	args = hb_split(cmd, ' ');
+	if (!builtins(args[0], args, cmd))
+		return (0);
 	cmd = getpath(args[0], env);
 	if (!cmd)
 	{
