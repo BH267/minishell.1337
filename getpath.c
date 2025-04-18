@@ -11,27 +11,21 @@
 /* ************************************************************************** */
 
 #include "ms.h"
+#include <string.h>
 
 char	**getpaths(char *cmd, char **env)
 {
 	char	**paths;
-	char	*tmp;
 	int	i;
 
 	(void)cmd;
 	paths = hb_split(hb_mtrfchr(env, "PATH="), ':');
-	tmp = paths[0];
 	paths[0] = hb_substr(paths[0], 5, hb_strlen(paths[0]));
-	free(tmp);
 	i = 0;
 	while (paths[i])
 	{
-	//	tmp = paths[i];
 		paths[i] = hb_strjoin(paths[i], "/");
-	//	free(tmp);
-	//	tmp = paths[i];
 		paths[i] = hb_strjoin(paths[i], cmd);
-	//	free(tmp);
 		i++;
 	}
 	return (paths);
@@ -50,5 +44,6 @@ char	*getpath(char *cmd, char **env)
 			return (paths[i]);
       		i++;
 	}
+	printf("%s\n", strerror(errno));
 	return (NULL);
 }

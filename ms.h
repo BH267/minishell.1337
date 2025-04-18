@@ -32,6 +32,6 @@ typedef struct s_content {
 t_list	*lexer(char *cmd);
 char	*getpath(char *cmd, char **env);
 int	execute(char *cmd, char **env);
-void	ft_exit(int e, char *cmd);
+void	ft_exit(int e);
 
 #endif

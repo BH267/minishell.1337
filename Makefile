@@ -1,7 +1,9 @@
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror
 SRCS = main.c builtins/cd.c ft_malloc/ft_malloc.c getpath.c \
-       execute.c ft_exit.c
+       execute.c ft_exit.c builtins/pwd.c builtins/echo.c \
+	builtins/env.c
+
 OBJS = $(SRCS:.c=.o)
 LIBHB_PATH = libhb/
 LIBHB = $(LIBHB_PATH)libhb.a
@@ -11,12 +13,12 @@ LIBS = -lreadline
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBHB)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBHB) $(LIBS)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBHB) $(LIBS)
 
 $(LIBHB) : 
 	@make -C $(LIBHB_PATH) 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJS)

@@ -22,32 +22,32 @@ int	run(char *cmd, char **args, char **env)
 	{
 		if (execve(cmd, args, env) == -1)
 		{
-			strerror(errno);
+			printf("%s\n", strerror(errno));
 			return (1);
 		}
 	}else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
-		strerror(errno);
+		printf("%s\n", strerror(errno));
 	return (0);
 }
 
-int	builtins(char *cmd, char **args, char *cmdl)
+int	builtins(char *cmd, char **args, char **env)
 {
 	if (hb_strcmp(cmd, "cd") == 0)
 		cd(args);
 	else if (hb_strcmp(cmd, "exit") == 0)
-		ft_exit(0, cmdl);
+		ft_exit(0);
 	else if (hb_strcmp(cmd, "echo") == 0)
-		ft_exit(0, cmdl);
+		echo(args);
 	else if (hb_strcmp(cmd, "env") == 0)
-		ft_exit(0, cmdl);
+		envi(env);
 	else if (hb_strcmp(cmd, "pwd") == 0)
-		ft_exit(0, cmdl);
+		pwd();
 	else if (hb_strcmp(cmd, "export") == 0)
-		ft_exit(0, cmdl);
+		ft_exit(0);
 	else if (hb_strcmp(cmd, "unset") == 0)
-		ft_exit(0, cmdl);
+		ft_exit(0);
 	else
 		return (1);
 	return (0);
@@ -56,15 +56,14 @@ int	builtins(char *cmd, char **args, char *cmdl)
 int	execute(char *cmd, char **env)
 {
 	char	**args;
-	
+	int	e;
+
 	args = hb_split(cmd, ' ');
-	if (!builtins(args[0], args, cmd))
+	if (!builtins(args[0], args, env))
 		return (0);
 	cmd = getpath(args[0], env);
 	if (!cmd)
-	{
-		strerror(errno);
 		return (1);
-	}
-	return (run(cmd, args, env));
+	e = run(cmd, args, env);
+	return (e);
 }

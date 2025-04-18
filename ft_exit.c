@@ -12,10 +12,9 @@
 
 #include "ms.h"
 
-void	ft_exit(int e, char *cmd)
+void	ft_exit(int e)
 {
 	ft_free();
-	free(cmd);
 	rl_clear_history();
 	exit(e);
 }

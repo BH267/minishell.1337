@@ -20,6 +20,9 @@
 #include <string.h>
 #include "../libhb/libhb.h"
 
-int cd(char **cmd);
+int	pwd();
+int	cd(char **cmd);
+int	envi(char **env);
+int	echo(char **args);
 
 #endif

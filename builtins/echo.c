@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 10:27:52 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/16 11:05:32 by habenydi         ###   ########.fr       */
+/*   Created: 2025/04/18 09:27:40 by habenydi          #+#    #+#             */
+/*   Updated: 2025/04/18 09:37:33 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bins.h"
 
-int	cd(char **args)
+int	echo(char **args)
 {
-	char	*path;
+	int	i;
+	int	nl;
 
-	if (!args[0])
+	i = 1;
+	nl = 1;
+	if (hb_strcmp(args[i], "-n") == 0)
 	{
-		strerror(errno);
-		return (1);
+		i++;
+		nl = 0;
 	}
-	if (!args[1])
-		path = getenv("HOME");
-	else if (hb_strcmp(args[1], "-") == 0)
-			path = getenv("OLDPWD");
-	else
-		path = args[1];
-	chdir(path);
+	while (args[i])
+	{
+		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (nl)
+		printf("\n");
 	return (0);
 }
