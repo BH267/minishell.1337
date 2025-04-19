@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ms.h"
-#include <string.h>
 
 char	**getpaths(char *cmd, char **env)
 {
@@ -36,6 +35,8 @@ char	*getpath(char *cmd, char **env)
 	char	**paths;
 	int	i;
 
+	if (!cmd)
+		return (NULL);
 	paths = getpaths(cmd, env);
 	i = 0;
 	while (paths[i])
@@ -44,6 +45,6 @@ char	*getpath(char *cmd, char **env)
 			return (paths[i]);
       		i++;
 	}
-	printf("%s\n", strerror(errno));
+	printf("%s: command not found\n", cmd);
 	return (NULL);
 }

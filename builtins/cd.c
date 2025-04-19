@@ -21,12 +21,15 @@ int	cd(char **args)
 		strerror(errno);
 		return (1);
 	}
+	if (args[2])
+		return (printf("cd: too many arguments\n"), 1);
 	if (!args[1])
 		path = getenv("HOME");
 	else if (hb_strcmp(args[1], "-") == 0)
 			path = getenv("OLDPWD");
 	else
 		path = args[1];
-	chdir(path);
+	if (chdir(path) == -1)
+		return (printf("%s\n", strerror(errno)), 1);
 	return (0);
 }

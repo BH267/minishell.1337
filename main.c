@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libhb/libhb.h"
 #include "ms.h"
 
 int	main(int ac, char **av, char **env)
@@ -28,15 +27,20 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 	//	cmd = readline("𝚖𝚒𝚗𝚒𝚜𝚑𝚎𝚕𝚕>");
-		ms.cmd = readline("\033[38;2;0;255;0mмιηιѕнєℓℓ> \033[0m");
+	//	ms.cmd = readline("\033[38;2;0;255;0mмιηιѕнєℓℓ> \033[0m");
+		if (!ms.e)
+			ms.cmd = readline("\033[38;2;0;255;0mMIПIƧΉΣℓℓ> \033[0m");
+		else
+			ms.cmd = readline("\033[38;2;255;0;0mмιηιѕнєℓℓ> \033[0m");
 		if (!ms.cmd)
 		{
 			printf("exit\n");
 			break ;
-		}else if (hb_strcmp(ms.cmd, "\n") == 0)
-			continue;
+		}
+		if (!*ms.cmd)
+			continue ;
 		add_history(ms.cmd);
-		execute(&ms);
+		ms.e = execute(&ms);
 	}
 	ft_exit(ms.e);
 }

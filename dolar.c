@@ -46,6 +46,8 @@ int	varexp(t_ms *ms)
 	int	i;
 
 	i = 1;
+	if (!ms->args[0])
+		return (1);
 	while (ms->args[i])
 	{
 		if (hb_strncmp(ms->args[i], "$", 1) == 0)
