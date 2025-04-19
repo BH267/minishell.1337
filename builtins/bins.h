@@ -20,9 +20,17 @@
 #include <string.h>
 #include "../libhb/libhb.h"
 
+typedef	struct s_stackofvariables
+{
+	char	**env;
+	char	*cmd;
+	char	**args;
+	int	e;
+}	t_ms;
+
 int	pwd();
 int	cd(char **cmd);
 int	envi(char **env);
-int	echo(char **args);
+int	echo(char **args, t_ms *ms);
 
 #endif

@@ -10,13 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libhb/libhb.h"
 #include "ms.h"
 
 int	main(int ac, char **av, char **env)
 {
-	char *cmd;
+	t_ms	ms;
 
 	(void)av;
+	ms.e = 0;
+	ms.env = env;
 	if (ac > 1)
 	{
 		printf("usage: <./minishell>\n");
@@ -25,14 +28,15 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 	//	cmd = readline("𝚖𝚒𝚗𝚒𝚜𝚑𝚎𝚕𝚕>");
-		cmd = readline("\033[38;2;0;255;0mмιηιѕнєℓℓ> \033[0m");
-		if (!cmd)
+		ms.cmd = readline("\033[38;2;0;255;0mмιηιѕнєℓℓ> \033[0m");
+		if (!ms.cmd)
 		{
 			printf("exit\n");
 			break ;
-		}
-		add_history(cmd);
-		execute(cmd, env);
+		}else if (hb_strcmp(ms.cmd, "\n") == 0)
+			continue;
+		add_history(ms.cmd);
+		execute(&ms);
 	}
-	ft_exit(0);
+	ft_exit(ms.e);
 }

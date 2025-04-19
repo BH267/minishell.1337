@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ms.h"
+#include <stdio.h>
 
 int	run(char *cmd, char **args, char **env)
 {
@@ -32,16 +33,16 @@ int	run(char *cmd, char **args, char **env)
 	return (0);
 }
 
-int	builtins(char *cmd, char **args, char **env)
+int	builtins(char *cmd, t_ms *ms)
 {
 	if (hb_strcmp(cmd, "cd") == 0)
-		cd(args);
+		cd(ms->args);
 	else if (hb_strcmp(cmd, "exit") == 0)
-		ft_exit(0);
+		ft_exit(ms->e);
 	else if (hb_strcmp(cmd, "echo") == 0)
-		echo(args);
+		echo(ms->args, ms);
 	else if (hb_strcmp(cmd, "env") == 0)
-		envi(env);
+		envi(ms->env);
 	else if (hb_strcmp(cmd, "pwd") == 0)
 		pwd();
 	else if (hb_strcmp(cmd, "export") == 0)
@@ -53,17 +54,15 @@ int	builtins(char *cmd, char **args, char **env)
 	return (0);
 }
 
-int	execute(char *cmd, char **env)
+int	execute(t_ms *ms)
 {
-	char	**args;
-	int	e;
-
-	args = hb_split(cmd, ' ');
-	if (!builtins(args[0], args, env))
+	ms->args = hb_split(ms->cmd, ' ');
+	varexp(ms);
+	if (!builtins(ms->args[0], ms))
 		return (0);
-	cmd = getpath(args[0], env);
-	if (!cmd)
+	ms->cmd = getpath(ms->args[0], ms->env);
+	if (!ms->cmd)
 		return (1);
-	e = run(cmd, args, env);
-	return (e);
+	ms->e = run(ms->cmd, ms->args, ms->env);
+	return (ms->e);
 }

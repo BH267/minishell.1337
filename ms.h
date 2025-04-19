@@ -18,20 +18,24 @@
 #include "builtins/bins.h"
 #include "ft_malloc/ft_malloc.h"
 
-typedef enum e_type {
+typedef enum e_type
+{
 	cmd,
 	file,
 	metachar,
 }	t_type;
 
-typedef struct s_content {
+typedef struct s_content
+{
 	char	*str;
 	t_type	type;
 }	t_node;
 
+
 t_list	*lexer(char *cmd);
 char	*getpath(char *cmd, char **env);
-int	execute(char *cmd, char **env);
+int	execute(t_ms *ms);
+int	varexp(t_ms *ms);
 void	ft_exit(int e);
 
 #endif

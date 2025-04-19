@@ -12,7 +12,7 @@
 
 #include "bins.h"
 
-int	echo(char **args)
+int	echo(char **args, t_ms *ms)
 {
 	int	i;
 	int	nl;
@@ -26,6 +26,12 @@ int	echo(char **args)
 	}
 	while (args[i])
 	{
+		if (hb_strcmp(args[i], "$?") == 0)
+		{
+			printf("%d", ms->e);
+			i++;
+			continue ;
+		}
 		printf("%s", args[i]);
 		if (args[i + 1])
 			printf(" ");
