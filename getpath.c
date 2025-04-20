@@ -37,6 +37,8 @@ char	*getpath(char *cmd, char **env)
 
 	if (!cmd)
 		return (NULL);
+	if (!access(cmd, X_OK))
+		return (cmd);
 	paths = getpaths(cmd, env);
 	i = 0;
 	while (paths[i])
