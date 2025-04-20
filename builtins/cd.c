@@ -16,13 +16,17 @@ int	cd(char **args)
 {
 	char	*path;
 
-	if (!args[0])
+	if (hb_mtrlen(args) > 2 && hb_strcmp(args[1], "--") != 0)
 	{
-		strerror(errno);
+		printf("cd: too many arguments\n");
 		return (1);
 	}
-	if (args[2])
-		return (printf("cd: too many arguments\n"), 1);
+	if (hb_strcmp(args[1], "--") == 0)
+	{
+			args[1] = args[2];
+		if (hb_mtrlen(args) > 3)
+			return (printf("cd: too many arguments\n"), 1);
+	}
 	if (!args[1])
 		path = getenv("HOME");
 	else if (hb_strcmp(args[1], "-") == 0)
@@ -33,3 +37,24 @@ int	cd(char **args)
 		return (printf("%s\n", strerror(errno)), 1);
 	return (0);
 }
+/*
+int	cd(char **args)
+{
+	char	*path;
+
+	if (!args[0])
+	{
+		strerror(errno);
+		return (1);
+	}
+	if (!args[1])
+		path = getenv("HOME");
+	if (args[2])
+		return (perror("cd: too many arguments\n"), 1);
+	else if (hb_strcmp(args[1], "-") == 0)
+			path = getenv("OLDPWD");
+	else
+		path = args[1];
+	chdir(path);
+	return (0);
+}*/

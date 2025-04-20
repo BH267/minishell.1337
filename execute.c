@@ -12,7 +12,7 @@
 
 #include "ms.h"
 
-int	run(char *cmd, char **args, char **env, t_ms *ms)
+int	run(char *cmd, char **args, char **env)
 {
 	pid_t	pid;
 	int	status;
@@ -23,13 +23,12 @@ int	run(char *cmd, char **args, char **env, t_ms *ms)
 		if (execve(cmd, args, env) == -1)
 		{
 			printf("%s\n", strerror(errno));
-			ms->e = 1;
 			return (1);
 		}
 	}else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
-		return (printf("mohaal %s\n", strerror(errno)), 1);
+		return (printf("%s\n", strerror(errno)), 1);
 	return (0);
 }
 
@@ -53,8 +52,8 @@ int	builtins(char *cmd, t_ms *ms)
 		ft_exit(ms->e);
 	}
 	else
-		return (1);
-	return (0);
+		return (2);
+	return (ms->e);
 }
 
 int	execute(t_ms *ms)
@@ -63,14 +62,14 @@ int	execute(t_ms *ms)
 	if (!ms->args )
 		return (1);
 	varexp(ms);
-	if (!builtins(ms->args[0], ms))
-		return (0);
+	if (builtins(ms->args[0], ms) != 2)
+		return (ms->e);
 	ms->cmd = getpath(ms->args[0], ms->env);
 	if (!ms->cmd)
 	{
 		ms->e = 1;
 		return (1);
 	}
-	ms->e = run(ms->cmd, ms->args, ms->env, ms);
+	ms->e = run(ms->cmd, ms->args, ms->env);
 	return (ms->e);
 }
