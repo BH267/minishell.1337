@@ -17,19 +17,20 @@ int	run(char *cmd, char **args, char **env)
 	pid_t	pid;
 	int	status;
 
+	status = 0;
 	pid = fork();
 	if(pid == 0)
 	{
 		if (execve(cmd, args, env) == -1)
 		{
 			printf("%s\n", strerror(errno));
-			return (1);
+			exit (1);
 		}
 	}else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
 		return (printf("%s\n", strerror(errno)), 1);
-	return (0);
+	return(WEXITSTATUS(status));
 }
 
 int	builtins(char *cmd, t_ms *ms)
