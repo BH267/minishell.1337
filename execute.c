@@ -36,7 +36,7 @@ int	run(char *cmd, char **args, char **env)
 int	builtins(char *cmd, t_ms *ms)
 {
 	if (hb_strcmp(cmd, "cd") == 0)
-		ms->e = cd(ms->args);
+		ms->e = cd(ms->args, ms);
 	else if (hb_strcmp(cmd, "echo") == 0)
 		ms->e = echo(ms->args, ms);
 	else if (hb_strcmp(cmd, "env") == 0)

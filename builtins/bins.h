@@ -19,6 +19,7 @@
 #include <errno.h>
 #include <string.h>
 #include "../libhb/libhb.h"
+#include "../binsutils.h"
 
 typedef	struct s_stackofvariables
 {
@@ -29,8 +30,9 @@ typedef	struct s_stackofvariables
 }	t_ms;
 
 int	pwd();
-int	cd(char **cmd);
+int	cd(char **cmd, t_ms *ms);
 int	envi(char **env);
 int	echo(char **args, t_ms *ms);
+int	exportv(char **args, t_ms *ms);
 
 #endif

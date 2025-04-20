@@ -12,7 +12,19 @@
 
 #include "bins.h"
 
-int	cd(char **args)
+void	updatepwd(char **env)
+{
+	char	cwd[1024];
+
+	if (!getcwd(cwd, 1024))
+	{
+		printf("%s\n", strerror(errno));
+		return ;
+	}
+	editvar(env, "PWD", cwd);
+}
+
+int	cd(char **args, t_ms *ms)
 {
 	char	*path;
 
@@ -35,6 +47,7 @@ int	cd(char **args)
 		path = args[1];
 	if (chdir(path) == -1)
 		return (printf("%s\n", strerror(errno)), 1);
+	updatepwd(ms->env);
 	return (0);
 }
 /*
