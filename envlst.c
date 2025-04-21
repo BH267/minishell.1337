@@ -1,27 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   editenv.c                                          :+:      :+:    :+:   */
+/*   envlst.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/20 21:02:40 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/20 21:04:23 by habenydi         ###   ########.fr       */
+/*   Created: 2025/04/21 19:37:23 by habenydi          #+#    #+#             */
+/*   Updated: 2025/04/21 19:39:58 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-int	editvar(t_env *env, char *var, char *newv)
+t_env	*envlast(t_env *lst)
 {
-	while (env)
-	{
-		if (hb_strcmp(env->var, var) == 0)
-		{
-			env->value = newv;
-			return (0);
-		}
-		env = env->next;
-	}
-	return (1);
+	if (!lst)
+		return (lst);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+void	envadd_back(t_env **lst, t_env *new)
+{
+	if (!lst || !new)
+		return ;
+	if (*lst)
+		envlast(*lst)->next = new;
+	else
+		*lst = new;
+}
+
+t_env	*envnew(char *var, char *value)
+{
+	t_env	*n;
+
+	n = ft_malloc(sizeof(t_env));
+	if (!n)
+		return (NULL);
+	n->var = var;
+	n->value = value;
+	n->next = NULL;
+	return (n);
 }

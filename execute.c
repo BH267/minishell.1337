@@ -57,7 +57,7 @@ int	builtins(char *cmd, t_ms *ms)
 	return (ms->e);
 }
 
-int	execute(t_ms *ms)
+int	execute(t_ms *ms, char **env)
 {
 	ms->args = hb_split(ms->cmd, ' ');
 	if (!ms->args )
@@ -65,12 +65,12 @@ int	execute(t_ms *ms)
 	varexp(ms);
 	if (builtins(ms->args[0], ms) != 2)
 		return (ms->e);
-	ms->cmd = getpath(ms->args[0], ms->env);
+	ms->cmd = getpath(ms->args[0], env);
 	if (!ms->cmd)
 	{
 		ms->e = 1;
 		return (1);
 	}
-	ms->e = run(ms->cmd, ms->args, ms->env);
+	ms->e = run(ms->cmd, ms->args, env);
 	return (ms->e);
 }

@@ -22,21 +22,18 @@ int	beforequ(char *str)
 	return (i);
 }
 
-char	*getfromenv(char **env, char *var)
+char	*getfromenv(t_env *env, char *var)
 {
 	int	i;
-	int	j;
 
-	j = 0;
 	i = 0;
 	if (var[i] == '$')
 		i++;
-	while (env[j])
+	while (env)
 	{
-
-		if (hb_strncmp(env[j] , var + i, beforequ(env[j])) == 0)
-			return (env[j] + beforequ(env[j]) + 1);
-		j++;
+		if (hb_strcmp(env->var , var + i) == 0)
+			return (env->value);
+		env = env->next;
 	}
 	return (NULL);
 }

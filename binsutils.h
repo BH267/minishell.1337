@@ -13,6 +13,20 @@
 #ifndef	BINSUTILS_H
 # define BINSUTILS_H
 
-int	editvar(char **env, char *var, char *newv);
+typedef	struct	e_list
+{
+	char	*var;
+	char	*value;
+	struct e_list	*next;
+}	t_env;
+
+t_env	*envlast(t_env *lst);
+void	printenv(t_env *env);
+t_env	*envtolist(char **env);
+t_env	*envnew(char *var, char *value);
+char	*getvalue(t_env *env, char *var);
+void	envadd_back(t_env **lst, t_env *n);
+int	editvar(t_env *env, char *var, char *newv);
+t_env	*asigneavalue(t_env *env, char *var, char *nvalue);
 
 #endif

@@ -12,15 +12,8 @@
 
 #include "bins.h"
 
-int	envi(char **env)
+int	envi(t_env *env)
 {
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		printf("%s\n", env[i]);
-		i++;
-	}
+	printenv(env);
 	return (0);
 }

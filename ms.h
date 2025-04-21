@@ -35,9 +35,8 @@ typedef struct s_content
 void	ft_exit(int e);
 int	varexp(t_ms *ms);
 t_list	*lexer(char *cmd);
-int	execute(t_ms *ms);
 int	beforequ(char *str);
+int	execute(t_ms *ms, char **env);
 char	*getpath(char *cmd, char **env);
-int	editvar(char **env, char *var, char *newv);
 
 #endif

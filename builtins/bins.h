@@ -23,15 +23,15 @@
 
 typedef	struct s_stackofvariables
 {
-	char	**env;
+	t_env	*env;
 	char	*cmd;
 	char	**args;
 	int	e;
 }	t_ms;
 
 int	pwd();
-int	cd(char **cmd, t_ms *ms);
-int	envi(char **env);
+int	cd(char **args, t_ms *ms);
+int	envi(t_env *env);
 int	echo(char **args, t_ms *ms);
 int	exportv(char **args, t_ms *ms);
 

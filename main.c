@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "binsutils.h"
 #include "ms.h"
 
 int	main(int ac, char **av, char **env)
@@ -18,21 +19,15 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	ms.e = 0;
-	ms.env = env;
+	ms.env = envtolist(env);
 	if (ac > 1)
-	{
-		printf("usage: <./minishell>\n");
-		return (1);
-	}
+		return (printf("usage: <./minishell>\n"), 1);
 	while (1)
 	{
-	//	cmd = readline("𝚖𝚒𝚗𝚒𝚜𝚑𝚎𝚕𝚕>");
-			//ms.cmd = readline("\033[38;2;0;255;0mмιηιѕнєℓℓ> \033[0m");
-			//ms.cmd = readline("\033[38;2;255;0;0mмιηιѕнєℓℓ> \033[0m");
 		if (!ms.e)
-			ms.cmd = readline("\033[0;36mмιηιѕнєℓℓ\033[0;32m❱ \033[0m");
+			ms.cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;32m❱ \033[0m");
 		else
-			ms.cmd = readline("\033[0;36mмιηιѕнєℓℓ\033[0;31m❱ \033[0m");
+			ms.cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;31m❱ \033[0m");
 		if (!ms.cmd)
 		{
 			printf("exit\n");
@@ -41,7 +36,7 @@ int	main(int ac, char **av, char **env)
 		if (!*ms.cmd)
 			continue ;
 		add_history(ms.cmd);
-		ms.e = execute(&ms);
+		ms.e = execute(&ms, env);
 	}
 	ft_exit(ms.e);
 }
