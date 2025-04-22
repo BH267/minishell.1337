@@ -54,7 +54,8 @@ int	varexp(t_ms *ms)
 				i++;
 				continue ;
 			}
-			ms->args[i] = getfromenv(ms->env, ms->args[i]);
+			else if (hb_strcmp(ms->args[i], "$") != 0)
+				ms->args[i] = getfromenv(ms->env, ms->args[i]);
 		}
 		i++;
 	}
