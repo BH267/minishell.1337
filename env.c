@@ -6,7 +6,7 @@
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:40:27 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/21 19:41:00 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:46:44 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,25 @@ char	*getvalue(t_env *env, char *var)
 	while (env)
 	{
 		if (hb_strcmp(env->var, var) == 0)
-			return (hb_strdup(env->value));
+			return (env->value);
 		env = env->next;
 	}
 	return (NULL);
 }
-
-t_env	*asigneavalue(t_env *env, char *var, char *nvalue)
+/*
+t_env	*asigneavalue(t_env **env, char *var, char *nvalue)
 {
-	while (env)
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp)
 	{
-		if (hb_strcmp(env->var, var) == 0)
+		if (hb_strcmp(tmp->var, var) == 0)
 		{
-			env->value = hb_strdup(nvalue);
-			return (env);
+			tmp->value = nvalue;
+			return (tmp);
 		}
-		env = env->next;
+		tmp = tmp->next;
 	}
 	return (NULL);
-}
+}*/

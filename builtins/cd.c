@@ -12,7 +12,7 @@
 
 #include "bins.h"
 
-void	updatepwd(t_env *env, char *var)
+void	updatepwd(t_env **env, char *var)
 {
 	char	cwd[1024];
 
@@ -23,34 +23,6 @@ void	updatepwd(t_env *env, char *var)
 	}
 	editvar(env, var, cwd);
 }
-/*
-int	cd(char **args, t_ms *ms)
-{
-	char	*path;
-
-	if (hb_mtrlen(args) > 2 && hb_strcmp(args[1], "--") != 0)
-	{
-		printf("cd: too many arguments\n");
-		return (1);
-	}
-	if (hb_strcmp(args[1], "--") == 0)
-	{
-			args[1] = args[2];
-		if (hb_mtrlen(args) > 3)
-			return (printf("cd: too many arguments\n"), 1);
-	}
-	if (!args[1])
-		path = getenv("HOME");
-	else if (hb_strcmp(args[1], "-") == 0)
-			path = getenv("OLDPWD");
-	else
-		path = args[1];
-	if (chdir(path) == -1)
-		return (printf("%s\n", strerror(errno)), 1);
-	updatepwd(ms->env);
-	return (0);
-}
-*/
 
 int	cd(char **args, t_ms *ms)
 {
@@ -62,33 +34,12 @@ int	cd(char **args, t_ms *ms)
 	else
 		path = args[1];
 	tmp = getvalue(ms->env, "OLDPWD");
-	updatepwd(ms->env, "OLDPWD");
+	updatepwd(&(ms->env), "OLDPWD");
 	if (chdir(path) == -1)
 	{
-		asigneavalue(ms->env, "OLDPWD", tmp);
-		return (perror(strerror(errno)), 1);
+		editvar(&(ms->env), "OLDPWD", tmp);
+		return (printf("%s\n", strerror(errno)), 1);
 	}
-	updatepwd(ms->env, "PWD");
+	updatepwd(&(ms->env), "PWD");
 	return (0);
 }
-/*
-int	cd(char **args)
-{
-	char	*path;
-
-	if (!args[0])
-	{
-		strerror(errno);
-		return (1);
-	}
-	if (!args[1])
-		path = getenv("HOME");
-	if (args[2])
-		return (perror("cd: too many arguments\n"), 1);
-	else if (hb_strcmp(args[1], "-") == 0)
-			path = getenv("OLDPWD");
-	else
-		path = args[1];
-	chdir(path);
-	return (0);
-}*/

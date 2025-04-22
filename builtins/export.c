@@ -12,8 +12,19 @@
 
 #include "bins.h"
 
-int	exportv(char **args, t_ms *ms)
+int	ft_export(char **args, t_env **env)
 {
-	
+	t_env	*tmp;
+	char	*var;
+	int	i;
+
+	i = 1;
+	while (args[i])
+	{
+		var = hb_substr(args[i], 0, beforequ(args[i]));
+		tmp = envnew(var, args[i] + beforequ(args[i]) + 1);
+		envadd_back(env, tmp);
+		i++;
+	}
 	return (0);
 }

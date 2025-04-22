@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   editenv.c                                          :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/20 21:02:40 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/20 21:04:23 by habenydi         ###   ########.fr       */
+/*   Created: 2025/04/22 15:35:31 by habenydi          #+#    #+#             */
+/*   Updated: 2025/04/22 15:44:58 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms.h"
+#include "bins.h"
 
-int	editvar(t_env **env, char *var, char *newv)
+void	unset(t_env **env, char **args)
 {
 	t_env	*tmp;
+	int	i;
 
-	tmp = *env;
-	while (tmp)
+	i = 1;
+	while (args[i])
 	{
-		if (hb_strcmp(tmp->var, var) == 0)
+		tmp = *env;
+		while (tmp)
 		{
-			tmp->value = hb_strdup(newv);
-			return (0);
+			if (tmp->next && hb_strcmp(tmp->next->var , args[i]) == 0)
+			{
+				tmp->next = tmp->next->next;
+				break ;
+			}
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
+		i++;
 	}
-	return (1);
 }

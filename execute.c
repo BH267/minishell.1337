@@ -44,9 +44,9 @@ int	builtins(char *cmd, t_ms *ms)
 	else if (hb_strcmp(cmd, "pwd") == 0)
 		ms->e = pwd();
 	else if (hb_strcmp(cmd, "export") == 0)
-		ft_exit(0);
+		ms->e = ft_export(ms->args, &(ms->env));
 	else if (hb_strcmp(cmd, "unset") == 0)
-		ft_exit(0);
+		unset(&(ms->env), ms->args);
 	else if (hb_strcmp(cmd, "exit") == 0)
 	{
 		printf("exit\n");
