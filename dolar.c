@@ -17,8 +17,12 @@ int	beforequ(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
+	{
 		i++;
+		if (!str[i])
+			return (0);
+	}
 	return (i);
 }
 
