@@ -14,6 +14,6 @@
 
 int	envi(t_env *env)
 {
-	printenv(env);
+	printenv(env, 0);
 	return (0);
 }

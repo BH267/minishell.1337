@@ -31,17 +31,17 @@ void	envadd_back(t_env **lst, t_env *new)
 		*lst = new;
 }
 
-t_env	*envnew(char *var, char *value)
+t_env	*envnew(char *var, char *value, int exp)
 {
 	t_env	*n;
 
 	n = ft_malloc(sizeof(t_env));
 	if (!n)
 		return (NULL);
+	n->exp = exp;
 	n->var = var;
 	n->value = value;
 	n->next = NULL;
 	return (n);
 }
-
 //void	envdelone(t_env *)

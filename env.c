@@ -27,18 +27,21 @@ t_env	*envtolist(char **env)
 	while (env[i])
 	{
 		var = hb_substr(env[i], 0, beforequ(env[i]));
-		tmp = envnew(var, getenv(var));
+		tmp = envnew(var, getenv(var), 0);
 		envadd_back(&envi, tmp);
 		i++;
 	}
 	return (envi);
 }
 
-void	printenv(t_env *env)
+void	printenv(t_env *env, int exp)
 {
 	while (env)
 	{
-		printf("%s=%s\n", env->var, env->value);
+		if (env->exp == 0 && exp == 0)
+			printf("%s=%s\n", env->var, env->value);
+		else if (exp == 1)
+			printf("declare -x %s=\"%s\"\n", env->var, env->value);
 		env = env->next;
 	}
 }
