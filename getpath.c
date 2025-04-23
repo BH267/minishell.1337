@@ -15,9 +15,8 @@
 char	**getpaths(char *cmd, char **env)
 {
 	char	**paths;
-	int	i;
+	int		i;
 
-	(void)cmd;
 	paths = hb_split(hb_mtrfchr(env, "PATH="), ':');
 	paths[0] = hb_substr(paths[0], 5, hb_strlen(paths[0]));
 	i = 0;
@@ -33,9 +32,9 @@ char	**getpaths(char *cmd, char **env)
 char	*getpath(char *cmd, char **env)
 {
 	char	**paths;
-	int	i;
+	int		i;
 
-	if (!cmd)
+	if (!cmd || !*env || !env)
 		return (NULL);
 	if (!access(cmd, X_OK))
 		return (cmd);
@@ -45,7 +44,7 @@ char	*getpath(char *cmd, char **env)
 	{
 		if (!access(paths[i], X_OK))
 			return (paths[i]);
-      		i++;
+		i++;
 	}
 	printf("%s: command not found\n", cmd);
 	return (NULL);

@@ -14,11 +14,13 @@
 
 t_env	*envtolist(char **env)
 {
-	int	i;
+	int		i;
 	t_env	*envi;
 	t_env	*tmp;
 	char	*var;
 
+	if (!env || !*env)
+		return (NULL);
 	i = 0;
 	envi = NULL;
 	tmp = NULL;
