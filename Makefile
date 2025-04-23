@@ -11,23 +11,54 @@ LIBHB = $(LIBHB_PATH)libhb.a
 NAME = minishell
 LIBS = -lreadline
 
+
 all: $(NAME)
+	@bash -c ' \
+	MANGENTA="\033[35m"; \
+	BOLD="\033[1m"; \
+	CLEAR_LINE="\033[2K"; \
+	LINE_START="\033[0G"; \
+	RED="\033[31m"; \
+	WHITE="\033[37m"; \
+	GRAY="\033[90m"; \
+	BLUE="\033[34m"; \
+	GREEN="\033[32m"; \
+	RESET="\033[0m"; \
+	spin[0]="⠁"; \
+	spin[1]="⠃"; \
+	spin[2]="⠇"; \
+	spin[3]="⠧"; \
+	spin[4]="⠷"; \
+	spin[5]="⠿"; \
+	spin[6]="⠷"; \
+	spin[7]="⠧"; \
+	spin[8]="⠇"; \
+	spin[9]="⠃"; \
+	echo -ne "$$WHITE$$${spin[0]}$$RESET Loading..."; \
+	for i in {1..3}; do \
+	    for j in "$${spin[@]}"; do \
+	        echo -ne "$$CLEAR_LINE$$LINE_START$$WHITE$$j$$RESET Processing..."; \
+	        sleep 0.1; \
+	    done; \
+	done; \
+	printf "$$CLEAR_LINE$$LINE_START$$GREEN$$BOLD✔$$RESET Compilation finished successfully!$$WHITE$$BOLD\n"; \
+	'
 
 $(NAME): $(OBJS) $(LIBHB)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBHB) $(LIBS)
 
 $(LIBHB) : 
-	@make -C $(LIBHB_PATH) 
+	@make -C $(LIBHB_PATH) --no-print-directory
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJS)
-	@make -C $(LIBHB_PATH) clean
+	@make -C $(LIBHB_PATH) clean --no-print-directory
 
 fclean: clean
 	@rm -f $(NAME)
-	@make -C $(LIBHB_PATH) fclean
+	@make -C $(LIBHB_PATH) fclean --no-print-directory
 
 re: fclean all
 
