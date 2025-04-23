@@ -12,26 +12,27 @@
 
 #include "bins.h"
 
-int	echo(char **args, t_ms *ms)
+int	echo(char **args)
 {
 	int	i;
 	int	nl;
+	int	j;
 
 	i = 1;
+	j = 1;
 	nl = 1;
-	if (hb_strcmp(args[i], "-n") == 0)
+	while (args[i] && args[i][j]
+		&& args[i][0] == '-' && args[i][j] == 'n')
 	{
-		i++;
-		nl = 0;
+		j++;
+		if (!args[i][j])
+		{
+			nl = 0;
+			i++;
+		}
 	}
 	while (args[i])
 	{
-		if (hb_strcmp(args[i], "$?") == 0)
-		{
-			printf("%d", ms->e);
-			i++;
-			continue ;
-		}
 		printf("%s", args[i]);
 		if (args[i + 1])
 			printf(" ");

@@ -13,27 +13,27 @@
 #ifndef BINS_H
 # define BINS_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
-#include "../libhb/libhb.h"
-#include "../binsutils.h"
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <errno.h>
+# include <string.h>
+# include "../libhb/libhb.h"
+# include "../binsutils.h"
 
-typedef	struct s_stackofvariables
+typedef struct s_stackofvariables
 {
 	t_env	*env;
 	char	*cmd;
 	char	**args;
-	int	e;
+	int		e;
 }	t_ms;
 
-int	pwd();
-int	envi(t_env *env);
-int	cd(char **args, t_ms *ms);
-int	echo(char **args, t_ms *ms);
+int		pwd(void);
+int		envi(t_env *env);
+int		echo(char **args);
 void	unset(t_env **env, char **args);
-int	ft_export(char **args, t_env **evn);
+int		cd(char **args, t_ms *ms);
+int		ft_export(char **args, t_env **evn);
 
 #endif

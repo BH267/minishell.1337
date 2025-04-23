@@ -12,7 +12,7 @@
 
 #include "bins.h"
 
-int	pwd()
+int	pwd(void)
 {
 	char	cwd[1024];
 

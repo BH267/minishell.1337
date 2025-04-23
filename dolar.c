@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libhb/libhb.h"
 #include "ms.h"
 
 int	beforequ(char *str)
@@ -35,7 +36,7 @@ char	*getfromenv(t_env *env, char *var)
 		i++;
 	while (env)
 	{
-		if (hb_strcmp(env->var , var + i) == 0)
+		if (hb_strcmp(env->var, var + i) == 0)
 			return (env->value);
 		env = env->next;
 	}
@@ -54,10 +55,7 @@ int	varexp(t_ms *ms)
 		if (hb_strncmp(ms->args[i], "$", 1) == 0)
 		{
 			if (hb_strcmp(ms->args[i], "$?") == 0)
-			{
-				i++;
-				continue ;
-			}
+				ms->args[i] = hb_itoa(ms->e);
 			else if (hb_strcmp(ms->args[i], "$") != 0)
 				ms->args[i] = getfromenv(ms->env, ms->args[i]);
 		}

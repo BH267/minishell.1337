@@ -15,22 +15,23 @@
 int	run(char *cmd, char **args, char **env)
 {
 	pid_t	pid;
-	int	status;
+	int		status;
 
 	status = 0;
 	pid = fork();
-	if(pid == 0)
+	if (pid == 0)
 	{
 		if (execve(cmd, args, env) == -1)
 		{
 			printf("%s\n", strerror(errno));
-			exit (1);
+			exit(1);
 		}
-	}else if (pid > 0)
+	}
+	else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
 		return (printf("%s\n", strerror(errno)), 1);
-	return(WEXITSTATUS(status));
+	return (WEXITSTATUS(status));
 }
 
 int	builtins(char *cmd, t_ms *ms)
@@ -38,7 +39,7 @@ int	builtins(char *cmd, t_ms *ms)
 	if (hb_strcmp(cmd, "cd") == 0)
 		ms->e = cd(ms->args, ms);
 	else if (hb_strcmp(cmd, "echo") == 0)
-		ms->e = echo(ms->args, ms);
+		ms->e = echo(ms->args);
 	else if (hb_strcmp(cmd, "env") == 0)
 		ms->e = envi(ms->env);
 	else if (hb_strcmp(cmd, "pwd") == 0)
@@ -59,8 +60,10 @@ int	builtins(char *cmd, t_ms *ms)
 
 int	execute(t_ms *ms, char **env)
 {
+	if (!*env || !env)
+		return (0);
 	ms->args = hb_split(ms->cmd, ' ');
-	if (!ms->args )
+	if (!ms->args)
 		return (1);
 	varexp(ms);
 	if (builtins(ms->args[0], ms) != 2)

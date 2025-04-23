@@ -10,24 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	BINSUTILS_H
+#ifndef BINSUTILS_H
 # define BINSUTILS_H
 
-typedef	struct	e_list
+typedef struct e_list
 {
-	char	*var;
-	char	*value;
+	char			*var;
+	char			*value;
 	struct e_list	*next;
-}	t_env;
+}					t_env;
 
-int	beforequ(char *str);
-t_env	*envlast(t_env *lst);
-void	printenv(t_env *env);
-t_env	*envtolist(char **env);
-t_env	*envnew(char *var, char *value);
-char	*getvalue(t_env *env, char *var);
-void	envadd_back(t_env **lst, t_env *n);
-int	editvar(t_env **env, char *var, char *newv);
-t_env	*asigneavalue(t_env **env, char *var, char *nvalue);
+int					beforequ(char *str);
+t_env				*envlast(t_env *lst);
+void				printenv(t_env *env);
+t_env				*envtolist(char **env);
+t_env				*envnew(char *var, char *value);
+char				*getvalue(t_env *env, char *var);
+void				envadd_back(t_env **lst, t_env *n);
+int					editvar(t_env **env, char *var, char *newv);
+t_env				*asigneavalue(t_env **env, char *var, char *nvalue);
 
 #endif

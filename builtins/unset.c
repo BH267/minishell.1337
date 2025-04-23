@@ -15,7 +15,7 @@
 void	unset(t_env **env, char **args)
 {
 	t_env	*tmp;
-	int	i;
+	int		i;
 
 	i = 1;
 	while (args[i])
@@ -23,7 +23,7 @@ void	unset(t_env **env, char **args)
 		tmp = *env;
 		while (tmp)
 		{
-			if (tmp->next && hb_strcmp(tmp->next->var , args[i]) == 0)
+			if (tmp->next && hb_strcmp(tmp->next->var, args[i]) == 0)
 			{
 				tmp->next = tmp->next->next;
 				break ;

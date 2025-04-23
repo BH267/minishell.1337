@@ -33,7 +33,7 @@ int	expars(char **str)
 int	updatenv(t_env **env, char *var, char *value)
 {
 	t_env	*tmp;
-	
+
 	if (getvalue(*env, var) != NULL)
 		editvar(env, var, value);
 	else
@@ -48,7 +48,7 @@ int	ft_export(char **args, t_env **env)
 {
 	char	*var;
 	char	*value;
-	int	i;
+	int		i;
 
 	i = 1;
 	if (expars(args))
@@ -59,8 +59,6 @@ int	ft_export(char **args, t_env **env)
 			return (0);
 		var = hb_substr(args[i], 0, beforequ(args[i]));
 		value = args[i] + beforequ(args[i]) + 1;
-		//if (!*value)
-		//	value = "\0";
 		updatenv(env, var, value);
 		i++;
 	}

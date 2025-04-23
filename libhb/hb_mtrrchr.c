@@ -14,7 +14,7 @@
 
 char	*hb_mtrrchr(char **mtr, char *str)
 {
-	int	i;
+	int		i;
 	char	*to_find;
 
 	i = hb_mtrlen(mtr) - 1;
@@ -22,7 +22,7 @@ char	*hb_mtrrchr(char **mtr, char *str)
 	{
 		to_find = hb_strstr(mtr[i], str);
 		if (to_find)
-			break;
+			break ;
 		i--;
 	}
 	return (to_find);

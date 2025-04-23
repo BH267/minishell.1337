@@ -12,8 +12,6 @@
 
 #include "ms.h"
 
-
-
 void	parsing(char *cmdl)
 {
 	l9asm(cmdl);

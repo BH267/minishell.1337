@@ -55,4 +55,3 @@ void	hb_putnbr(int n)
 	}
 	return ;
 }
-
