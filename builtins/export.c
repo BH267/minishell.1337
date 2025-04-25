@@ -15,12 +15,15 @@
 int	expars(char **str)
 {
 	int	i;
+	int	equ;
 
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
-		if (!hb_isalpha(str[i][0])
-			&& str[i][0] != '_' && str[i][0] != '?')
+		equ = beforequ(str[i]);
+		if ((!hb_isalpha(str[i][0]) && str[i][0] != '_')
+			|| (!hb_isalnum(str[i][equ - 1]) && str[i][equ - 1] != '_'
+				&& str[i][equ - 1] != '+'))
 		{
 			printf("export: `%s': not a valid identifier\n", str[i]);
 			return (1);
@@ -44,11 +47,33 @@ int	updatenv(t_env **env, char *var, char *value, int exp)
 	return (0);
 }
 
-int	ft_export(char **args, t_env **env)
+void	assignevalue(char *arg, t_env **env)
 {
 	char	*var;
 	char	*value;
-	int		i;
+	char	*tmp;
+	int		equ;
+
+	equ = beforequ(arg);
+	if (arg[equ - 1] == '+')
+	{
+		var = hb_substr(arg, 0, equ - 1);
+		value = getvalue(*env, var);
+		tmp = arg + equ + 1;
+		value = hb_strjoin(value, tmp);
+		updatenv(env, var, value, 0);
+	}
+	else
+	{
+		var = hb_substr(arg, 0, equ);
+		value = arg + equ + 1;
+		updatenv(env, var, value, 0);
+	}
+}
+
+int	ft_export(char **args, t_env **env)
+{
+	int	i;
 
 	i = 1;
 	if (!args[1])
@@ -60,11 +85,7 @@ int	ft_export(char **args, t_env **env)
 		if (!beforequ(args[i]))
 			updatenv(env, args[i], "\0", 1);
 		else
-		{
-			var = hb_substr(args[i], 0, beforequ(args[i]));
-			value = args[i] + beforequ(args[i]) + 1;
-			updatenv(env, var, value, 0);
-		}
+			assignevalue(args[i], env);
 		i++;
 	}
 	return (0);

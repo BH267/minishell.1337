@@ -44,4 +44,3 @@ t_env	*envnew(char *var, char *value, int exp)
 	n->next = NULL;
 	return (n);
 }
-//void	envdelone(t_env *)
