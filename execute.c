@@ -49,10 +49,7 @@ int	builtins(char *cmd, t_ms *ms)
 	else if (hb_strcmp(cmd, "unset") == 0)
 		unset(&(ms->env), ms->args);
 	else if (hb_strcmp(cmd, "exit") == 0)
-	{
-		printf("exit\n");
-		ft_exit(ms->e);
-	}
+		bexit(ms->args, ms->e);
 	else
 		return (2);
 	return (ms->e);
