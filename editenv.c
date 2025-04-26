@@ -12,6 +12,24 @@
 
 #include "ms.h"
 
+int	eeditvar(t_env **env, char *var, char *newv, int exp)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (hb_strcmp(tmp->var, var) == 0)
+		{
+			tmp->value = hb_strdup(newv);
+			tmp->exp = exp;
+			return (0);
+		}
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 int	editvar(t_env **env, char *var, char *newv)
 {
 	t_env	*tmp;

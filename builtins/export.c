@@ -17,7 +17,7 @@ int	updatenv(t_env **env, char *var, char *value, int exp)
 	t_env	*tmp;
 
 	if (getvalue(*env, var) != NULL)
-		editvar(env, var, value);
+		eeditvar(env, var, value, exp);
 	else
 	{
 		tmp = envnew(var, value, exp);
