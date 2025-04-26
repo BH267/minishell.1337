@@ -14,8 +14,9 @@
 
 void	updatepwd(t_env **env, char *var)
 {
-	char	cwd[1024];
+	char	*cwd;
 
+	cwd = ft_malloc(1024);
 	if (!getcwd(cwd, 1024))
 	{
 		hb_printerr("%s\n", strerror(errno));
