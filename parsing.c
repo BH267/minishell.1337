@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/26 03:14:58 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/26 03:32:34 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "header/lexer_token.h"
 #include <stdio.h>
 
-// Helper to print tokens (for debug)
 static void print_tokens(t_token *tok)
 {
 	while (tok)
@@ -25,7 +24,6 @@ static void print_tokens(t_token *tok)
 	}
 }
 
-// Helper to print parsed command structure (for debug)
 static void print_cmds(t_cmd *cmd)
 {
 	int i;
@@ -60,5 +58,5 @@ void	parsing(char *cmdl)
 	cmds = parse_tokens(tokens);
 	printf("\nParsed commands:\n");
 	print_cmds(cmds);
-	
+
 }

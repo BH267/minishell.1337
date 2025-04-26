@@ -6,14 +6,12 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/26 02:17:54 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/26 03:32:44 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_TOKEN_H
 # define LEXER_TOKEN_H
-
-// Minimal token and command structures for lexer/tokenizer
 
 typedef enum e_token_type
 {
