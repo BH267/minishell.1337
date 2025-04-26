@@ -12,27 +12,6 @@
 
 #include "bins.h"
 
-int	expars(char **str)
-{
-	int	i;
-	int	equ;
-
-	i = 1;
-	while (str[i])
-	{
-		equ = beforequ(str[i]);
-		if ((!hb_isalpha(str[i][0]) && str[i][0] != '_')
-			|| (!hb_isalnum(str[i][equ - 1]) && str[i][equ - 1] != '_'
-				&& str[i][equ - 1] != '+'))
-		{
-			printf("export: `%s': not a valid identifier\n", str[i]);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 int	updatenv(t_env **env, char *var, char *value, int exp)
 {
 	t_env	*tmp;
@@ -61,6 +40,8 @@ void	assignevalue(char *arg, t_env **env)
 		value = getvalue(*env, var);
 		tmp = arg + equ + 1;
 		value = hb_strjoin(value, tmp);
+		if (!value)
+			value = "\0";
 		updatenv(env, var, value, 0);
 	}
 	else

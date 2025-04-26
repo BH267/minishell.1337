@@ -1,6 +1,0 @@
-{
-	"files.associations": {
-		"lexer_token.h": "c",
-		"ms.h": "c"
-	}
-}

@@ -21,6 +21,7 @@
 int	main(int ac, char **av, char **env)
 {
 	t_ms	ms;
+
 	(void)av;
 	ms.e = 0;
 	ms.env = envtolist(env);
@@ -71,3 +72,4 @@ int	main(void)
 	}
 	return (0);
 }
+/**/
