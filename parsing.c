@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/26 02:00:51 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/26 03:14:58 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	parsing(char *cmdl)
 	tokens = lexer(cmdl);
 	printf("Tokens:\n");
 	print_tokens(tokens);
-	cmds = tokenizer(tokens);
+	cmds = parse_tokens(tokens);
 	printf("\nParsed commands:\n");
 	print_cmds(cmds);
+	
 }

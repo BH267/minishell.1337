@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/26 02:11:43 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/26 02:17:54 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	is_redir(t_token_type t);
 int	fill_redir(t_cmd *cmd, t_token *tok);
 t_cmd *new_cmd(void);
 t_cmd *tokenizer(t_token *tokens);
+t_cmd *parse_tokens(t_token *tokens);
 void	free_tokens(t_token *lst);
 
 #endif

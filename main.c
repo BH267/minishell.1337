@@ -46,7 +46,7 @@ int	main(int ac, char **av, char **env)
 }
 */
 
-// New test main for parsing/tokenizing
+// New test main for parsing/tokenizing and printing command linked list
 int	main(void)
 {
 	char *line;
