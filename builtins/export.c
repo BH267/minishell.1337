@@ -64,7 +64,7 @@ int	ft_export(char **args, t_env **env)
 	while (args[i])
 	{
 		if (!beforequ(args[i]))
-			updatenv(env, args[i], "\0", 1);
+			updatenv(env, args[i], NULL, 1);
 		else
 			assignevalue(args[i], env);
 		i++;

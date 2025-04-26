@@ -34,7 +34,7 @@ int	prompt(t_ms *ms, char **env)
 	return (ms->e);
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	t_ms	ms;
 

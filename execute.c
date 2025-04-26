@@ -57,8 +57,6 @@ int	builtins(char *cmd, t_ms *ms)
 
 int	execute(t_ms *ms, char **env)
 {
-	if (!*env || !env)
-		return (0);
 	ms->args = hb_split(ms->cmd, ' ');
 	if (!ms->args)
 		return (1);

@@ -12,7 +12,6 @@
 
 #include "bins.h"
 
-
 int	firstchar(char *arg)
 {
 	if (!hb_isalpha(arg[0]) && arg[0] != '_')
