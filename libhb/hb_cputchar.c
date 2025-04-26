@@ -16,3 +16,8 @@ int	hb_cputchar(char c)
 {
 	return (write(1, &c, 1));
 }
+
+int	hb_cputchar_fd(char c, int fd)
+{
+	return (write(fd, &c, 1));
+}

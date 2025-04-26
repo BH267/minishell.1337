@@ -34,7 +34,7 @@ int		envi(t_env *env);
 int		expars(char **str);
 int		echo(char **args);
 int		bexit(char **args, int	rv);
-void	unset(t_env **env, char **args);
+int		unset(t_env **env, char **args);
 int		cd(char **args, t_ms *ms);
 int		ft_export(char **args, t_env **evn);
 

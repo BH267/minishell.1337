@@ -16,12 +16,12 @@ int	bexit(char **args, int rv)
 {
 	unsigned char	e;
 
-	printf("exit\n");
+	hb_printerr("exit\n");
 	if (!args[1])
 		ft_exit(rv);
 	if (args[2])
 	{
-		printf("exit: too many arguments");
+		hb_printerr("exit: too many arguments");
 		return (1);
 	}
 	e = hb_atoi(args[1]);

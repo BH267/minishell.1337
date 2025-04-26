@@ -18,7 +18,7 @@ int	pwd(void)
 
 	if (!getcwd(cwd, 1024))
 	{
-		printf("%s\n", strerror(errno));
+		hb_printerr("%s\n", strerror(errno));
 		return (1);
 	}
 	printf("%s\n", cwd);

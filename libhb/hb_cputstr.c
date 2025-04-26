@@ -26,3 +26,18 @@ int	hb_cputstr(char *s)
 		write(1, s + (i++), 1);
 	return (i);
 }
+
+int	hb_cputstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (s == NULL)
+	{
+		write(fd, "(null)", 6);
+		return (6);
+	}
+	while (s[i])
+		write(fd, s + (i++), 1);
+	return (i);
+}

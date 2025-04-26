@@ -23,14 +23,14 @@ int	run(char *cmd, char **args, char **env)
 	{
 		if (execve(cmd, args, env) == -1)
 		{
-			printf("%s\n", strerror(errno));
+			hb_printerr("%s\n", strerror(errno));
 			exit(1);
 		}
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
-		return (printf("%s\n", strerror(errno)), 1);
+		return (hb_printerr("%s\n", strerror(errno)), 1);
 	return (WEXITSTATUS(status));
 }
 
@@ -47,7 +47,7 @@ int	builtins(char *cmd, t_ms *ms)
 	else if (hb_strcmp(cmd, "export") == 0)
 		ms->e = ft_export(ms->args, &(ms->env));
 	else if (hb_strcmp(cmd, "unset") == 0)
-		unset(&(ms->env), ms->args);
+		ms->e = unset(&(ms->env), ms->args);
 	else if (hb_strcmp(cmd, "exit") == 0)
 		bexit(ms->args, ms->e);
 	else

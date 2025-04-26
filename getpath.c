@@ -46,6 +46,6 @@ char	*getpath(char *cmd, char **env)
 			return (paths[i]);
 		i++;
 	}
-	printf("%s: command not found\n", cmd);
+	hb_printerr("%s: command not found\n", cmd);
 	return (NULL);
 }

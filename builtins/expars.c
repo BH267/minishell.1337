@@ -45,7 +45,7 @@ int	expars(char **str)
 	{
 		if (firstchar(str[i]) || validvar(str[i]))
 		{
-			printf("export: `%s': not a valid identifier\n", str[i]);
+			hb_printerr("export: `%s': not a valid identifier\n", str[i]);
 			return (1);
 		}
 		i++;

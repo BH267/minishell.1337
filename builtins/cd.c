@@ -18,7 +18,7 @@ void	updatepwd(t_env **env, char *var)
 
 	if (!getcwd(cwd, 1024))
 	{
-		printf("%s\n", strerror(errno));
+		hb_printerr("%s\n", strerror(errno));
 		return ;
 	}
 	editvar(env, var, cwd);
@@ -38,7 +38,7 @@ int	cd(char **args, t_ms *ms)
 	if (chdir(path) == -1)
 	{
 		editvar(&(ms->env), "OLDPWD", tmp);
-		return (printf("%s\n", strerror(errno)), 1);
+		return (hb_printerr("%s\n", strerror(errno)), 1);
 	}
 	updatepwd(&(ms->env), "PWD");
 	return (0);

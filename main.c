@@ -12,11 +12,8 @@
 /* ************************************************************************** */
 
 #include "ms.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
-// Old main commented for test
+// the main main commented for test
 /*
 int	main(int ac, char **av, char **env)
 {
@@ -26,7 +23,7 @@ int	main(int ac, char **av, char **env)
 	ms.e = 0;
 	ms.env = envtolist(env);
 	if (ac > 1)
-		return (printf("usage: <./minishell>\n"), 1);
+		return (hb_printerr("usage: <./minishell>\n"), 1);
 	while (1)
 	{
 		if (!ms.e)
@@ -35,7 +32,7 @@ int	main(int ac, char **av, char **env)
 			ms.cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;31m❱ \033[0m");
 		if (!ms.cmd)
 		{
-			printf("exit\n");
+			hb_printerr("exit\n");
 			break ;
 		}
 		if (!*ms.cmd)
@@ -47,7 +44,7 @@ int	main(int ac, char **av, char **env)
 }
 */
 
-// New test main for parsing/tokenizing and printing command linked list
+//  test main for parsing/tokenizing and printing command linked list
 int	main(void)
 {
 	char *line;
@@ -57,19 +54,12 @@ int	main(void)
 		if (!line)
 			break;
 		if (!*line)
-		{
-			free(line);
 			continue;
-		}
 		if (!strcmp(line, "exit"))
-		{
-			free(line);
 			break;
-		}
 		add_history(line);
 		parsing(line);
-		free(line);
 	}
 	return (0);
 }
-/**/
+//*/

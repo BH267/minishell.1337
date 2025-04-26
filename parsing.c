@@ -10,10 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "ms.h"
 #include "header/lexer_token.h"
-#include <stdio.h>
 
 static void print_tokens(t_token *tok)
 {
