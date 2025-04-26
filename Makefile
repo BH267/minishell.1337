@@ -3,7 +3,10 @@ CFLAGS = -g -Wall -Wextra -Werror
 SRCS = main.c builtins/cd.c ft_malloc/ft_malloc.c getpath.c \
        execute.c ft_exit.c builtins/pwd.c builtins/echo.c \
        builtins/env.c builtins/export.c dolar.c editenv.c env.c \
-       envlst.c builtins/unset.c builtins/exit.c
+       envlst.c builtins/unset.c builtins/exit.c \
+       parsing.c \
+       src/lexer.c src/lexer_utils.c src/lexer_utils_extra.c src/lexer_handlers.c \
+       src/tokenizer.c src/token_utils.c src/redirection_helpers.c src/helper_functions.c
 
 OBJS = $(SRCS:.c=.o)
 LIBHB_PATH = libhb/
@@ -47,7 +50,7 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBHB)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBHB) $(LIBS)
 
-$(LIBHB) : 
+$(LIBHB) :
 	@make -C $(LIBHB_PATH) --no-print-directory
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@

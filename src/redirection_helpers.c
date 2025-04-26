@@ -6,11 +6,11 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/25 17:19:15 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/26 02:08:25 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "../header/lexer_token.h"
 
 static void	handle_redir_in(t_cmd *cmd, t_token *tok)
 {

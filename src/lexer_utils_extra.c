@@ -1,4 +1,16 @@
-#include "../include/token.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils_extra.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/26 02:11:16 by ybouanan          #+#    #+#             */
+/*   Updated: 2025/04/26 02:11:17 by ybouanan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../header/lexer_token.h"
 #include "../libhb/libhb.h"
 #include "../ft_malloc/ft_malloc.h"
 

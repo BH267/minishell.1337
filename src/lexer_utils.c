@@ -6,13 +6,13 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:23:08 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/25 17:18:11 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/26 02:07:07 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lexer.h"
-#include "../include/token.h"
+#include "../header/lexer_token.h"
 #include "../libhb/libhb.h"
+#include "../ft_malloc/ft_malloc.h"
 
 int	is_space(char c)
 {

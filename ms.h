@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 10:43:06 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/09 10:44:28 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/04/26 02:05:09 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ typedef struct s_content
 	t_type	type;
 }			t_node;
 
+typedef struct s_token t_token;
+
 void		ft_exit(int e);
 int			varexp(t_ms *ms);
-t_list		*lexer(char *cmd);
+t_token		*lexer(const char *input);
 int			beforequ(char *str);
 int			execute(t_ms *ms, char **env);
 char		*getpath(char *cmd, char **env);
+void		parsing(char *cmdl);
 
 #endif

@@ -6,12 +6,12 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:04:55 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/25 17:16:47 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/26 02:07:33 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lexer.h"
-#include "../include/token.h"
+#include "../header/lexer_token.h"
+#include "../header/mini.h"
 #include "../libhb/libhb.h"
 #include "../ft_malloc/ft_malloc.h"
 
