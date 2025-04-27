@@ -6,17 +6,19 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/26 02:17:51 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/27 17:46:17 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header/lexer_token.h"
 #include "ft_malloc/ft_malloc.h"
 
+int	fill_redir(t_cmd *cmd, t_token *tok);
+
 static void	parse_args(t_cmd *cmd, t_token **tok)
 {
-	int argc;
-	int i;
+	int	argc;
+	int	i;
 
 	argc = count_args(*tok);
 	if (argc > 0)
@@ -59,9 +61,9 @@ static void	advance_pipe(t_cmd **cmd, t_token **tok)
 
 t_cmd	*parse_tokens(t_token *tokens)
 {
-	t_cmd *cmd_head;
-	t_cmd *cmd_curr;
-	t_token *tok;
+	t_cmd	*cmd_head;
+	t_cmd	*cmd_curr;
+	t_token	*tok;
 
 	cmd_head = new_cmd();
 	cmd_curr = cmd_head;

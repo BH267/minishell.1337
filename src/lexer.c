@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 15:58:41 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/26 02:06:59 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/27 17:49:13 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_token	*lexer(const char *input)
 		{
 			i = handle_quoted(input, i, &lst);
 			if (i == -1)
-				return (lst);
+				return (lst); /*hna fin  n9adro nhandliw dqoutes*/
 		}
 		else if (is_operator(input[i]))
 			i = handle_operator(input, i, &lst);

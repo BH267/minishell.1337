@@ -6,16 +6,15 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/26 03:32:34 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/27 17:45:38 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "ms.h"
 #include "header/lexer_token.h"
 #include <stdio.h>
 
-static void print_tokens(t_token *tok)
+static void	print_tokens(t_token *tok)
 {
 	while (tok)
 	{
@@ -24,9 +23,20 @@ static void print_tokens(t_token *tok)
 	}
 }
 
-static void print_cmds(t_cmd *cmd)
+static void	print_redirects(t_redirect *redir)
 {
-	int i;
+	while (redir)
+	{
+		printf("  redirect: type=%d, value=%s\n", redir->type,
+			redir->value ? redir->value : "(null)");
+		redir = redir->next;
+	}
+}
+
+static void	print_cmds(t_cmd *cmd)
+{
+	int	i;
+
 	while (cmd)
 	{
 		printf("Command:\n");
@@ -39,18 +49,15 @@ static void print_cmds(t_cmd *cmd)
 				i++;
 			}
 		}
-		if (cmd->infile)
-			printf("  infile: %s\n", cmd->infile);
-		if (cmd->outfile)
-			printf("  outfile: %s (append=%d)\n", cmd->outfile, cmd->append);
+		print_redirects(cmd->redirect_list);
 		cmd = cmd->next;
 	}
 }
 
 void	parsing(char *cmdl)
 {
-	t_token *tokens;
-	t_cmd *cmds;
+	t_token	*tokens;
+	t_cmd	*cmds;
 
 	tokens = lexer(cmdl);
 	printf("Tokens:\n");
@@ -58,5 +65,4 @@ void	parsing(char *cmdl)
 	cmds = parse_tokens(tokens);
 	printf("\nParsed commands:\n");
 	print_cmds(cmds);
-
 }

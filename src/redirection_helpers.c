@@ -6,41 +6,18 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/26 02:08:25 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/27 17:45:35 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/lexer_token.h"
 
-static void	handle_redir_in(t_cmd *cmd, t_token *tok)
-{
-	if (tok->next)
-		cmd->infile = tok->next->value;
-	else
-		cmd->infile = NULL;
-}
-
-static void	handle_redir_out(t_cmd *cmd, t_token *tok, int append)
-{
-	if (tok->next)
-		cmd->outfile = tok->next->value;
-	else
-		cmd->outfile = NULL;
-	cmd->append = append;
-}
-
 int	fill_redir(t_cmd *cmd, t_token *tok)
 {
-	if (tok->type == TOKEN_REDIR_IN)
-		handle_redir_in(cmd, tok);
-	else if (tok->type == TOKEN_REDIR_OUT)
-		handle_redir_out(cmd, tok, 0);
-	else if (tok->type == TOKEN_APPEND)
-		handle_redir_out(cmd, tok, 1);
-	else if (tok->type == TOKEN_HEREDOC)
-		handle_redir_in(cmd, tok);
+	if (tok->next)
+		add_redirect(&cmd->redirect_list, tok->next->value, tok->type);
 	else
-		return (0);
+		add_redirect(&cmd->redirect_list, NULL, tok->type);
 	return (1);
 }
 
