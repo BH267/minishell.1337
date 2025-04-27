@@ -22,7 +22,7 @@ void	updatepwd(t_env **env, char *var)
 		hb_printerr("%s\n", strerror(errno));
 		return ;
 	}
-	editvar(env, var, cwd);
+	eeditvar(env, var, cwd, 0);
 }
 
 int	cd(char **args, t_ms *ms)
@@ -31,7 +31,11 @@ int	cd(char **args, t_ms *ms)
 	char	*tmp;
 
 	if (!args[1])
+	{
 		path = getenv("HOME");
+		if (!path)
+			return (hb_printerr("cd: HOME not set\n"), 1);
+	}
 	else
 		path = args[1];
 	tmp = getvalue(ms->env, "OLDPWD");
