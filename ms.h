@@ -46,6 +46,7 @@ t_token		*lexer(const char *input);
 int			beforequ(char *str);
 int			execute(t_ms *ms, char **env);
 char		*getpath(char *cmd, char **env);
-void		parsing(char *cmdl);
+t_cmd		*parsing(char *cmdl);
+void		parsing2(char *cmdl);
 
 #endif

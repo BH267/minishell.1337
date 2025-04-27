@@ -52,8 +52,9 @@ static void	print_cmds(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
-
-void	parsing(char *cmdl)
+// hadi hazhaa lchi 9ont a5or o bedel liha smiya 
+void	parsing2
+(char *cmdl)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
@@ -65,3 +66,13 @@ void	parsing(char *cmdl)
 	printf("\nParsed commands:\n");
 	print_cmds(cmds);
 }
+
+
+t_cmd	*parsing(char *cmdl)
+{
+	t_token	*tokens;
+
+	tokens = lexer(cmdl);
+	return (parse_tokens(tokens));
+}
+ 
