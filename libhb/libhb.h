@@ -38,6 +38,7 @@ int		hb_isprint(int c);
 int		hb_cputnbr(int n);
 int		hb_cputstr(char *s);
 int		hb_cputchar(char c);
+int		hb_isalphastr(char *str);
 int		hb_cputunbr(unsigned int n);
 int		hb_cputhexa(unsigned long n, char x);
 int		hb_cputnbr_fd(int n, int fd);

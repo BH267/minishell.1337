@@ -29,7 +29,7 @@ typedef struct s_stackofvariables
 	int		e;
 }	t_ms;
 
-int		pwd(void);
+int		pwd(t_env *env);
 int		envi(t_env *env);
 int		expars(char **str);
 int		echo(char **args);

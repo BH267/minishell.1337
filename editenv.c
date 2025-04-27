@@ -21,7 +21,7 @@ int	eeditvar(t_env **env, char *var, char *newv, int exp)
 	{
 		if (hb_strcmp(tmp->var, var) == 0)
 		{
-			tmp->value = hb_strdup(newv);
+			tmp->value = newv;
 			tmp->exp = exp;
 			return (0);
 		}
@@ -39,7 +39,7 @@ int	editvar(t_env **env, char *var, char *newv)
 	{
 		if (hb_strcmp(tmp->var, var) == 0)
 		{
-			tmp->value = hb_strdup(newv);
+			tmp->value = newv;
 			return (0);
 		}
 		tmp = tmp->next;

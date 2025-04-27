@@ -12,7 +12,7 @@
 
 #include "bins.h"
 
-void	updatepwd(t_env **env, char *var)
+int	updatepwd(t_env **env, char *var)
 {
 	char	*cwd;
 
@@ -20,9 +20,10 @@ void	updatepwd(t_env **env, char *var)
 	if (!getcwd(cwd, 1024))
 	{
 		hb_printerr("%s\n", strerror(errno));
-		return ;
+		return (1);
 	}
 	eeditvar(env, var, cwd, 0);
+	return (0);
 }
 
 int	cd(char **args, t_ms *ms)
@@ -39,12 +40,14 @@ int	cd(char **args, t_ms *ms)
 	else
 		path = args[1];
 	tmp = getvalue(ms->env, "OLDPWD");
-	updatepwd(&(ms->env), "OLDPWD");
+	eeditvar(&(ms->env), "OLDPWD", getvalue(ms->env, "PWD"), 0);
 	if (chdir(path) == -1)
 	{
-		editvar(&(ms->env), "OLDPWD", tmp);
+		if (tmp)
+			eeditvar(&(ms->env), "OLDPWD", tmp, 0);
+		else
+			eeditvar(&(ms->env), "OLDPWD", tmp, 1);
 		return (hb_printerr("%s\n", strerror(errno)), 1);
 	}
-	updatepwd(&(ms->env), "PWD");
-	return (0);
+	return (updatepwd(&(ms->env), "PWD"));
 }

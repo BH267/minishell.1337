@@ -17,3 +17,17 @@ int	hb_isalpha(int c)
 	return (('a' <= c && c <= 'z')
 		|| ('A' <= c && c <= 'Z'));
 }
+
+int	hb_isalphastr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!hb_isalpha(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}

@@ -24,13 +24,13 @@ int	run(char *cmd, char **args, char **env)
 		if (execve(cmd, args, env) == -1)
 		{
 			hb_printerr("%s\n", strerror(errno));
-			exit(1);
+			exit(errno);
 		}
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
-		return (hb_printerr("%s\n", strerror(errno)), 1);
+		return (hb_printerr("%s\n", strerror(errno)), errno);
 	return (WEXITSTATUS(status));
 }
 
@@ -43,13 +43,13 @@ int	builtins(char *cmd, t_ms *ms)
 	else if (hb_strcmp(cmd, "env") == 0)
 		ms->e = envi(ms->env);
 	else if (hb_strcmp(cmd, "pwd") == 0)
-		ms->e = pwd();
+		ms->e = pwd(ms->env);
 	else if (hb_strcmp(cmd, "export") == 0)
 		ms->e = ft_export(ms->args, &(ms->env));
 	else if (hb_strcmp(cmd, "unset") == 0)
 		ms->e = unset(&(ms->env), ms->args);
 	else if (hb_strcmp(cmd, "exit") == 0)
-		bexit(ms->args, ms->e);
+		ms->e = bexit(ms->args, ms->e);
 	else
 		return (2);
 	return (ms->e);
@@ -66,8 +66,8 @@ int	execute(t_ms *ms, char **env)
 	ms->cmd = getpath(ms->args[0], env);
 	if (!ms->cmd)
 	{
-		ms->e = 1;
-		return (1);
+		ms->e = 127;
+		return (127);
 	}
 	ms->e = run(ms->cmd, ms->args, env);
 	return (ms->e);

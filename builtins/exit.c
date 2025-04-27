@@ -19,9 +19,14 @@ int	bexit(char **args, int rv)
 	hb_printerr("exit\n");
 	if (!args[1])
 		ft_exit(rv);
+	if (hb_isalphastr(args[1]))
+	{
+		hb_printerr("exit: %s: numeric argument required\n", args[1]);
+		ft_exit(2);
+	}
 	if (args[2])
 	{
-		hb_printerr("exit: too many arguments");
+		hb_printerr("exit: too many arguments\n");
 		return (1);
 	}
 	e = hb_atoi(args[1]);

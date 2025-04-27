@@ -20,6 +20,8 @@ int	updatenv(t_env **env, char *var, char *value, int exp)
 		eeditvar(env, var, value, exp);
 	else
 	{
+		if (!value)
+			return (0);
 		tmp = envnew(var, value, exp);
 		envadd_back(env, tmp);
 	}
