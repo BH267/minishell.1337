@@ -13,10 +13,17 @@
 #ifndef MS_H
 # define MS_H
 
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <dirent.h>
+# include <string.h>
 # include "builtins/bins.h"
 # include "ft_malloc/ft_malloc.h"
-# include "header/mini.h"
+# include "header/lexer_token.h"
 # include "libhb/libhb.h"
+
 
 typedef enum e_tockens
 {

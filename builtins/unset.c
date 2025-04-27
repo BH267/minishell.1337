@@ -12,7 +12,7 @@
 
 #include "bins.h"
 
-void	unset(t_env **env, char **args)
+int	unset(t_env **env, char **args)
 {
 	t_env	*tmp;
 	int		i;
@@ -32,4 +32,5 @@ void	unset(t_env **env, char **args)
 		}
 		i++;
 	}
+	return (0);
 }

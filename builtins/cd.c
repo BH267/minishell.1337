@@ -12,16 +12,18 @@
 
 #include "bins.h"
 
-void	updatepwd(t_env **env, char *var)
+int	updatepwd(t_env **env, char *var)
 {
-	char	cwd[1024];
+	char	*cwd;
 
+	cwd = ft_malloc(1024);
 	if (!getcwd(cwd, 1024))
 	{
-		printf("%s\n", strerror(errno));
-		return ;
+		hb_printerr("%s\n", strerror(errno));
+		return (1);
 	}
-	editvar(env, var, cwd);
+	eeditvar(env, var, cwd, 0);
+	return (0);
 }
 
 int	cd(char **args, t_ms *ms)
@@ -30,16 +32,22 @@ int	cd(char **args, t_ms *ms)
 	char	*tmp;
 
 	if (!args[1])
+	{
 		path = getenv("HOME");
+		if (!path)
+			return (hb_printerr("cd: HOME not set\n"), 1);
+	}
 	else
 		path = args[1];
 	tmp = getvalue(ms->env, "OLDPWD");
-	updatepwd(&(ms->env), "OLDPWD");
+	eeditvar(&(ms->env), "OLDPWD", getvalue(ms->env, "PWD"), 0);
 	if (chdir(path) == -1)
 	{
-		editvar(&(ms->env), "OLDPWD", tmp);
-		return (printf("%s\n", strerror(errno)), 1);
+		if (tmp)
+			eeditvar(&(ms->env), "OLDPWD", tmp, 0);
+		else
+			eeditvar(&(ms->env), "OLDPWD", tmp, 1);
+		return (hb_printerr("%s\n", strerror(errno)), 1);
 	}
-	updatepwd(&(ms->env), "PWD");
-	return (0);
+	return (updatepwd(&(ms->env), "PWD"));
 }

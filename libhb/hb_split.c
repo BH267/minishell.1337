@@ -41,9 +41,11 @@ static int	hb_free(char **s, size_t i)
 	while (index < i - 1)
 	{
 		free(s[index]);
+		s[index] = NULL;
 		index++;
 	}
 	free(s);
+	s = NULL;
 	return (0);
 }
 

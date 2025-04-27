@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hb_isalpha.c                                       :+:      :+:    :+:   */
+/*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 10:05:11 by habenydi          #+#    #+#             */
-/*   Updated: 2024/11/04 12:35:36 by habenydi         ###   ########.fr       */
+/*   Created: 2025/04/26 12:07:11 by habenydi          #+#    #+#             */
+/*   Updated: 2025/04/26 12:22:33 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libhb.h"
+#include "ms.h"
+#include <unistd.h>
 
-int	hb_isalpha(int c)
+int	pip(t_ms *ms, char **env)
 {
-	return (('a' <= c && c <= 'z')
-		|| ('A' <= c && c <= 'Z'));
-}
+	int	fd[2];
 
-int	hb_isalphastr(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!hb_isalpha(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
+	if (pipe(fd) == -1)
+		return 1;
+	dup2(1, fd[0]);
+	return (execute(ms, env));
 }
