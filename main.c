@@ -60,6 +60,8 @@ int	main(void)
 		add_history(line);
 		parsing(line);
 	}
+
+	ft_free();
 	return (0);
 }
 //*/

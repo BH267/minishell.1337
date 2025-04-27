@@ -16,6 +16,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <dirent.h>
 # include <string.h>
 # include "builtins/bins.h"
 # include "ft_malloc/ft_malloc.h"

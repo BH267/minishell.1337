@@ -46,6 +46,9 @@ char	*getpath(char *cmd, char **env)
 			return (paths[i]);
 		i++;
 	}
-	hb_printerr("%s: command not found\n", cmd);
+	if (access(cmd, R_OK))
+		hb_printerr("%s: No such file or directory\n", cmd);
+	else
+		hb_printerr("%s: command not found\n", cmd);
 	return (NULL);
 }

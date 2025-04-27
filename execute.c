@@ -23,8 +23,16 @@ int	run(char *cmd, char **args, char **env)
 	{
 		if (execve(cmd, args, env) == -1)
 		{
-			hb_printerr("%s\n", strerror(errno));
-			exit(errno);
+			if (opendir(cmd))
+			{
+				hb_printerr("%s : Is a directory\n", cmd);
+				exit(126);
+			}
+			else
+			{
+				hb_printerr("%s\n", strerror(errno));
+				exit(errno);
+			}
 		}
 	}
 	else if (pid > 0)
