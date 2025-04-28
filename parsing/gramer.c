@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:21:47 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/28 04:42:38 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:46:17 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	check_grammar(t_token *tok)
 	{
 		if (!check_pipe_and_redir(tok, &expect_word))
 			return (0);
-		if (tok->type == TOKEN_WORD && tok->value && tok->value[0] == '|' && tok->value[1] == '\0')
+		if (tok->type == TOKEN_WORD && tok->value
+				&& tok->value[0] == '|' && tok->value[1] == '\0')
 			return (0);
 		if (is_redir_token(tok->type))
 			tok = tok->next;
