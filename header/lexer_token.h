@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/28 04:09:38 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:34:57 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int				extract_word(const char *input, int i, char **val);
 void			add_token(t_token **lst, char *value, t_token_type type);
 t_token			*lexer(const char *input);
 int				check_balanced_quotes(const char *input);
+int				check_grammar(t_token *tok);
 
 // Tokenizer/Parser
 int				count_args(t_token *lst);

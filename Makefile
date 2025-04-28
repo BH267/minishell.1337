@@ -7,7 +7,8 @@ SRCS = main.c builtins/cd.c ft_malloc/ft_malloc.c getpath.c \
        parsing.c parser.c \
 	parsing/lexer.c parsing/lexer_utils.c parsing/lexer_utils_extra.c \
 	parsing/lexer_handlers.c parsing/tokenizer.c parsing/token_utils.c \
-	parsing/redirection_helpers.c parsing/helper_functions.c
+	parsing/redirection_helpers.c parsing/helper_functions.c \
+	parsing/gramer.c
 
 OBJS = $(SRCS:.c=.o)
 LIBHB_PATH = libhb/
