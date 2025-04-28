@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/27 17:45:38 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:09:15 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,15 @@ static void	print_cmds(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
-// hadi hazhaa lchi 9ont a5or o bedel liha smiya 
-void	parsing2
-(char *cmdl)
+
+void	parsing2(char *cmdl)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
 
 	tokens = lexer(cmdl);
+	if (!tokens)
+		return;
 	printf("Tokens:\n");
 	print_tokens(tokens);
 	cmds = parse_tokens(tokens);
@@ -75,4 +76,4 @@ t_cmd	*parsing(char *cmdl)
 	tokens = lexer(cmdl);
 	return (parse_tokens(tokens));
 }
- 
+

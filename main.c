@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:57:25 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/27 18:03:17 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:19:57 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ int	main(void)
 		if (!strcmp(line, "exit"))
 			break;
 		add_history(line);
-		parsing(line);
+		parsing2(line);
 	}
-
 	ft_free();
 	return (0);
 }

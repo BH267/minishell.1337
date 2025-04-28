@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:16:34 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/27 17:48:44 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:12:06 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,5 @@ void	add_redirect(t_redirect **lst, char *value, t_token_type type)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
-	}
-}
-
-void	free_redirects(t_redirect *lst)
-{
-	t_redirect	*tmp;
-
-	while (lst)
-	{
-		tmp = lst->next;
-		free(lst);
-		lst = tmp;
 	}
 }

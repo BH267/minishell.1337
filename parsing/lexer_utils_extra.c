@@ -6,13 +6,36 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:16 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/26 02:11:17 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:31:19 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/lexer_token.h"
 #include "../libhb/libhb.h"
 #include "../ft_malloc/ft_malloc.h"
+
+
+int	check_balanced_quotes(const char *input)
+{
+	int		i;
+	char	quote;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			quote = input[i++];
+			while (input[i] && input[i] != quote)
+				i++;
+			if (!input[i])
+				return (0);
+		}
+		if (input[i])
+			i++;
+	}
+	return (1);
+}
 
 int	extract_quoted(const char *input, int i, char **val)
 {
@@ -31,11 +54,25 @@ int	extract_quoted(const char *input, int i, char **val)
 
 int	extract_word(const char *input, int i, char **val)
 {
-	int	start;
+	int		start;
+	char	quote;
 
 	start = i;
 	while (input[i] && !is_space(input[i]) && !is_operator(input[i]))
-		i++;
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			quote = input[i++];
+			while (input[i] && input[i] != quote)
+				i++;
+			if (input[i] == quote)
+				i++;
+			else
+				break;
+		}
+		else
+			i++;
+	}
 	*val = hb_substr(input, start, i - start);
 	return (i);
 }

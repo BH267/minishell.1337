@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 15:58:45 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/26 02:08:16 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:30:42 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	free_tokens(t_token *lst)
 	while (lst)
 	{
 		tmp = lst->next;
+		// free(lst->value); // Only if value is dynamically allocated and not reused elsewhere!  5ali had l9lawi tanrja3 lih 
+		free(lst);
 		lst = tmp;
 	}
 }
