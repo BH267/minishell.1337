@@ -38,6 +38,5 @@ int	redirect(t_ms *ms)
 		}
 		rdct = rdct->next;
 	}
-	execute(ms, ms->p2env);
 	return (0);
 }

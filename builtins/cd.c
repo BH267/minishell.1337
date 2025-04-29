@@ -47,7 +47,7 @@ int	cd(char **args, t_ms *ms)
 			eeditvar(&(ms->env), "OLDPWD", tmp, 0);
 		else
 			eeditvar(&(ms->env), "OLDPWD", tmp, 1);
-		return (hb_printerr("%s\n", strerror(errno)), 1);
+		return (hb_printerr("cd: %s\n", strerror(errno)), 1);
 	}
 	return (updatepwd(&(ms->env), "PWD"));
 }

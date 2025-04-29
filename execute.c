@@ -12,7 +12,7 @@
 
 #include "ms.h"
 
-int	run(char *cmd, char **args, char **env)
+int	run(t_ms *ms)
 {
 	pid_t	pid;
 	int		status;
@@ -21,12 +21,12 @@ int	run(char *cmd, char **args, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-			printf("iiwa\n");
-		if (execve(cmd, args, env) == -1)
+		redirect(ms);
+		if (execve(ms->cmd, ms->args, ms->p2env) == -1)
 		{
-			if (!closedir(opendir(cmd)))
+			if (!closedir(opendir(ms->cmd)))
 			{
-				hb_printerr("%s : Is a directory\n", cmd);
+				hb_printerr("%s : Is a directory\n", ms->cmd);
 				exit(126);
 			}
 			else
@@ -34,15 +34,12 @@ int	run(char *cmd, char **args, char **env)
 				hb_printerr("%s\n", strerror(errno));
 				exit(errno);
 			}
-				printf("here2");
 		}
-			printf("iiwa22\n");
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
 		return (hb_printerr("%s\n", strerror(errno)), errno);
-	printf("exxxxit\n");
 	return (WEXITSTATUS(status));
 }
 
@@ -74,7 +71,7 @@ int	pars_exec(t_cmd *cmd, t_ms *ms)
 	if (!ms->args)
 		return (1);
 	ms->rdctl = cmd->redirect_list;
-	return (redirect(ms));
+	return (execute(ms, ms->p2env));
 }
 
 int	execute(t_ms *ms, char **env)
@@ -88,6 +85,6 @@ int	execute(t_ms *ms, char **env)
 		ms->e = 127;
 		return (127);
 	}
-	ms->e = run(ms->cmd, ms->args, env);
+	ms->e = run(ms);
 	return (ms->e);
 }
