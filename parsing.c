@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ms.h"
-#include "header/lexer_token.h"
 
 static void	print_tokens(t_token *tok)
 {
@@ -81,4 +80,3 @@ t_cmd	*parsing(char *cmdl)
 	tokens = lexer(cmdl);
 	return (parse_tokens(tokens));
 }
-
