@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/28 04:34:42 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:51:18 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ t_cmd	*parsing(char *cmdl)
 {
 	t_token	*tokens;
 
+	if (!check_grammar(tokens))
+	{
+		hb_printerr("minishell: syntax error\n");
+		return;
+	}
 	tokens = lexer(cmdl);
 	return (parse_tokens(tokens));
 }
