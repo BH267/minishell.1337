@@ -12,25 +12,33 @@
 
 #include "bins.h"
 
+int	ifnl(char **args, int *i, int *j)
+{
+	int	nl;
+
+	nl = 1;
+	while (args[*i] && args[*i][*j]
+		&& args[*i][0] == '-' && args[*i][*j] == 'n')
+	{
+		(*j)++;
+		if (!args[*i][*j])
+		{
+			nl = 0;
+			(*i)++;
+		}
+	}
+	return (nl);
+}
+
 int	echo(char **args)
 {
 	int	i;
-	int	nl;
 	int	j;
+	int	nl;
 
 	i = 1;
 	j = 1;
-	nl = 1;
-	while (args[i] && args[i][j]
-		&& args[i][0] == '-' && args[i][j] == 'n')
-	{
-		j++;
-		if (!args[i][j])
-		{
-			nl = 0;
-			i++;
-		}
-	}
+	nl = ifnl(args, &i, &j);
 	while (args[i])
 	{
 		printf("%s", args[i]);
