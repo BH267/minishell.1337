@@ -21,13 +21,6 @@
 # include "../libhb/libhb.h"
 # include "../binsutils.h"
 
-typedef struct s_stackofvariables
-{
-	t_env	*env;
-	char	*cmd;
-	char	**args;
-	int		e;
-}	t_ms;
 
 int		pwd(t_env *env);
 int		envi(t_env *env);

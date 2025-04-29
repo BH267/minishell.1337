@@ -17,6 +17,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/types.h>
+# include <fcntl.h>
 # include <dirent.h>
 # include <string.h>
 # include "builtins/bins.h"
@@ -24,23 +25,9 @@
 # include "header/lexer_token.h"
 # include "libhb/libhb.h"
 
-
-typedef enum e_tockens
-{
-	cmd,
-	file,
-	metachar,
-}			t_type;
-
-typedef struct s_content
-{
-	char	*str;
-	t_type	type;
-}			t_node;
-
-typedef struct s_token t_token;
-
 void		ft_exit(int e);
+int			redirect(t_ms *ms);
+int			pars_exec(t_cmd *cmd, t_ms *ms);
 int			varexp(t_ms *ms);
 t_token		*lexer(const char *input);
 int			beforequ(char *str);

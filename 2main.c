@@ -12,7 +12,7 @@
 
 #include "ms.h"
 
-int	prompt(t_ms *ms, char **env)
+int	prompt(t_ms *ms)
 {
 	while (1)
 	{
@@ -28,8 +28,7 @@ int	prompt(t_ms *ms, char **env)
 		if (!*ms->cmd)
 			continue ;
 		add_history(ms->cmd);
-	//	if (parsing(ms->cmd) == 0)
-			ms->e = execute(ms, env);
+		ms->e = pars_exec(parsing(ms->cmd), ms);
 	}
 	return (ms->e);
 }
@@ -41,8 +40,9 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	ms.e = 0;
 	ms.env = envtolist(env);
+	ms.p2env = env;
 	if (ac > 1)
 		return (hb_printerr("usage: <./minishell>\n"), 1);
-	prompt(&ms, env);
+	prompt(&ms);
 	ft_exit(ms.e);
 }

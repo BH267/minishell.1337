@@ -21,9 +21,10 @@ int	run(char *cmd, char **args, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
+			printf("iiwa\n");
 		if (execve(cmd, args, env) == -1)
 		{
-			if (opendir(cmd))
+			if (!closedir(opendir(cmd)))
 			{
 				hb_printerr("%s : Is a directory\n", cmd);
 				exit(126);
@@ -33,12 +34,15 @@ int	run(char *cmd, char **args, char **env)
 				hb_printerr("%s\n", strerror(errno));
 				exit(errno);
 			}
+				printf("here2");
 		}
+			printf("iiwa22\n");
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
 		return (hb_printerr("%s\n", strerror(errno)), errno);
+	printf("exxxxit\n");
 	return (WEXITSTATUS(status));
 }
 
@@ -63,11 +67,18 @@ int	builtins(char *cmd, t_ms *ms)
 	return (ms->e);
 }
 
-int	execute(t_ms *ms, char **env)
+int	pars_exec(t_cmd *cmd, t_ms *ms)
 {
-	ms->args = hb_split(ms->cmd, ' ');
+	ms->cmd = cmd->args[0];
+	ms->args = cmd->args;
 	if (!ms->args)
 		return (1);
+	ms->rdctl = cmd->redirect_list;
+	return (redirect(ms));
+}
+
+int	execute(t_ms *ms, char **env)
+{
 	varexp(ms);
 	if (builtins(ms->args[0], ms) != 2)
 		return (ms->e);

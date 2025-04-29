@@ -13,6 +13,8 @@
 #ifndef BINSUTILS_H
 # define BINSUTILS_H
 
+# include "header/lexer_token.h"
+
 typedef struct e_list
 {
 	char			*var;
@@ -20,6 +22,16 @@ typedef struct e_list
 	int				exp;
 	struct e_list	*next;
 }					t_env;
+
+typedef struct s_stackofvariables
+{
+	t_env	*env;
+	char	**p2env;
+	char	*cmd;
+	char	**args;
+	int		e;
+	t_redirect	*rdctl;
+}	t_ms;
 
 void	ft_exit(int e);
 t_env	*envlast(t_env *lst);
