@@ -28,7 +28,7 @@ int	prompt(t_ms *ms)
 		if (!*ms->cmd)
 			continue ;
 		add_history(ms->cmd);
-		ms->e = pars_exec(parsing(ms->cmd), ms);
+		ms->e = pip(ms, parsing(ms->cmd));
 	}
 	return (ms->e);
 }

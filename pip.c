@@ -13,12 +13,48 @@
 #include "ms.h"
 #include <unistd.h>
 
-int	pip(t_ms *ms, char **env)
+int	child(t_cmd *cmd, t_ms *ms, int *fd, int oldfd)
 {
-	int	fd[2];
+	close(fd[0]);
+	dup2(fd[1], 1);
+	close(fd[1]);
+	dup2(oldfd, 0);
+	close(oldfd);
+	return (pars_exec(cmd, ms));
+}
 
-	if (pipe(fd) == -1)
-		return 1;
-	dup2(1, fd[0]);
-	return (execute(ms, env));
+void	parent(int *oldfd, int *fd)
+{
+	if (*oldfd >= 0)
+		close(*oldfd);
+	*oldfd = fd[0];
+	close(fd[1]);
+}
+
+int	pip(t_ms *ms, t_cmd *cmd)
+{
+	t_cmd	*tmp;
+	int	fd[2];
+	int	pid;
+	int	oldfd;
+
+	tmp = cmd;
+//	fd[1] = 1;
+//	//	fd[0] = 0;
+//	//	if (!tmp->next)
+//		child(tmp, ms, fd, 0);
+	oldfd = 0;
+	while (tmp->next)
+	{
+		pipe(fd);
+		pid = fork();
+		if (pid == 0)
+			child(tmp, ms, fd, oldfd);
+		else if (pid > 0)
+			parent(&oldfd, fd);
+		else
+			hb_printerr("fork fails, try again\n");
+		tmp = tmp->next;
+	}
+	return (ms->e);
 }
