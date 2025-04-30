@@ -39,10 +39,6 @@ int	pip(t_ms *ms, t_cmd *cmd)
 	int	oldfd;
 
 	tmp = cmd;
-//	fd[1] = 1;
-//	//	fd[0] = 0;
-//	//	if (!tmp->next)
-//		child(tmp, ms, fd, 0);
 	oldfd = 0;
 	while (tmp->next)
 	{
@@ -51,7 +47,10 @@ int	pip(t_ms *ms, t_cmd *cmd)
 		if (pid == 0)
 			child(tmp, ms, fd, oldfd);
 		else if (pid > 0)
+		{
+			waitpid(pid, NULL, 0);
 			parent(&oldfd, fd);
+		}
 		else
 			hb_printerr("fork fails, try again\n");
 		tmp = tmp->next;

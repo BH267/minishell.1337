@@ -80,7 +80,7 @@ t_cmd	*parsing(char *cmdl)
 	if (!check_grammar(tokens))
 	{
 		hb_printerr("minishell: syntax error\n");
-		return;
+		return (NULL);
 	}
 	tokens = lexer(cmdl);
 	return (parse_tokens(tokens));
