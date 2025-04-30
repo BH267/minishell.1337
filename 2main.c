@@ -14,6 +14,8 @@
 
 int	prompt(t_ms *ms)
 {
+	t_cmd	*cmd;
+
 	while (1)
 	{
 		if (!ms->e)
@@ -28,7 +30,10 @@ int	prompt(t_ms *ms)
 		if (!*ms->cmd)
 			continue ;
 		add_history(ms->cmd);
-		ms->e = pars_exec(parsing(ms->cmd), ms);
+		cmd = parsing(ms->cmd);
+		if (!cmd)
+			continue ;
+		ms->e = pip(ms, cmd);
 	}
 	return (ms->e);
 }

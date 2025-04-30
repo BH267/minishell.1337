@@ -66,10 +66,10 @@ int	builtins(char *cmd, t_ms *ms)
 
 int	pars_exec(t_cmd *cmd, t_ms *ms)
 {
-	ms->cmd = cmd->args[0];
 	ms->args = cmd->args;
 	if (!ms->args)
 		return (1);
+	ms->cmd = cmd->args[0];
 	ms->rdctl = cmd->redirect_list;
 	return (execute(ms, ms->p2env));
 }
