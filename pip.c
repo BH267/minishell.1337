@@ -15,7 +15,6 @@
 
 int	child(t_cmd *cmd, t_ms *ms, int *fd, int oldfd)
 {
-	close(fd[0]);
 	dup2(fd[1], 1);
 	close(fd[1]);
 	dup2(oldfd, 0);
@@ -40,19 +39,22 @@ int	pip(t_ms *ms, t_cmd *cmd)
 
 	tmp = cmd;
 	oldfd = 0;
+	if (!tmp->next)
+		return (pars_exec(cmd, ms));
 	while (tmp->next)
 	{
 		pipe(fd);
 		pid = fork();
 		if (pid == 0)
-			child(tmp, ms, fd, oldfd);
-		else if (pid > 0)
 		{
-			waitpid(pid, NULL, 0);
-			parent(&oldfd, fd);
+			dup2(fd[1], 1);
+			dup2(fd[0], 0);
+			pars_exec(cmd, ms);
 		}
-		else
-			hb_printerr("fork fails, try again\n");
+		close(fd[1]);
+		dup2(fd[0], 0);
+		wait(NULL);
+		// parent(&oldfd, fd);
 		tmp = tmp->next;
 	}
 	return (ms->e);
