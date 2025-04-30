@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/29 14:51:18 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/04/30 11:10:20 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ t_cmd	*parsing(char *cmdl)
 {
 	t_token	*tokens;
 
+	tokens = lexer(cmdl);
 	if (!check_grammar(tokens))
 	{
 		hb_printerr("minishell: syntax error\n");
-		return;
+		return NULL;
 	}
 	tokens = lexer(cmdl);
 	return (parse_tokens(tokens));
