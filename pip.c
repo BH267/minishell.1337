@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "ms.h"
-#include <unistd.h>
+
 
 int	child(t_cmd *cmd, t_ms *ms, int *fd, int oldfd)
 {
 	dup2(fd[1], 1);
+	close (fd[0]);
 	close(fd[1]);
 	dup2(oldfd, 0);
 	close(oldfd);
@@ -46,16 +47,20 @@ int	pip(t_ms *ms, t_cmd *cmd)
 		pipe(fd);
 		pid = fork();
 		if (pid == 0)
+			child(cmd, ms, fd, oldfd);
+		if (pid > 0)
 		{
-			dup2(fd[1], 1);
-			dup2(fd[0], 0);
-			pars_exec(cmd, ms);
+			wait(NULL);
+			parent(&oldfd, fd);
 		}
-		close(fd[1]);
-		dup2(fd[0], 0);
-		wait(NULL);
-		// parent(&oldfd, fd);
 		tmp = tmp->next;
+		if (!tmp->next)
+		{
+			dup2(fd[0], 0);
+			close (fd[0]);
+			pars_exec(tmp, ms);
+			close (fd[1]);
+		}
 	}
 	return (ms->e);
 }
