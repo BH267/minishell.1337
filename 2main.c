@@ -24,7 +24,6 @@ int	prompt(t_ms *ms)
 			ms->cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;31m❱ \033[0m");
 		if (!ms->cmd)
 		{
-			printf("hello\n");
 			hb_printerr("exit\n");
 			break ;
 		}
