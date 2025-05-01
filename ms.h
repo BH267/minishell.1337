@@ -32,7 +32,7 @@ int			pars_exec(t_cmd *cmd, t_ms *ms);
 int			varexp(t_ms *ms);
 t_token		*lexer(const char *input);
 int			beforequ(char *str);
-int			execute(t_ms *ms, char **env);
+int			execute(t_ms *ms);
 char		*getpath(char *cmd, char **env);
 t_cmd		*parsing(char *cmdl);
 void		parsing2(char *cmdl);

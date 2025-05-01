@@ -72,15 +72,15 @@ int	pars_exec(t_cmd *cmd, t_ms *ms)
 		return (1);
 	ms->cmd = cmd->args[0];
 	ms->rdctl = cmd->redirect_list;
-	return (execute(ms, ms->p2env));
+	return (execute(ms));
 }
 
-int	execute(t_ms *ms, char **env)
+int	execute(t_ms *ms)
 {
 	varexp(ms);
 	if (builtins(ms->args[0], ms) != 2)
 		return (ms->e);
-	ms->cmd = getpath(ms->args[0], env);
+	ms->cmd = getpath(ms->cmd, ms->p2env);
 	if (!ms->cmd)
 	{
 		ms->e = 127;
