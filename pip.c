@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ms.h"
+#include <sys/wait.h>
 
 
 int	child(t_cmd *cmd, t_ms *ms, int *fd, int oldfd)
@@ -36,18 +37,27 @@ int	pip(t_ms *ms, t_cmd *cmd)
 	t_cmd	*tmp;
 	int	fd[2];
 	int	pid;
+	int	status;
 	int	oldfd;
 
 	tmp = cmd;
 	oldfd = 0;
+	status = 0;
 	if (!tmp->next)
-		return (pars_exec(cmd, ms));
+	{
+		pid = fork();
+		if (!pid)
+			ms->e = pars_exec(cmd, ms);
+		else if (pid > 0)
+			waitpid(pid, &status, 0);
+		return (WEXITSTATUS(status));
+	}
 	while (tmp->next)
 	{
 		pipe(fd);
 		pid = fork();
 		if (pid == 0)
-			child(cmd, ms, fd, oldfd);
+			ms->e = child(cmd, ms, fd, oldfd);
 		if (pid > 0)
 		{
 			wait(NULL);
@@ -58,7 +68,7 @@ int	pip(t_ms *ms, t_cmd *cmd)
 		{
 			dup2(fd[0], 0);
 			close (fd[0]);
-			pars_exec(tmp, ms);
+			ms->e = pars_exec(tmp, ms);
 			close (fd[1]);
 		}
 	}

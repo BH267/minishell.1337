@@ -14,33 +14,34 @@
 
 int	run(t_ms *ms)
 {
-	pid_t	pid;
-	int		status;
+	//pid_t	pid;
+	//int		status;
 
-	status = 0;
-	pid = fork();
-	if (pid == 0)
-	{
+	//status = 0;
+	//pid = fork();
+	//if (pid == 0)
+	//{
 		redirect(ms);
 		if (execve(ms->cmd, ms->args, ms->p2env) == -1)
 		{
 			if (!closedir(opendir(ms->cmd)))
 			{
 				hb_printerr("%s : Is a directory\n", ms->cmd);
-				exit(126);
+				return (126);
 			}
 			else
 			{
 				hb_printerr("%s\n", strerror(errno));
-				exit(errno);
+				return (errno);
 			}
 		}
-	}
-	else if (pid > 0)
-		waitpid(pid, &status, 0);
-	else
-		return (hb_printerr("%s\n", strerror(errno)), errno);
-	return (WEXITSTATUS(status));
+	//}
+	//else if (pid > 0)
+	//	waitpid(pid, &status, 0);
+	//else
+	//	return (hb_printerr("%s\n", strerror(errno)), errno);
+	//return (WEXITSTATUS(status));
+	return (0);
 }
 
 int	builtins(char *cmd, t_ms *ms)
