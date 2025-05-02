@@ -27,6 +27,7 @@
 
 void		ft_exit(int e);
 int			pip(t_ms *ms, t_cmd *cmd);
+int			singlecmd(t_ms *ms, t_cmd *cmd);
 int			redirect(t_ms *ms);
 int			pars_exec(t_cmd *cmd, t_ms *ms);
 int			varexp(t_ms *ms);
