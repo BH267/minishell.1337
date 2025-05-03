@@ -49,6 +49,8 @@ int	child(t_cmd *cmd, t_ms *ms, int *fd, int pfd)
 	dup2(fd[1], 1);
 	close(fd[0]);
 	close(fd[1]);
+	if (builtins(ms->args[0], ms) != 99)
+		return (ms->e);
 	ms->e = pars_exec(cmd, ms, 0);
 	return (ms->e);
 }

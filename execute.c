@@ -33,6 +33,7 @@ int	run(t_ms *ms)
 
 int	builtins(char *cmd, t_ms *ms)
 {
+	redirect(ms);
 	if (hb_strcmp(cmd, "cd") == 0)
 		ms->e = cd(ms->args, ms);
 	else if (hb_strcmp(cmd, "echo") == 0)
@@ -48,7 +49,11 @@ int	builtins(char *cmd, t_ms *ms)
 	else if (hb_strcmp(cmd, "exit") == 0)
 		ms->e = bexit(ms->args, ms->e);
 	else
+	{
+		b2o(1, 0, 0);
 		return (99);
+	}
+	b2o(1, 0, 0);
 	return (ms->e);
 }
 
