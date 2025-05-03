@@ -13,22 +13,21 @@
 #ifndef BINS_H
 # define BINS_H
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <errno.h>
-# include <string.h>
-# include "../libhb/libhb.h"
 # include "../binsutils.h"
+# include "../libhb/libhb.h"
+# include <errno.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
-
-int		pwd(t_env *env);
-int		envi(t_env *env);
-int		expars(char **str);
-int		echo(char **args);
-int		bexit(char **args, int	rv);
-int		unset(t_env **env, char **args);
-int		cd(char **args, t_ms *ms);
-int		ft_export(char **args, t_env **evn);
+int	pwd(t_env *env);
+int	envi(t_env *env);
+int	expars(char **str);
+int	echo(char **args);
+int	bexit(char **args, int rv);
+int	unset(t_env **env, char **args);
+int	cd(char **args, t_ms *ms);
+int	ft_export(char **args, t_env **evn);
 
 #endif

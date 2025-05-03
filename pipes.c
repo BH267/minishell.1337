@@ -18,26 +18,23 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 	int	status;
 
 	status = 0;
-	if (!cmd->next)
+	pid = fork();
+	if (pid == 0)
 	{
-		pid = fork();
-		if (pid == 0)
+		if (fd != -1)
 		{
-			if (fd != -1)
-			{
-				dup2(fd, 0);
-				close(fd);
-			}
-			ms->e = pars_exec(cmd, ms, 0);
-			if (ms->e)
-				ft_exit(ms->e);
+			dup2(fd, 0);
+			close(fd);
 		}
-		else
-		{
-			if (fd != -1)
-				close(fd);
-			waitpid(pid, &status, 0);
-		}
+		ms->e = pars_exec(cmd, ms, 0);
+		if (ms->e)
+			ft_exit(ms->e);
+	}
+	else
+	{
+		if (fd != -1)
+			close(fd);
+		waitpid(pid, &status, 0);
 	}
 	return (WEXITSTATUS(status));
 }

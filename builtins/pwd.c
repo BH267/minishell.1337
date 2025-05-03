@@ -14,6 +14,9 @@
 
 int	pwd(t_env *env)
 {
+	printf("%s\n", getvalue(env, "PWD"));
+	return (0);
+}
 	/*char	cwd[1024];
 
 	if (!getcwd(cwd, 1024))
@@ -21,6 +24,3 @@ int	pwd(t_env *env)
 		hb_printerr("%s\n", strerror(errno));
 		return (1);
 	}*/
-	printf("%s\n", getvalue(env, "PWD"));
-	return (0);
-}

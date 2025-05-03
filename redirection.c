@@ -16,7 +16,7 @@ int	redirect(t_ms *ms)
 {
 	t_redirect	*rdct;
 	int			fd;
-	
+
 	rdct = ms->rdctl;
 	while (rdct)
 	{

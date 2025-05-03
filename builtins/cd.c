@@ -38,7 +38,7 @@ int	cd(char **args, t_ms *ms)
 			return (hb_printerr("cd: HOME not set\n"), 1);
 	}
 	else if (args[2])
- 		return (hb_printerr("cd: too many arguments\n"), 1);
+		return (hb_printerr("cd: too many arguments\n"), 1);
 	else
 		path = args[1];
 	tmp = getvalue(ms->env, "OLDPWD");
