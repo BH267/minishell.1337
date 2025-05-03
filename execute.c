@@ -33,6 +33,7 @@ int	run(t_ms *ms)
 
 int	builtins(char *cmd, t_ms *ms)
 {
+	varexp(ms);
 	redirect(ms);
 	if (hb_strcmp(cmd, "cd") == 0)
 		ms->e = cd(ms->args, ms);

@@ -32,7 +32,10 @@ int	prompt(t_ms *ms)
 		add_history(ms->cmd);
 		cmd = parsing(ms->cmd);
 		if (!cmd)
+		{
+			ms->e = 2;
 			continue ;
+		}
 		ms->e = pip(ms, cmd);
 	}
 	return (ms->e);
