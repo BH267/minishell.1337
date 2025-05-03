@@ -11,20 +11,21 @@
 /* ************************************************************************** */
 
 #include "ms.h"
-#include <sys/wait.h>
 
 int	singlecmd(t_ms *ms, t_cmd *cmd)
 {
 	int	pid;
 	int	status;
 
+	if (pars_exec(cmd, ms, 1) != 99)
+		return (ms->e);
 	pid = fork();
 	status = 0;
 	if (pid == -1)
 		return (hb_printerr("fork fails, try again\n"), 1);
 	if (pid == 0)
 	{
-		ms->e = pars_exec(cmd, ms);
+		ms->e = pars_exec(cmd, ms, 0);
 		ft_exit(ms->e);
 	}
 	else if (pid > 0)
@@ -50,7 +51,7 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 				dup2(fd, 0);
 				close(fd);
 			}
-			ms->e = pars_exec(cmd, ms);
+			ms->e = pars_exec(cmd, ms, 0);
 			if (ms->e)
 				ft_exit(ms->e);
 		}
@@ -74,7 +75,7 @@ int	child(t_cmd *cmd, t_ms *ms, int *fd, int pfd)
 	dup2(fd[1], 1);
 	close(fd[0]);
 	close(fd[1]);
-	ms->e = pars_exec(cmd, ms);
+	ms->e = pars_exec(cmd, ms, 0);
 	return (ms->e);
 }
 

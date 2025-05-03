@@ -61,24 +61,26 @@ int	builtins(char *cmd, t_ms *ms)
 	else if (hb_strcmp(cmd, "exit") == 0)
 		ms->e = bexit(ms->args, ms->e);
 	else
-		return (2);
+		return (99);
 	return (ms->e);
 }
 
-int	pars_exec(t_cmd *cmd, t_ms *ms)
+int	pars_exec(t_cmd *cmd, t_ms *ms, int bins)
 {
 	ms->args = cmd->args;
 	if (!ms->args)
 		return (1);
 	ms->cmd = cmd->args[0];
 	ms->rdctl = cmd->redirect_list;
+	if (bins)
+		return (builtins(ms->cmd, ms));
 	return (execute(ms));
 }
 
 int	execute(t_ms *ms)
 {
 	varexp(ms);
-	if (builtins(ms->args[0], ms) != 2)
+	if (builtins(ms->args[0], ms) != 99)
 		return (ms->e);
 	ms->cmd = getpath(ms->cmd, ms->p2env);
 	if (!ms->cmd)
