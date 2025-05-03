@@ -12,29 +12,6 @@
 
 #include "ms.h"
 
-int	singlecmd(t_ms *ms, t_cmd *cmd)
-{
-	int	pid;
-	int	status;
-
-	if (pars_exec(cmd, ms, 1) != 99)
-		return (ms->e);
-	pid = fork();
-	status = 0;
-	if (pid == -1)
-		return (hb_printerr("fork fails, try again\n"), 1);
-	if (pid == 0)
-	{
-		ms->e = pars_exec(cmd, ms, 0);
-		ft_exit(ms->e);
-	}
-	else if (pid > 0)
-		waitpid(pid, &status, 0);
-	else
-		return (hb_printerr("%s\n", strerror(errno)), errno);
-	return (WEXITSTATUS(status));
-}
-
 int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 {
 	int	pid;
@@ -79,14 +56,28 @@ int	child(t_cmd *cmd, t_ms *ms, int *fd, int pfd)
 	return (ms->e);
 }
 
+int	parent(t_cmd **cmd, int	*fd, int *pfd, int pid)
+{
+	int	status;
+
+	status = 0;
+	waitpid(pid, &status, 0);
+	if (*pfd != -1)
+		close(*pfd);
+	close(fd[1]);
+	if (WEXITSTATUS(status))
+		return (WEXITSTATUS(status));
+	*pfd = fd[0];
+	*cmd = (*cmd)->next;
+	return (WEXITSTATUS(status));
+}
+
 int	pipecmds(t_cmd *cmd, t_ms *ms, int *fd, int pfd)
 {
 	t_cmd	*tmp;
 	int		pid;
-	int		status;
 
 	tmp = cmd;
-	status = 0;
 	while (tmp->next)
 	{
 		pipe(fd);
@@ -99,22 +90,13 @@ int	pipecmds(t_cmd *cmd, t_ms *ms, int *fd, int pfd)
 		}
 		else
 		{
-			waitpid(pid, &status, 0);
-			if (pfd != -1)
-				close(pfd);
-			close(fd[1]);
-			if (WEXITSTATUS(status))
-				return (WEXITSTATUS(status));
-			pfd = fd[0];
-			tmp = tmp->next;
+			ms->e = parent(&tmp, fd, &pfd, pid);
+			if (ms->e)
+				return (ms->e);
 		}
 	}
-	if (ms->e == 0)
-	{
-		ms->e = lastcmd(tmp, ms, pfd);
-		return (ms->e);
-	}
-	return (WEXITSTATUS(status));
+	ms->e = lastcmd(tmp, ms, pfd);
+	return (ms->e);
 }
 
 int	pip(t_ms *ms, t_cmd *cmd)
