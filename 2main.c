@@ -12,6 +12,17 @@
 
 #include "ms.h"
 
+void	signals(int sig)
+{
+	if (sig == SIGINT)
+	{
+		rl_on_new_line();
+		rl_replace_line("\n", 0);
+		rl_redisplay();
+		return ;
+	}
+}
+
 int	prompt(t_ms *ms)
 {
 	t_cmd	*cmd;
@@ -49,6 +60,7 @@ int	main(int ac, char **av, char **env)
 	ms.e = 0;
 	ms.env = envtolist(env);
 	ms.p2env = env;
+	editvar(&ms.env, "SHLVL", hb_itoa(hb_atoi(getvalue(ms.env, "SHLVL"))+ 1));
 	if (ac > 1)
 		return (hb_printerr("usage: <./minishell>\n"), 1);
 	prompt(&ms);

@@ -29,7 +29,10 @@ int	singlecmd(t_ms *ms, t_cmd *cmd)
 		ft_exit(ms->e);
 	}
 	else if (pid > 0)
+	{
+		signal(SIGINT, signals);
 		waitpid(pid, &status, 0);
+	}
 	else
 		return (hb_printerr("%s\n", strerror(errno)), errno);
 	return (WEXITSTATUS(status));
