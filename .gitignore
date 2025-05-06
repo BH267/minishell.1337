@@ -2,3 +2,4 @@
 minishell
 libhb.a
 libhb/libhb.a
+*.o
