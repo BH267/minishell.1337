@@ -72,7 +72,6 @@ int	pars_exec(t_cmd *cmd, t_ms *ms, int bins)
 
 int	execute(t_ms *ms)
 {
-	//varexp(ms);
 	if (builtins(ms->args[0], ms) != 99)
 		return (ms->e);
 	ms->cmd = getpath(ms->cmd, ms->p2env);

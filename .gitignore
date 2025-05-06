@@ -4,3 +4,4 @@ libhb.a
 libhb/libhb.a
 .vscode/
 *.o
+*.swp

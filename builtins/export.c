@@ -38,10 +38,10 @@ void	assignevalue(char *arg, t_env **env)
 	{
 		var = hb_substr(arg, 0, equ - 1);
 		value = getvalue(*env, var);
-		tmp = arg + equ + 1;
-		value = hb_strjoin(value, tmp);
 		if (!value)
 			value = "\0";
+		tmp = arg + equ + 1;
+		value = hb_strjoin(value, tmp);
 		updatenv(env, var, value, 0);
 	}
 	else
