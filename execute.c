@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:04:28 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/16 17:11:37 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:09:23 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	run(t_ms *ms)
 
 int	builtins(char *cmd, t_ms *ms)
 {
-	varexp(ms);
 	redirect(ms);
 	if (hb_strcmp(cmd, "cd") == 0)
 		ms->e = cd(ms->args, ms);
@@ -65,6 +64,7 @@ int	pars_exec(t_cmd *cmd, t_ms *ms, int bins)
 		return (1);
 	ms->cmd = cmd->args[0];
 	ms->rdctl = cmd->redirect_list;
+	varexp(ms);
 	if (bins)
 		return (builtins(ms->cmd, ms));
 	return (execute(ms));
@@ -72,7 +72,7 @@ int	pars_exec(t_cmd *cmd, t_ms *ms, int bins)
 
 int	execute(t_ms *ms)
 {
-	varexp(ms);
+	//varexp(ms);
 	if (builtins(ms->args[0], ms) != 99)
 		return (ms->e);
 	ms->cmd = getpath(ms->cmd, ms->p2env);
