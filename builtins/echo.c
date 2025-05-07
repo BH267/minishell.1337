@@ -41,7 +41,8 @@ int	echo(char **args)
 	nl = ifnl(args, &i, &j);
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		if (printf("%s", args[i]) == -1)
+			return (1);
 		if (args[i + 1])
 			printf(" ");
 		i++;
