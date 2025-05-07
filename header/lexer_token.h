@@ -74,4 +74,7 @@ t_cmd			*parse_tokens(t_token *tokens);
 void			free_tokens(t_token *lst);
 void			free_cmds(t_cmd *lst);
 
+// here-doc
+int	heredoc(t_redirect *rdct);
+
 #endif
