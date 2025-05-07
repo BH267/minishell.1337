@@ -26,6 +26,7 @@
 # include "libhb/libhb.h"
 
 void		signals(int sig);
+int			heredoc(t_redirect *rdct);
 int			pip(t_ms *ms, t_cmd *cmd);
 int			b2o(int	pfdo, int pfdi, int doit);
 int			builtins(char *cmd, t_ms *ms);

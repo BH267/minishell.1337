@@ -10,10 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "header/lexer_token.h"
 #include "ms.h"
 
-int	redin(t_redirect *rdct, int fd, int *tfd)
+int	redin(t_redirect *rdct, int *tfd)
 {
+	int	fd;
+
 	fd = open(rdct->value, O_RDONLY);
 	if (fd == -1)
 		return (hb_printerr("open faild, try again\n"), 1);
@@ -23,8 +26,10 @@ int	redin(t_redirect *rdct, int fd, int *tfd)
 	return (0);
 }
 
-int	redout(t_redirect *rdct, int fd, int *tfd)
+int	redout(t_redirect *rdct, int *tfd)
 {
+	int	fd;
+
 	fd = open(rdct->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (hb_printerr("open faild, try again\n"), 1);
@@ -34,13 +39,28 @@ int	redout(t_redirect *rdct, int fd, int *tfd)
 	return (0);
 }
 
-int	append(t_redirect *rdct, int fd, int *tfd)
+int	append(t_redirect *rdct, int *tfd)
 {
+	int	fd;
+
 	fd = open(rdct->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		return (hb_printerr("open faild, try again\n"), 1);
 	*tfd = dup(1);
 	dup2(fd, 1);
+	close(fd);
+	return (0);
+}
+
+int	hrdoc(t_redirect *rdct, int *tfd)
+{
+	int	fd;
+
+	fd = open(rdct->value, O_RDONLY);
+	if (fd == -1)
+		return (hb_printerr("open faild, try again\n"), 1);
+	*tfd = dup(0);
+	dup2(fd, 0);
 	close(fd);
 	return (0);
 }
@@ -66,24 +86,25 @@ int	b2o(int	pfdo, int pfdi, int doit)
 int	redirect(t_ms *ms)
 {
 	t_redirect	*rdct;
-	int			fd;
 	int			tmpfdo;
 	int			tmpfdi;
 
 	rdct = ms->rdctl;
 	tmpfdo = 1;
 	tmpfdi = 0;
-	fd = 0;
 	while (rdct)
 	{
-		if (rdct->type == 2)
-			if (redin(rdct, fd, &tmpfdi))
+		if (rdct->type == TOKEN_REDIR_IN)
+			if (redin(rdct, &tmpfdi))
 				return (1);
-		if (rdct->type == 3)
-			if (redout(rdct, fd, &tmpfdo))
+		if (rdct->type == TOKEN_REDIR_OUT)
+			if (redout(rdct, &tmpfdo))
 				return (1);
-		if (rdct->type == 4)
-			if (append(rdct, fd, &tmpfdo))
+		if (rdct->type == TOKEN_APPEND)
+			if (append(rdct, &tmpfdo))
+				return (1);
+		if (rdct->type == TOKEN_HEREDOC)
+			if (hrdoc(rdct, &tmpfdi))
 				return (1);
 		rdct = rdct->next;
 	}
