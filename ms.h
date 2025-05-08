@@ -30,7 +30,7 @@ void		signals(int sig);
 int			isbins(t_ms *ms);
 int			runcmd(t_ms *ms, t_cmd *cmd);
 int			heredoc(t_redirect *rdct);
-int			pip(t_ms *ms, t_cmd *cmd);
+int			pipeline(t_ms *ms, t_cmd *cmd);
 int			builtins(char *cmd, t_ms *ms);
 int			singlecmd(t_ms *ms);
 int			redirect(t_ms *ms);

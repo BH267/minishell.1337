@@ -18,7 +18,7 @@ int	redin(t_redirect *rdct)
 
 	fd = open(rdct->value, O_RDONLY);
 	if (fd == -1)
-		return (hb_printerr("open faild, try again\n"), 1);
+		return (hb_printerr("%s\n", strerror(errno)), errno);
 	dup2(fd, 0);
 	close(fd);
 	return (0);
@@ -30,7 +30,7 @@ int	redout(t_redirect *rdct)
 
 	fd = open(rdct->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (hb_printerr("open faild, try again\n"), 1);
+		return (hb_printerr("%s\n", strerror(errno)), errno);
 	dup2(fd, 1);
 	close(fd);
 	return (0);
@@ -42,7 +42,7 @@ int	append(t_redirect *rdct)
 
 	fd = open(rdct->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		return (hb_printerr("open faild, try again\n"), 1);
+		return (hb_printerr("%s\n", strerror(errno)), errno);
 	dup2(fd, 1);
 	close(fd);
 	return (0);
@@ -54,7 +54,7 @@ int	hrdoc(t_redirect *rdct)
 
 	fd = open(rdct->value, O_RDONLY);
 	if (fd == -1)
-		return (hb_printerr("open faild, try again\n"), 1);
+		return (hb_printerr("%s\n", strerror(errno)), errno);
 	dup2(fd, 0);
 	close(fd);
 	return (0);

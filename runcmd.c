@@ -31,5 +31,6 @@ int	runcmd(t_ms *ms, t_cmd *cmd)
 		return (1);
 	if (!cmd->next)
 		return (singlecmd(ms));
+	pipeline(ms, cmd);
 	return (ms->e);
 }

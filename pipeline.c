@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 19:46:07 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/06 12:00:32 by deepseeko        ###   ########.fr       */
+/*   Created: 2025/05/08 18:49:39 by habenydi          #+#    #+#             */
+/*   Updated: 2025/05/08 19:09:56 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 	int	status;
 
 	status = 0;
+	pars_exec(cmd, ms);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -26,7 +27,7 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 			dup2(fd, 0);
 			close(fd);
 		}
-		ms->e = pars_exec(cmd, ms);
+		execute(ms);
 		if (ms->e)
 			ft_exit(ms->e);
 	}
@@ -40,7 +41,7 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 	return (WEXITSTATUS(status));
 }
 
-int	child(t_cmd *cmd, t_ms *ms, int *fd, int pfd)
+int	child(t_ms *ms, int *fd, int pfd)
 {
 	if (pfd != -1)
 	{
@@ -52,7 +53,7 @@ int	child(t_cmd *cmd, t_ms *ms, int *fd, int pfd)
 	close(fd[1]);
 	if (builtins(ms->args[0], ms) != 99)
 		return (ms->e);
-	ms->e = pars_exec(cmd, ms);
+	ms->e = execute(ms);
 	return (ms->e);
 }
 
@@ -73,44 +74,32 @@ int	parent(t_cmd **cmd, int	*fd, int *pfd, int pid)
 	return (WEXITSTATUS(status));
 }
 
-int	pipecmds(t_cmd *cmd, t_ms *ms, int *fd, int pfd)
+int	pipeline(t_ms *ms, t_cmd *cmd)
 {
-	t_cmd	*tmp;
-	int		pid;
+	int	fd[2];
+	int	pfd;
+	int	pid;
 
-	tmp = cmd;
-	while (tmp->next)
+	pfd = -1;
+	while (cmd->next)
 	{
-		pipe(fd);
+		pars_exec(cmd, ms);
+		if (pipe(fd) == -1)
+			return (hb_printerr("%s\n", strerror(errno)), errno);
 		pid = fork();
 		if (pid == 0)
 		{
-			ms->e = child(tmp, ms, fd, pfd);
+			ms->e = child(ms, fd, pfd);
 			if (ms->e)
 				ft_exit(ms->e);
 		}
 		else
 		{
-			ms->e = parent(&tmp, fd, &pfd, pid);
+			ms->e = parent(&cmd, fd, &pfd, pid);
 			if (ms->e)
 				return (ms->e);
 		}
 	}
-	ms->e = lastcmd(tmp, ms, pfd);
-	return (ms->e);
-}
-
-int	pip(t_ms *ms, t_cmd *cmd)
-{
-	int	fd[2];
-	int	pfd;
-
-	pfd = -1;
-	if (pipe(fd) == -1)
-		return (hb_printerr("pipe fails, try again\n"), 1);
-	if (!cmd->next)
-		return (singlecmd(ms));
-	else
-		ms->e = pipecmds(cmd, ms, fd, pfd);
-	return (ms->e);
+	ms->e = lastcmd(cmd, ms, pfd);
+	return (0);
 }
