@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/28 04:34:57 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:47:41 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
+	TOKEN_DQ,
 	ERR
 }	t_token_type;
 
@@ -31,6 +32,7 @@ typedef struct s_token
 	char			*value;
 	t_token_type	type;
 	struct s_token	*next;
+	int flag;
 }	t_token;
 
 typedef struct s_redirect
@@ -53,7 +55,7 @@ int				is_operator(char c);
 int				skip_spaces(const char *s, int i);
 int				get_op_len(const char *s);
 t_token_type	get_operator_type(const char *s);
-int				handle_quoted(const char *input, int i, t_token **lst);
+int				handle_quoted(const char *input, int i, char **out_val);
 int				handle_operator(const char *input, int i, t_token **lst);
 int				handle_word(const char *input, int i, t_token **lst);
 int				extract_quoted(const char *input, int i, char **val);

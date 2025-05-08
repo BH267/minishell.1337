@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:57:25 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/28 04:19:57 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:31:40 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,16 @@ int	main(int ac, char **av, char **env)
 	ft_exit(ms.e);
 }
 */
-
+void	signals(int sig)
+{
+	if (sig == SIGINT)
+	{
+		rl_on_new_line();
+		rl_replace_line("\n", 0);
+		rl_redisplay();
+		return ;
+	}
+}
 // New test main for parsing/tokenizing and printing command linked list
 int	main(void)
 {

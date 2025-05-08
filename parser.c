@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/02 12:52:36 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/08 10:29:01 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_cmd *parse_tokens(t_token *tokens)
 	t_cmd *cmd_head;
 
 	cmd_head = new_cmd();
+	
 	parse_tokens_loop(cmd_head, tokens);
 	return (cmd_head);
 }

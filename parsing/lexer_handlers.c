@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:04:55 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/26 02:07:33 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:49:35 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../libhb/libhb.h"
 #include "../ft_malloc/ft_malloc.h"
 
-int	handle_quoted(const char *input, int i, t_token **lst)
+int	handle_quoted(const char *input, int i, char **out_val)
 {
 	char	*val;
 	int		ret;
@@ -23,7 +23,7 @@ int	handle_quoted(const char *input, int i, t_token **lst)
 	ret = extract_quoted(input, i, &val);
 	if (ret == -1)
 		return (-1);
-	add_token(lst, val, TOKEN_WORD);
+	*out_val = val;
 	return (ret);
 }
 
@@ -41,9 +41,40 @@ int	handle_operator(const char *input, int i, t_token **lst)
 int	handle_word(const char *input, int i, t_token **lst)
 {
 	char	*val;
+	char	*tmp;
 	int		ret;
 
-	ret = extract_word(input, i, &val);
+	val = NULL;
+	tmp = NULL;
+	while (input[i] && !is_space(input[i]) && !is_operator(input[i]))
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			ret = handle_quoted(input, i, &tmp);
+			if (ret == -1)
+				return (-1);
+			if (!val)
+				val = hb_strdup("");
+			char *joined = hb_strjoin(val, tmp);
+			val = joined;
+			free(tmp);
+			i = ret;
+		}
+		else
+		{
+			int j = i;
+			while (input[i] && !is_space(input[i]) && !is_operator(input[i])
+				&& input[i] != '\'' && input[i] != '"')
+				i++;
+			tmp = hb_substr(input, j, i - j);
+			if (!val)
+				val = hb_strdup("");
+			char *joined = hb_strjoin(val, tmp);
+
+			val = joined;
+			free(tmp);
+		}
+	}
 	add_token(lst, val, TOKEN_WORD);
-	return (ret);
+	return (i);
 }

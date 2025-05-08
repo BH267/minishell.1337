@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror
-SRCS = 2main.c builtins/cd.c ft_malloc/ft_malloc.c getpath.c \
+SRCS = main.c builtins/cd.c ft_malloc/ft_malloc.c getpath.c \
        execute.c ft_exit.c builtins/pwd.c builtins/echo.c \
        builtins/env.c builtins/export.c dolar.c editenv.c env.c \
        envlst.c builtins/unset.c builtins/exit.c builtins/expars.c \

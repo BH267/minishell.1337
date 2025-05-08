@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/30 11:13:23 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/08 11:45:07 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void	parsing2(char *cmdl)
 	t_token	*tokens;
 	t_cmd	*cmds;
 
+	if (!check_balanced_quotes(cmdl))
+	{
+		hb_printerr("minishell: syntax error: unclosed quote\n");
+		return ;
+	}
 	tokens = lexer(cmdl);
 	if (!tokens)
 		return;
@@ -77,6 +82,11 @@ t_cmd	*parsing(char *cmdl)
 {
 	t_token	*tokens;
 
+	if (!check_balanced_quotes(cmdl))
+	{
+		hb_printerr("minishell: syntax error: unclosed quote\n");
+		return NULL;
+	}
 	tokens = lexer(cmdl);
 	if (!check_grammar(tokens))
 	{
