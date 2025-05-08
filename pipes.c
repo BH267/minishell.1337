@@ -26,7 +26,7 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 			dup2(fd, 0);
 			close(fd);
 		}
-		ms->e = pars_exec(cmd, ms, 0);
+		ms->e = pars_exec(cmd, ms);
 		if (ms->e)
 			ft_exit(ms->e);
 	}
@@ -52,7 +52,7 @@ int	child(t_cmd *cmd, t_ms *ms, int *fd, int pfd)
 	close(fd[1]);
 	if (builtins(ms->args[0], ms) != 99)
 		return (ms->e);
-	ms->e = pars_exec(cmd, ms, 0);
+	ms->e = pars_exec(cmd, ms);
 	return (ms->e);
 }
 
@@ -109,7 +109,7 @@ int	pip(t_ms *ms, t_cmd *cmd)
 	if (pipe(fd) == -1)
 		return (hb_printerr("pipe fails, try again\n"), 1);
 	if (!cmd->next)
-		return (singlecmd(ms, cmd));
+		return (singlecmd(ms));
 	else
 		ms->e = pipecmds(cmd, ms, fd, pfd);
 	return (ms->e);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 10:43:06 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/26 02:05:09 by ybouanan         ###   ########.fr       */
+/*   Created: 2025/05/08 14:23:36 by habenydi          #+#    #+#             */
+/*   Updated: 2025/05/08 14:24:07 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,16 @@
 # include "header/lexer_token.h"
 # include "libhb/libhb.h"
 
+void		b2o(int doit);
 void		signals(int sig);
+int			isbins(t_ms *ms);
+int			runcmd(t_ms *ms, t_cmd *cmd);
+int			heredoc(t_redirect *rdct);
 int			pip(t_ms *ms, t_cmd *cmd);
-int			b2o(int	pfdo, int pfdi, int doit);
 int			builtins(char *cmd, t_ms *ms);
-int			singlecmd(t_ms *ms, t_cmd *cmd);
+int			singlecmd(t_ms *ms);
 int			redirect(t_ms *ms);
-int			pars_exec(t_cmd *cmd, t_ms *ms, int bins);
+int			pars_exec(t_cmd *cmd, t_ms *ms);
 int			varexp(t_ms *ms);
 t_token		*lexer(const char *input);
 int			beforequ(char *str);

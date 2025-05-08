@@ -13,6 +13,7 @@
 #ifndef LIBHB_H
 # define LIBHB_H
 
+# include <time.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
@@ -20,6 +21,11 @@
 # include <stddef.h>
 # include <stdio.h>
 # include <stdarg.h>
+# include <fcntl.h>
+# include <math.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "get_next_line.h"
 # include "../ft_malloc/ft_malloc.h"
 
 typedef struct s_list

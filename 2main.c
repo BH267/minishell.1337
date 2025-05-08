@@ -23,21 +23,28 @@ void	signals(int sig)
 	}
 }
 
+int	promptline(t_ms *ms)
+{
+	if (!ms->e)
+		ms->cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;32m❱ \033[0m");
+	else
+		ms->cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;31m❱ \033[0m");
+	if (!ms->cmd)
+	{
+		hb_printerr("exit\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	prompt(t_ms *ms)
 {
 	t_cmd	*cmd;
 
 	while (1)
 	{
-		if (!ms->e)
-			ms->cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;32m❱ \033[0m");
-		else
-			ms->cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;31m❱ \033[0m");
-		if (!ms->cmd)
-		{
-			hb_printerr("exit\n");
+		if (promptline(ms))
 			break ;
-		}
 		if (!*ms->cmd)
 			continue ;
 		add_history(ms->cmd);
@@ -47,7 +54,7 @@ int	prompt(t_ms *ms)
 			ms->e = 2;
 			continue ;
 		}
-		ms->e = pip(ms, cmd);
+		ms->e = runcmd(ms, cmd);
 	}
 	return (ms->e);
 }

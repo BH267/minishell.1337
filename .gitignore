@@ -3,5 +3,6 @@ minishell
 libhb.a
 libhb/libhb.a
 .vscode/
+a.out
 *.o
 *.swp
