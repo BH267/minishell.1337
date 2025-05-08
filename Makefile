@@ -4,7 +4,7 @@ SRCS = 2main.c builtins/cd.c ft_malloc/ft_malloc.c getpath.c \
        execute.c ft_exit.c builtins/pwd.c builtins/echo.c \
        builtins/env.c builtins/export.c dolar.c editenv.c env.c \
        envlst.c builtins/unset.c builtins/exit.c builtins/expars.c \
-       redirection.c pipes.c exec_single_cmd.c \
+       redirection.c pipes.c single_cmd.c runcmd.c isbins.c \
        parsing.c parser.c \
 	parsing/lexer.c parsing/lexer_utils.c parsing/lexer_utils_extra.c \
 	parsing/lexer_handlers.c parsing/tokenizer.c parsing/token_utils.c \
