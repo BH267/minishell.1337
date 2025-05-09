@@ -16,6 +16,7 @@ void	signals(int sig)
 {
 	if (sig == SIGINT)
 	{
+		write (1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("\n", 0);
 		rl_redisplay();
@@ -67,6 +68,7 @@ int	main(int ac, char **av, char **env)
 	ms.e = 0;
 	ms.env = envtolist(env);
 	ms.p2env = env;
+	signal(SIGINT, signals);
 	editvar(&ms.env, "SHLVL", hb_itoa(hb_atoi(getvalue(ms.env, "SHLVL"))+ 1));
 	if (ac > 1)
 		return (hb_printerr("usage: <./minishell>\n"), 1);

@@ -57,7 +57,7 @@ int	handle_word(const char *input, int i, t_token **lst)
 				val = hb_strdup("");
 			char *joined = hb_strjoin(val, tmp);
 			val = joined;
-			free(tmp);
+		//	free(tmp);
 			i = ret;
 		}
 		else
@@ -72,7 +72,7 @@ int	handle_word(const char *input, int i, t_token **lst)
 			char *joined = hb_strjoin(val, tmp);
 
 			val = joined;
-			free(tmp);
+		//	free(tmp);
 		}
 	}
 	add_token(lst, val, TOKEN_WORD);

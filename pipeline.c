@@ -101,5 +101,5 @@ int	pipeline(t_ms *ms, t_cmd *cmd)
 		}
 	}
 	ms->e = lastcmd(cmd, ms, pfd);
-	return (0);
+	return (ms->e);
 }
