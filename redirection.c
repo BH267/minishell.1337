@@ -74,6 +74,8 @@ void	b2o(int doit)
 	{
 		dup2(std_out, 1);
 		dup2(std_in, 0);
+		close(std_out);
+		close(std_in);
 	}
 }
 

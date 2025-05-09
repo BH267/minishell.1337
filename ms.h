@@ -27,6 +27,7 @@
 
 void		b2o(int doit);
 void		signals(int sig);
+int			setvalue(char **env, char *var, char *newv);
 int			isbins(t_ms *ms);
 int			runcmd(t_ms *ms, t_cmd *cmd);
 int			heredoc(t_redirect *rdct);
