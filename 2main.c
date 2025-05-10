@@ -66,10 +66,10 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	ms.e = 0;
+	setvalue(env, "SHLVL", hb_itoa(hb_atoi(getenvalue(env, "SHLVL"))+ 1));
 	ms.env = envtolist(env);
 	ms.p2env = env;
 	signal(SIGINT, signals);
-	setvalue(env, "SHLVL", hb_itoa(hb_atoi(getvalue(ms.env, "SHLVL"))+ 1));
 	if (ac > 1)
 		return (hb_printerr("usage: <./minishell>\n"), 1);
 	prompt(&ms);

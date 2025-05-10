@@ -17,6 +17,7 @@ char	*random_name(void)
 	char	*rand;
 	int	fd;
 
+	rand = ft_malloc(10);
 	fd = open("/dev/random", O_RDONLY);
 	if (fd == -1)
 		return (NULL);

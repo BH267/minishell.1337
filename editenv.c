@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libhb/libhb.h"
+#include "binsutils.h"
 #include "ms.h"
 
 int	eeditvar(t_env **env, char *var, char *newv, int exp)
@@ -73,4 +73,21 @@ int	setvalue(char **env, char *var, char *newv)
 		i++;
 	}
 	return (1);
+}
+
+char	*getenvalue(char **env, char *var)
+{
+	int	i;
+	char	*tmp;
+
+	i = 0;
+	while (env[i])
+	{
+		tmp = hb_strdup(env[i]);
+		tmp[beforequ(tmp)] = '\0';
+		if (hb_strcmp(tmp, var) == 0)
+			return (env[i] + beforequ(env[i]) + 1);
+		i++;
+	}
+	return (NULL);
 }
