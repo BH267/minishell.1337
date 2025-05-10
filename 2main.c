@@ -60,13 +60,24 @@ int	prompt(t_ms *ms)
 	return (ms->e);
 }
 
+int	shlvl(char **env)
+{
+	char	*value;
+
+	value = getenvalue(env, "SHLVL");
+	if (!value)
+		return (1);
+	setvalue(env, "SHLVL", hb_itoa(hb_atoi(value)+ 1));
+	return (0);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_ms	ms;
 
 	(void)av;
 	ms.e = 0;
-	setvalue(env, "SHLVL", hb_itoa(hb_atoi(getenvalue(env, "SHLVL"))+ 1));
+	shlvl(env);
 	ms.env = envtolist(env);
 	ms.p2env = env;
 	signal(SIGINT, signals);
