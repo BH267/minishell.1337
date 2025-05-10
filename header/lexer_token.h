@@ -14,6 +14,7 @@
 # define LEXER_TOKEN_H
 
 # include <stdlib.h>
+# include "../libhb/libhb.h"
 
 typedef enum e_token_type
 {

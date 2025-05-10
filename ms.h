@@ -21,13 +21,13 @@
 # include <dirent.h>
 # include <string.h>
 # include "builtins/bins.h"
-# include "ft_malloc/ft_malloc.h"
 # include "header/lexer_token.h"
 # include "libhb/libhb.h"
 
 void		b2o(int doit);
 void		signals(int sig);
-char	*getenvalue(char **env, char *var);
+char		*getenvalue(char **env, char *var);
+int			runheredoc(t_cmd *cmd);
 int			setvalue(char **env, char *var, char *newv);
 int			isbins(t_ms *ms);
 int			runcmd(t_ms *ms, t_cmd *cmd);

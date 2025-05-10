@@ -12,8 +12,6 @@
 
 #include "../header/lexer_token.h"
 #include "../header/mini.h"
-#include "../ft_malloc/ft_malloc.h"
-#include <stdlib.h>
 
 t_cmd	*new_cmd(void)
 {

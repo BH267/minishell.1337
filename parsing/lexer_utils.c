@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../header/lexer_token.h"
-#include "../libhb/libhb.h"
-#include "../ft_malloc/ft_malloc.h"
 
 int	is_space(char c)
 {

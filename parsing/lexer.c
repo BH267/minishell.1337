@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../header/lexer_token.h"
-#include "../libhb/libhb.h"
-#include "../ft_malloc/ft_malloc.h"
 
 // Only handle_word should handle quoted and unquoted segments as a single word
 // so we remove the direct call to handle_quoted here

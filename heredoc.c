@@ -30,16 +30,30 @@ void	oktob(int fd, char *dl)
 {
 	char	*line;
 
-	line = "\0";
-	while (line)
+	write(0, "> ", 2);
+	line = get_next_line(0);
+	while (line && *line)
 	{
-		line = get_next_line(fd);
-		write(fd, line, hb_strlen(line));
-		if (hb_strcmp(line, dl) == 0)
+		if (hb_strcmp(line, hb_strjoin(dl, "\n")) == 0)
 			break ;
+		write(fd, line, hb_strlen(line));
+		write(0, "> ", 2);
+		line = get_next_line(0);
 	}
-	if (!line)
-		hb_printerr("warning: here-document delimited by end-of-file (wanted `%s')\n", dl);
+	if (!line || !*line)
+		hb_printerr("\nwarning: here-document delimited by end-of-file (wanted `%s')\n", dl);
+}
+
+int	runheredoc(t_cmd *cmd)
+{
+	int	e;
+
+	while (cmd)
+	{
+		e = heredoc(cmd->redirect_list);
+		cmd = cmd->next;
+	}
+	return (e);
 }
 
 int	heredoc(t_redirect *rdct)
@@ -54,7 +68,7 @@ int	heredoc(t_redirect *rdct)
 			filename = random_name();
 			fd = open(filename, O_WRONLY | O_CREAT, 0644);
 			if (fd == -1)
-				return (hb_printerr("open failed, try again\n"), 1);
+				return (hb_printerr("%s\n", strerror(errno)), errno);
 			oktob(fd, rdct->value);
 			rdct->value = filename;
 		}

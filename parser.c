@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "header/lexer_token.h"
-#include "ft_malloc/ft_malloc.h"
 
 int	fill_redir(t_cmd *cmd, t_token *tok);
 

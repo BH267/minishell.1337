@@ -26,7 +26,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "get_next_line.h"
-# include "../ft_malloc/ft_malloc.h"
 
 typedef struct s_list
 {

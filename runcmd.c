@@ -29,6 +29,7 @@ int	runcmd(t_ms *ms, t_cmd *cmd)
 {
 	if (pars_exec(cmd, ms))
 		return (1);
+	runheredoc(cmd);
 	if (!cmd->next)
 		return (singlecmd(ms));
 	pipeline(ms, cmd);

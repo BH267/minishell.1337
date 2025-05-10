@@ -22,7 +22,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <stddef.h>
-# include "../ft_malloc/ft_malloc.h"
+# include "ft_malloc/ft_malloc.h"
 
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *s);

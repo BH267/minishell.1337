@@ -12,8 +12,6 @@
 
 #include "../header/lexer_token.h"
 #include "../header/mini.h"
-#include "../libhb/libhb.h"
-#include "../ft_malloc/ft_malloc.h"
 
 void	free_tokens(t_token *lst)
 {

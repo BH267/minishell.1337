@@ -12,8 +12,6 @@
 
 #include "../header/lexer_token.h"
 #include "../header/mini.h"
-#include "../libhb/libhb.h"
-#include "../ft_malloc/ft_malloc.h"
 
 int	handle_quoted(const char *input, int i, char **out_val)
 {
