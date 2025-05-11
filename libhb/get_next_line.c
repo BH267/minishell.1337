@@ -16,7 +16,6 @@ static char	*ft_readline(int fd, char *string, char *buff)
 {
 	ssize_t	cont;
 	char	*fnl;
-	char	*fre;
 
 	cont = 0;
 	fnl = NULL;
@@ -29,7 +28,6 @@ static char	*ft_readline(int fd, char *string, char *buff)
 			return (NULL);
 		buff[cont] = '\0';
 		fnl = ft_strchr(buff, '\n');
-		fre = string;
 		string = ft_strjoin(string, buff);
 	}
 	return (string);
