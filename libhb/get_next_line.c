@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 14:23:32 by habenydi          #+#    #+#             */
-/*   Updated: 2024/12/14 14:24:58 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/11 08:42:53 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static char	*ft_readline(int fd, char *string, char *buff)
 static void	ft_getline(char **string, char **line)
 {
 	size_t	i;
-	char	*fre;
 
 	if (!**string)
 	{
@@ -54,7 +53,6 @@ static void	ft_getline(char **string, char **line)
 		return ;
 	}
 	*line = ft_substr(*string, i + 1);
-	fre = *string;
 	*string = ft_strdup(&(*string)[i + 1]);
 }
 
