@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:04:55 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/11 14:31:10 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/11 17:33:04 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void fill_mask_for_expansion(const char *val, char *mask, int start, int 
 	{
 		mask[i] |= MASK_EXPANSION | flag;
 		i++;
-		while (val[i] && (ft_isalnum(val[i]) || val[i] == '_'))
+		while (val[i] && (hb_isalnum(val[i]) || val[i] == '_'))
 		{
 			mask[i] |= MASK_EXPANSION | flag;
 			i++;
