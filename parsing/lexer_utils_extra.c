@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:16 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/11 12:15:42 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/11 17:39:01 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,17 @@ int	extract_quoted(const char *input, int i, char **val)
 {
 	char	quote;
 	int		start;
+	int		end;
 
 	quote = input[i];
-	start = ++i;
+	start = i;
+	i++;
 	while (input[i] && input[i] != quote)
 		i++;
 	if (input[i] != quote)
 		return (-1);
-	*val = hb_substr(input, start, i - start);
+	end = i;
+	*val = hb_substr(input, start, end - start + 1);
 	return (i + 1);
 }
 

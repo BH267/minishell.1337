@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:04:55 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/11 17:33:04 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/11 17:39:09 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,29 +90,29 @@ static void fill_mask_for_expansion(const char *val, char *mask, int start, int 
 
 static int handle_quoted_mask(const char *input, int i, char **out_val, char **out_mask)
 {
-	char *val;
-	int ret;
-	char *mask;
-	int flag;
-	int len;
-	int j;
+    char *val;
+    int ret;
+    char *mask;
+    int flag;
+    int len;
+    int j;
 
-	flag = handle_word_get_flag(input[i]);
-	ret = extract_quoted(input, i, &val);
-	if (ret == -1)
-		return -1;
-	len = hb_strlen(val);
-	mask = make_mask(len, flag);
-	j = 0;
-	while (j < len)
-	{
-		if (val[j] == '$' && flag != MASK_S_QUOTES)
-			fill_mask_for_expansion(val, mask, j, flag);
-		j++;
-	}
-	*out_val = val;
-	*out_mask = mask;
-	return ret;
+    flag = handle_word_get_flag(input[i]);
+    ret = extract_quoted(input, i, &val);
+    if (ret == -1)
+        return -1;
+    len = hb_strlen(val);
+    mask = make_mask(len, flag);
+    j = 0;
+    while (j < len)
+    {
+        if (val[j] == '$' && flag != MASK_S_QUOTES)
+            fill_mask_for_expansion(val, mask, j, flag);
+        j++;
+    }
+    *out_val = val;
+    *out_mask = mask;
+    return ret;
 }
 
 static int handle_unquoted_mask(const char *input, int i, char **out_val, char **out_mask)
