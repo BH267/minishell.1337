@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_extra.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:16 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/28 04:31:19 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:15:42 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	extract_word(const char *input, int i, char **val)
 	return (i);
 }
 
-void	add_token(t_token **lst, char *value, t_token_type type)
+void	add_token(t_token **lst, char *value, t_token_type type, char *mask)
 {
 	t_token	*new;
 	t_token	*tmp;
@@ -84,6 +84,7 @@ void	add_token(t_token **lst, char *value, t_token_type type)
 	new->value = value;
 	new->type = type;
 	new->next = NULL;
+	new->mask = mask;
 	if (!*lst)
 		*lst = new;
 	else

@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/08 13:47:41 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/11 14:09:36 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 # include <stdlib.h>
 # include "../libhb/libhb.h"
+
+enum e_mask_flags
+{
+    MASK_ORIGIN		= 0,
+    MASK_EXPANSION	= 1,
+    MASK_S_QUOTES	= 2,
+    MASK_QUOTES		= 4
+};
 
 typedef enum e_token_type
 {
@@ -30,11 +38,12 @@ typedef enum e_token_type
 
 typedef struct s_token
 {
-	char			*value;
+	char		*value;
 	t_token_type	type;
 	struct s_token	*next;
 	int flag;
-}	t_token;
+	char *mask;
+} t_token;
 
 typedef struct s_redirect
 {
@@ -61,7 +70,7 @@ int				handle_operator(const char *input, int i, t_token **lst);
 int				handle_word(const char *input, int i, t_token **lst);
 int				extract_quoted(const char *input, int i, char **val);
 int				extract_word(const char *input, int i, char **val);
-void			add_token(t_token **lst, char *value, t_token_type type);
+void			add_token(t_token **lst, char *value, t_token_type type, char *mask);
 t_token			*lexer(const char *input);
 int				check_balanced_quotes(const char *input);
 int				check_grammar(t_token *tok);

@@ -6,12 +6,21 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:04:55 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/08 13:49:35 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/11 14:31:10 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/lexer_token.h"
 #include "../header/mini.h"
+
+static int	handle_word_get_flag(char c)
+{
+	if (c == '\'')
+		return (MASK_S_QUOTES);
+	else if (c == '"')
+		return (MASK_QUOTES);
+	return (MASK_ORIGIN);
+}
 
 int	handle_quoted(const char *input, int i, char **out_val)
 {
@@ -32,47 +41,135 @@ int	handle_operator(const char *input, int i, t_token **lst)
 
 	oplen = get_op_len(&input[i]);
 	val = hb_substr(input, i, oplen);
-	add_token(lst, val, get_operator_type(&input[i]));
+	add_token(lst, val, get_operator_type(&input[i]), NULL);
 	return (i + oplen);
 }
 
-int	handle_word(const char *input, int i, t_token **lst)
+static char *join_and_free(char *s1, char *s2)
 {
-	char	*val;
-	char	*tmp;
-	int		ret;
+	if (!s1)
+		s1 = hb_strdup("");
+	if (!s2)
+		s2 = hb_strdup("");
+	char *res ;
+	res = hb_strjoin(s1, s2);
+	return res;
+}
 
-	val = NULL;
-	tmp = NULL;
+static char *make_mask(int len, char flag)
+{
+	char *mask;
+	int i;
+	mask = (char *)ft_malloc(len + 1);
+	i = 0;
+	while (i < len)
+	{
+		mask[i] = flag;
+		i++;
+	}
+	mask[len] = '\0';
+	return mask;
+}
+// hadi 5as tanchof liha chi 7al bach n9as params ; (hbil ana b7al walo nsayb va_arg dyali hhh)
+static void fill_mask_for_expansion(const char *val, char *mask, int start, int flag)
+{
+	int i;
+
+	i = start;
+	if (val[i] == '$')
+	{
+		mask[i] |= MASK_EXPANSION | flag;
+		i++;
+		while (val[i] && (ft_isalnum(val[i]) || val[i] == '_'))
+		{
+			mask[i] |= MASK_EXPANSION | flag;
+			i++;
+		}
+	}
+}
+
+static int handle_quoted_mask(const char *input, int i, char **out_val, char **out_mask)
+{
+	char *val;
+	int ret;
+	char *mask;
+	int flag;
+	int len;
+	int j;
+
+	flag = handle_word_get_flag(input[i]);
+	ret = extract_quoted(input, i, &val);
+	if (ret == -1)
+		return -1;
+	len = hb_strlen(val);
+	mask = make_mask(len, flag);
+	j = 0;
+	while (j < len)
+	{
+		if (val[j] == '$' && flag != MASK_S_QUOTES)
+			fill_mask_for_expansion(val, mask, j, flag);
+		j++;
+	}
+	*out_val = val;
+	*out_mask = mask;
+	return ret;
+}
+
+static int handle_unquoted_mask(const char *input, int i, char **out_val, char **out_mask)
+{
+	int j;
+	char *val;
+	char *mask;
+	int len;
+	int k;
+
+	j = i;
+	while (input[i] && !is_space(input[i]) && !is_operator(input[i]) && input[i] != '\'' && input[i] != '"')
+		i++;
+	val = hb_substr(input, j, i - j);
+	len = hb_strlen(val);
+	mask = make_mask(len, MASK_ORIGIN);
+	k = 0;
+	while (k < len)
+	{
+		if (val[k] == '$')
+			fill_mask_for_expansion(val, mask, k, 0);
+		k++;
+	}
+	*out_val = val;
+	*out_mask = mask;
+	return i;
+}
+
+int handle_word(const char *input, int i, t_token **lst)
+{
+	char *val;
+	char *mask;
+	char *tmp_val;
+	char *tmp_mask;
+	int ret;
+
+	val = hb_strdup("");
+	mask = hb_strdup("");
 	while (input[i] && !is_space(input[i]) && !is_operator(input[i]))
 	{
 		if (input[i] == '\'' || input[i] == '"')
 		{
-			ret = handle_quoted(input, i, &tmp);
+			ret = handle_quoted_mask(input, i, &tmp_val, &tmp_mask);
 			if (ret == -1)
-				return (-1);
-			if (!val)
-				val = hb_strdup("");
-			char *joined = hb_strjoin(val, tmp);
-			val = joined;
-		//	free(tmp);
+				return -1;
+			val = join_and_free(val, tmp_val);
+			mask = join_and_free(mask, tmp_mask);
 			i = ret;
 		}
 		else
 		{
-			int j = i;
-			while (input[i] && !is_space(input[i]) && !is_operator(input[i])
-				&& input[i] != '\'' && input[i] != '"')
-				i++;
-			tmp = hb_substr(input, j, i - j);
-			if (!val)
-				val = hb_strdup("");
-			char *joined = hb_strjoin(val, tmp);
-
-			val = joined;
-		//	free(tmp);
+			ret = handle_unquoted_mask(input, i, &tmp_val, &tmp_mask);
+			val = join_and_free(val, tmp_val);
+			mask = join_and_free(mask, tmp_mask);
+			i = ret;
 		}
 	}
-	add_token(lst, val, TOKEN_WORD);
-	return (i);
+	add_token(lst, val, TOKEN_WORD, mask);
+	return i;
 }

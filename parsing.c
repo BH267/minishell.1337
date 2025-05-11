@@ -6,17 +6,37 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/08 11:45:07 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/11 14:25:21 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
+// some functions to test created by chatgpt
+// and modified by me
 static void	print_tokens(t_token *tok)
 {
+	int i;
+	int len;
+
 	while (tok)
 	{
-		printf("[type=%d, value='%s']\n", tok->type, tok->value);
+		printf("[type=%d, value='%s', mask=", tok->type, tok->value);
+		if (tok->mask)
+		{
+			i = 0;
+			len = hb_strlen(tok->value);
+			while (i < len)
+			{
+				printf("%d", (unsigned char)tok->mask[i]);
+				if (i < len - 1)
+					printf(" ");
+				i++;
+			}
+		}
+		else
+			printf("(null)");
+		printf("]\n");
 		tok = tok->next;
 	}
 }
@@ -25,8 +45,11 @@ static void	print_redirects(t_redirect *redir)
 {
 	while (redir)
 	{
-		printf("  redirect: type=%d, value=%s\n", redir->type,
-			redir->value ? redir->value : "(null)");
+		printf("  redirect: type=%d, value=", redir->type);
+		if (redir->value)
+			printf("%s\n", redir->value);
+		else
+			printf("(null)\n");
 		redir = redir->next;
 	}
 }

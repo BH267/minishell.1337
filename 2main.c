@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   2main.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:25:28 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/26 14:30:25 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/11 11:47:16 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
+
+
 
 void	sighand(int sig)
 {
@@ -35,7 +37,7 @@ int	signals(int mode)
 		signal(SIGINT, sighand);
 		signal(SIGQUIT, sighand);
 		return (1);
-	} 
+	}
 	else if (mode == CHILD)
 	{
 		signal(SIGINT, SIG_DFL);

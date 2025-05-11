@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/08 10:29:01 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/11 14:28:30 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ int	fill_redir(t_cmd *cmd, t_token *tok);
 
 static void add_arg_to_cmd(t_cmd *cmd, char *value)
 {
-	int argc = 0;
-	int i = 0;
+	int argc ;
+	int i ;
 	char **new_args;
 
+	argc = 0;
+	i = 0;
 	if (cmd->args)
 		while (cmd->args[argc])
 			argc++;
@@ -87,7 +89,7 @@ t_cmd *parse_tokens(t_token *tokens)
 	t_cmd *cmd_head;
 
 	cmd_head = new_cmd();
-	
+
 	parse_tokens_loop(cmd_head, tokens);
 	return (cmd_head);
 }
