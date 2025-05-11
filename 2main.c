@@ -12,7 +12,7 @@
 
 #include "ms.h"
 
-void	signals(int sig)
+void	sighand(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -22,6 +22,33 @@ void	signals(int sig)
 		rl_redisplay();
 		return ;
 	}
+	if (sig == SIGQUIT)
+	{
+		(void)sig;
+	}
+}
+
+int	signals(int mode)
+{
+	if (mode == NORMAL)
+	{
+		signal(SIGINT, sighand);
+		signal(SIGQUIT, sighand);
+		return (1);
+	} 
+	else if (mode == CHILD)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		return (1);
+	}
+	else if (mode == HEREDOC)
+	{
+		signal(SIGINT, sighand);
+		signal(SIGQUIT, SIG_DFL);
+		return (1);
+	}
+	return (0);
 }
 
 int	promptline(t_ms *ms)
@@ -46,7 +73,8 @@ int	prompt(t_ms *ms)
 	{
 		if (promptline(ms))
 			break ;
-		if (!*ms->cmd)
+		signals(NORMAL);
+		if (!*ms->cmd)// || signals(NORMAL))
 			continue ;
 		add_history(ms->cmd);
 		cmd = parsing(ms->cmd);
@@ -80,7 +108,7 @@ int	main(int ac, char **av, char **env)
 	shlvl(env);
 	ms.env = envtolist(env);
 	ms.p2env = env;
-	signal(SIGINT, signals);
+	signals(NORMAL);
 	if (ac > 1)
 		return (hb_printerr("usage: <./minishell>\n"), 1);
 	prompt(&ms);

@@ -22,6 +22,7 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 	pid = fork();
 	if (pid == 0)
 	{
+		signals(CHILD);
 		if (fd != -1)
 		{
 			dup2(fd, 0);
@@ -33,9 +34,9 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 	}
 	else
 	{
+		signals(NORMAL);
 		if (fd != -1)
 			close(fd);
-		signal(SIGINT, signals);
 		waitpid(pid, &status, 0);
 	}
 	return (WEXITSTATUS(status));
@@ -43,6 +44,7 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 
 int	child(t_ms *ms, int *fd, int pfd)
 {
+	signals(CHILD);
 	if (pfd != -1)
 	{
 		dup2(pfd, 0);
@@ -52,7 +54,7 @@ int	child(t_ms *ms, int *fd, int pfd)
 	close(fd[0]);
 	close(fd[1]);
 	if (builtins(ms->args[0], ms) != 99)
-		return (ms->e);
+		ft_exit(ms->e);
 	ms->e = execute(ms);
 	return (ms->e);
 }
@@ -62,8 +64,8 @@ int	parent(t_cmd **cmd, int	*fd, int *pfd, int pid)
 	int	status;
 
 	status = 0;
-	signal(SIGINT, signals);
 	waitpid(pid, &status, 0);
+	signals(NORMAL);
 	if (*pfd != -1)
 		close(*pfd);
 	close(fd[1]);

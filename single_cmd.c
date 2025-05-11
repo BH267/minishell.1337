@@ -25,13 +25,14 @@ int	singlecmd(t_ms *ms)
 		return (hb_printerr("fork fails, try again\n"), 1);
 	if (pid == 0)
 	{
+		signals(CHILD);
 		ms->e = execute(ms);
 		ft_exit(ms->e);
 	}
 	else if (pid > 0)
 	{
-		signal(SIGINT, signals);
 		waitpid(pid, &status, 0);
+		signals(NORMAL);
 	}
 	else
 		return (hb_printerr("%s\n", strerror(errno)), errno);

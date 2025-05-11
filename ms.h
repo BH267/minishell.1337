@@ -24,8 +24,12 @@
 # include "header/lexer_token.h"
 # include "libhb/libhb.h"
 
+# define NORMAL 1
+# define CHILD 2
+# define HEREDOC 3
+
 void		b2o(int doit);
-void		signals(int sig);
+int			signals(int mode);
 char		*getenvalue(char **env, char *var);
 int			runheredoc(t_cmd *cmd);
 int			setvalue(char **env, char *var, char *newv);
