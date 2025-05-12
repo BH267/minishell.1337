@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/12 13:26:09 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 16:21:03 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // some functions to test created by chatgpt
 // and modified by me
-static void	print_tokens(t_token *tok)
+void	print_tokens(t_token *tok)
 {
 	int i;
 	int len;
@@ -95,10 +95,11 @@ void	parsing2(char *cmdl , t_env *env)
 		hb_printerr("minishell: syntax error\n");
 		return;
 	}
-	// Inject expand logic for test parsing
+	// Expand tokens before printing and parsing
+	//expansion_loop(tokens, env);
+	// Print tokens after expansion
 	printf("Tokens:\n");
 	print_tokens(tokens);
-	expansion_loop(tokens, env);
 	cmds = parse_tokens(tokens, env);
 	printf("\nParsed commands:\n");
 	print_cmds(cmds);

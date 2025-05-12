@@ -6,14 +6,12 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 15:58:41 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/11 13:34:12 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 17:04:29 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/lexer_token.h"
 
-// Only handle_word should handle quoted and unquoted segments as a single word
-// so we remove the direct call to handle_quoted here
 
 t_token	*lexer(const char *input)
 {

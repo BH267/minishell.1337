@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:23:36 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/12 12:28:32 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 16:21:18 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define CHILD 2
 # define HEREDOC 3
 
+void	print_tokens(t_token *tok);
 void		b2o(int doit);
 int			signals(int mode);
 char		*getenvalue(char **env, char *var);

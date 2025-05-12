@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:08:12 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/12 13:48:20 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 17:04:00 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,52 @@ char *add_quotes(char *str)
 	return (res);
 }
 
+int count_quotes(char *str)
+{
+	int i;
+	int count;
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char *dellet_all_quotes(char *str)
+{
+	int i;
+	int j;
+	char *res;
+	i = 0;
+	j = 0;
+	res = ft_malloc(sizeof(char) * (hb_strlen(str) - count_quotes(str) + 1));
+	if (!res)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] != '"' && str[i] != '\'')
+			res[j++] = str[i];
+		i++;
+	}
+	res[j] = '\0';
+	return (res);
+}
 char *get_value_with_mask(char mask, t_env *env, char *var)
 {
 	char *value_var;
 
 	value_var = getfromenv(env, var);
-	if (mask & 4)
+
+	if (!value_var)
+		value_var = hb_strdup("");
+	value_var = dellet_all_quotes(value_var);
+	if ((mask & 4) != 0)
 		value_var = add_quotes(value_var);
+
 	return (value_var);
 }
 
@@ -48,9 +87,13 @@ void replace_variable(char **value, char *var, char *expanded_value)
 	int i = 0;
 	int j = 0;
 	int k = 0;
-	int value_len = hb_strlen(*value);
-	int var_len = hb_strlen(var);
+	int value_len;
+	int var_len;
 	int expanded_len;
+	if (!value || !*value)
+		return;
+	value_len = hb_strlen(*value);
+	var_len = hb_strlen(var);
 	if (expanded_value)
 		expanded_len = hb_strlen(expanded_value);
 	else
@@ -60,7 +103,8 @@ void replace_variable(char **value, char *var, char *expanded_value)
 		return;
 	while ((*value)[i] && (*value)[i] != '$')
 		new_value[k++] = (*value)[i++];
-	i++; // skip '$'
+	if ((*value)[i] == '$')
+		i++;
 	while ((*value)[i] && (hb_isalnum((*value)[i]) || (*value)[i] == '_'))
 		i++;
 	if (expanded_value)

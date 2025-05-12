@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/12 13:45:54 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 16:28:56 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char *update_mask(char *value)
 	int i = 0;
 	char quote = 0;
 	int len = hb_strlen(value);
-	char *mask = (char *)ft_malloc(len + 1);
+	char *mask = (char *)malloc(len + 1);
 	while (i < len)
 	{
 		handle_quote_state(value, mask, &i, &quote);
@@ -113,19 +113,23 @@ t_expand_data get_index(const char *value)
 	return data;
 }
 
-void expand_variable(char **value , char *mask , t_env *env)
+void expand_variable(char **value , char **mask , t_env *env)
 {
 	t_expand_data data;
 	char *var;
+	char *new_mask;
 	data = get_index(*value);
 	if (data.start == -1 || data.end == -1)
 		return ;
 	while(data.start != -1)
 	{
 		var = hb_substr(*value, data.start + 1, data.end - data.start);
-		if ((mask[data.start] & MASK_EXPANSION) != 0)
-			start_expand_variable(value, var, env, mask[data.start]);
-		mask = update_mask(*value);
+		if (((*mask)[data.start] & MASK_EXPANSION) != 0)
+			start_expand_variable(value, var, env, (*mask)[data.start]);
+		// Update mask after expansion
+		new_mask = update_mask(*value);
+		free(*mask);
+		*mask = new_mask;
 		data = get_index(*value);
 		if (data.start == -1 || data.end == -1)
 			break;
@@ -137,16 +141,17 @@ void expand_variable(char **value , char *mask , t_env *env)
 int is_expansion_needed(t_token *tok)
 {
 	int i;
+	int lent;
 
 	i = 0;
-	if (tok->mask)
+	lent = hb_strlen(tok->value);
+	while (i <= lent)
 	{
-		while (tok->mask[i])
+		if ((tok->mask[i] & MASK_EXPANSION) != 0)
 		{
-			if ((tok->mask[i] & MASK_EXPANSION) != 0)
-				return (1);
-			i++;
+			return (1);
 		}
+		i++;
 	}
 	return (0);
 }
@@ -160,14 +165,15 @@ void expansion_loop(t_token *tokens , t_env *env)
 	tok = tokens;
 	while(tok)
 	{
-		if (tok->type == TOKEN_REDIR_OUT || tok->type == TOKEN_REDIR_IN)
+		// if (tok->type == TOKEN_REDIR_OUT || tok->type == TOKEN_REDIR_IN) // hadi bach nhadli out file and in file fi lmost9bal 
+		// {
+		// 	tok = tok->next;
+		// 	continue;
+		// }
+		if (tok->type == 0 && is_expansion_needed(tok))
 		{
-
-			tok = tok->next;
-			continue;
+			expand_variable(&tok->value , &tok->mask, env);
 		}
-		if (tok->flag == TOKEN_WORD && is_expansion_needed(tok))
-			expand_variable(&tok->value , tok->mask, env);
 		i++;
 		tok = tok->next;
 	}

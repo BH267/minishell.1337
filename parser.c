@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/12 12:57:14 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 14:59:02 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static void add_arg_to_cmd(t_cmd *cmd, char *value)
 	int i ;
 	char **new_args;
 
-	if (!value || value[0] == '\0')
-		return; // Skip empty arguments
 	argc = 0;
 	i = 0;
 	if (cmd->args)
@@ -92,9 +90,8 @@ t_cmd *parse_tokens(t_token *tokens , t_env *env)
 {
 	t_cmd *cmd_head;
 
-	cmd_head = new_cmd();
-
 	expansion_loop(tokens, env);
+	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);
 	return (cmd_head);
 }
