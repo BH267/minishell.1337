@@ -6,42 +6,13 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:57:25 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/11 12:18:00 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 08:10:32 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-// Old main commented for test
-/*
-int	main(int ac, char **av, char **env)
-{
 
-	t_ms	ms;
-	(void)av;
-	ms.e = 0;
-	ms.env = envtolist(env);
-	if (ac > 1)
-		return (printf("usage: <./minishell>\n"), 1);
-	while (1)
-	{
-		if (!ms.e)
-			ms.cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;32m❱ \033[0m");
-		else
-			ms.cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;31m❱ \033[0m");
-		if (!ms.cmd)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (!*ms.cmd)
-			continue ;
-		add_history(ms.cmd);
-		ms.e = execute(&ms, env);
-	}
-	ft_exit(ms.e);
-}
-*/
 void	sighand(int sig)
 {
 	if (sig == SIGINT)
@@ -81,10 +52,12 @@ int	signals(int mode)
 	return (0);
 }
 // New test main for parsing/tokenizing and printing command linked list
-int	main(void)
+int	main(int av , char **ac , char** env)
 {
 	char	*line;
 
+	t_env *lst_env ;
+	lst_env = envtolist(env);
 	while (1)
 	{
 		line = readline("Enter command to parse (or 'exit'): ");
@@ -95,7 +68,7 @@ int	main(void)
 		if (!strcmp(line, "exit"))
 			break;
 		add_history(line);
-		parsing2(line);
+		parsing2(line , lst_env);
 	}
 	ft_free();
 	return (0);

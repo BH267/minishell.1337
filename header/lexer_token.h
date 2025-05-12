@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/11 14:09:36 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 11:58:37 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
-	TOKEN_DQ,
-	ERR
 }	t_token_type;
 
 typedef struct s_token
@@ -82,11 +80,12 @@ int				is_redir(t_token_type t);
 void			add_redirect(t_redirect **lst, char *value, t_token_type type);
 void			free_redirects(t_redirect *lst);
 t_cmd			*new_cmd(void);
-t_cmd			*parse_tokens(t_token *tokens);
+t_cmd			*parse_tokens(t_token *tokens,t_env *env);
 void			free_tokens(t_token *lst);
 void			free_cmds(t_cmd *lst);
 
 // here-doc
 int	heredoc(t_redirect *rdct);
+
 
 #endif

@@ -6,11 +6,12 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/11 14:28:30 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 08:15:35 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header/lexer_token.h"
+#include "ms.h"
 
 int	fill_redir(t_cmd *cmd, t_token *tok);
 
@@ -84,12 +85,13 @@ static void	parse_tokens_loop(t_cmd *cmd_head, t_token *tokens)
 		handle_token_loop(&cmd_curr, &tok, &redir_pending);
 }
 
-t_cmd *parse_tokens(t_token *tokens)
+t_cmd *parse_tokens(t_token *tokens , t_env *env)
 {
 	t_cmd *cmd_head;
 
 	cmd_head = new_cmd();
 
+	expansion_loop(tokens, env);
 	parse_tokens_loop(cmd_head, tokens);
 	return (cmd_head);
 }

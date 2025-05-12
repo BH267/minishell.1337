@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:16 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/11 17:39:01 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 12:05:53 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,3 +98,4 @@ void	add_token(t_token **lst, char *value, t_token_type type, char *mask)
 		tmp->next = new;
 	}
 }
+

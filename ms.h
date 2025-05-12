@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:23:36 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/08 14:24:07 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/12 08:11:22 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ int			beforequ(char *str);
 int			execute(t_ms *ms);
 char		*getpath(char *cmd, char **env);
 t_cmd		*parsing(char *cmdl);
-void		parsing2(char *cmdl);
+void		parsing2(char *cmdl,t_env *env);
 
 #endif

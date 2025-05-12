@@ -6,12 +6,11 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:25:28 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/11 11:47:16 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 08:09:30 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
-
 
 
 void	sighand(int sig)

@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/11 14:25:21 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 08:14:34 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	print_cmds(t_cmd *cmd)
 	}
 }
 
-void	parsing2(char *cmdl)
+void	parsing2(char *cmdl , t_env *env)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
@@ -96,12 +96,12 @@ void	parsing2(char *cmdl)
 	}
 	printf("Tokens:\n");
 	print_tokens(tokens);
-	cmds = parse_tokens(tokens);
+	cmds = parse_tokens(tokens, env);
 	printf("\nParsed commands:\n");
 	print_cmds(cmds);
 }
 
-t_cmd	*parsing(char *cmdl)
+t_cmd	*parsing(char *cmdl, t_env *env )
 {
 	t_token	*tokens;
 
@@ -117,5 +117,5 @@ t_cmd	*parsing(char *cmdl)
 		return NULL;
 	}
 	tokens = lexer(cmdl);
-	return (parse_tokens(tokens));
+	return (parse_tokens(tokens, env));
 }
