@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:57:25 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/12 12:19:31 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 18:31:49 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,3 @@ int	main(int ac, char **av, char **env)
 	ft_free();
 	return (0);
 }
-//*/

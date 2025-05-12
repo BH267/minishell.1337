@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:08:12 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/12 17:04:00 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 17:33:03 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ char *get_value_with_mask(char mask, t_env *env, char *var)
 	value_var = dellet_all_quotes(value_var);
 	if ((mask & 4) != 0)
 		value_var = add_quotes(value_var);
-
 	return (value_var);
 }
 

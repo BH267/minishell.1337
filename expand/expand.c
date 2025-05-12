@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/12 16:28:56 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 18:42:17 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,10 +165,10 @@ void expansion_loop(t_token *tokens , t_env *env)
 	tok = tokens;
 	while(tok)
 	{
-		// if (tok->type == TOKEN_REDIR_OUT || tok->type == TOKEN_REDIR_IN) // hadi bach nhadli out file and in file fi lmost9bal 
+		// if (tok->type == TOKEN_REDIR_OUT || tok->type == TOKEN_REDIR_IN) // hadi bach nhadli out file and in file fi lmost9bal
 		// {
 		// 	tok = tok->next;
-		// 	continue;
+		// 	continue ;
 		// }
 		if (tok->type == 0 && is_expansion_needed(tok))
 		{

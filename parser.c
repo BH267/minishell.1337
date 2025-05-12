@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/12 14:59:02 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 18:43:38 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,19 @@ static void	parse_tokens_loop(t_cmd *cmd_head, t_token *tokens)
 		handle_token_loop(&cmd_curr, &tok, &redir_pending);
 }
 
+
+void split_tokens_by_qoutes(t_token *tokens)
+{
+	
+}
+
+
 t_cmd *parse_tokens(t_token *tokens , t_env *env)
 {
 	t_cmd *cmd_head;
 
 	expansion_loop(tokens, env);
+	split_tokens_by_quotes(tokens);
 	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);
 	return (cmd_head);
