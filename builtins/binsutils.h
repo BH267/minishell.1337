@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binsutils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 21:20:10 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/20 21:22:05 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:25:33 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,6 @@
 # define BINSUTILS_H
 
 # include "header/lexer_token.h"
-
-typedef struct e_list
-{
-	char			*var;
-	char			*value;
-	int				exp;
-	struct e_list	*next;
-}					t_env;
 
 typedef struct s_stackofvariables
 {
@@ -33,16 +25,16 @@ typedef struct s_stackofvariables
 	t_redirect		*rdctl;
 }					t_ms;
 
-void				ft_exit(int e);
-t_env				*envlast(t_env *lst);
-t_env				*envtolist(char **env);
-int					beforequ(char *str);
-void				printenv(t_env *env, int exp);
-char				*getvalue(t_env *env, char *var);
-void				envadd_back(t_env **lst, t_env *n);
-t_env				*envnew(char *var, char *value, int exp);
-t_env				*asigneavalue(t_env **env, char *var, char *nvalue);
-int					editvar(t_env **env, char *var, char *newv);
-int					eeditvar(t_env **env, char *var, char *newv, int exp);
+void	ft_exit(int e);
+t_env	*envlast(t_env *lst);
+t_env	*envtolist(char **env);
+int	beforequ(char *str);
+void	printenv(t_env *env, int exp);
+char	*getvalue(t_env *env, char *var);
+void	envadd_back(t_env **lst, t_env *n);
+t_env	*envnew(char *var, char *value, int exp);
+t_env	*asigneavalue(t_env **env, char *var, char *nvalue);
+int	editvar(t_env **env, char *var, char *newv);
+int	eeditvar(t_env **env, char *var, char *newv, int exp);
 
 #endif

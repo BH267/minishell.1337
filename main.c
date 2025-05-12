@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:57:25 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/12 08:10:32 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 12:19:31 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,13 @@ int	signals(int mode)
 	return (0);
 }
 // New test main for parsing/tokenizing and printing command linked list
-int	main(int av , char **ac , char** env)
+int	main(int ac, char **av, char **env)
 {
 	char	*line;
+	t_env *lst_env;
 
-	t_env *lst_env ;
+	(void)ac;
+	(void)av;
 	lst_env = envtolist(env);
 	while (1)
 	{
@@ -68,7 +70,7 @@ int	main(int av , char **ac , char** env)
 		if (!strcmp(line, "exit"))
 			break;
 		add_history(line);
-		parsing2(line , lst_env);
+		parsing2(line, lst_env);
 	}
 	ft_free();
 	return (0);

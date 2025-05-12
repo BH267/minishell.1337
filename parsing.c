@@ -6,11 +6,12 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/12 08:14:34 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 13:26:09 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
+#include "expand/expand.h"
 
 // some functions to test created by chatgpt
 // and modified by me
@@ -77,8 +78,8 @@ static void	print_cmds(t_cmd *cmd)
 
 void	parsing2(char *cmdl , t_env *env)
 {
-	t_token	*tokens;
-	t_cmd	*cmds;
+	t_token *tokens;
+	t_cmd *cmds;
 
 	if (!check_balanced_quotes(cmdl))
 	{
@@ -94,8 +95,10 @@ void	parsing2(char *cmdl , t_env *env)
 		hb_printerr("minishell: syntax error\n");
 		return;
 	}
+	// Inject expand logic for test parsing
 	printf("Tokens:\n");
 	print_tokens(tokens);
+	expansion_loop(tokens, env);
 	cmds = parse_tokens(tokens, env);
 	printf("\nParsed commands:\n");
 	print_cmds(cmds);
@@ -103,7 +106,7 @@ void	parsing2(char *cmdl , t_env *env)
 
 t_cmd	*parsing(char *cmdl, t_env *env )
 {
-	t_token	*tokens;
+	t_token *tokens;
 
 	if (!check_balanced_quotes(cmdl))
 	{

@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:08:12 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/12 12:08:28 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 13:48:20 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char *add_quotes(char *str)
 	return (res);
 }
 
-char *get_value_with_mask(char mask, t_env env, char *var)
+char *get_value_with_mask(char mask, t_env *env, char *var)
 {
 	char *value_var;
 
@@ -42,43 +42,43 @@ char *get_value_with_mask(char mask, t_env env, char *var)
 	return (value_var);
 }
 
-void replace_variable(char *value, char *var, char *expanded_value)
+void replace_variable(char **value, char *var, char *expanded_value)
 {
 	char *new_value;
-	int i;
-	int j;
-	new_value = ft_malloc(hb_strlen(value) + hb_strlen(expanded_value) - hb_strlen(var) + 1);
+	int i = 0;
+	int j = 0;
+	int k = 0;
+	int value_len = hb_strlen(*value);
+	int var_len = hb_strlen(var);
+	int expanded_len;
+	if (expanded_value)
+		expanded_len = hb_strlen(expanded_value);
+	else
+		expanded_len = 0;
+	new_value = ft_malloc(value_len + expanded_len - var_len + 2);
 	if (!new_value)
-		return ;
-	i = 0;
-	while (value[i] && value[i] != '$')
-	{
-		new_value[i] = value[i];
+		return;
+	while ((*value)[i] && (*value)[i] != '$')
+		new_value[k++] = (*value)[i++];
+	i++; // skip '$'
+	while ((*value)[i] && (hb_isalnum((*value)[i]) || (*value)[i] == '_'))
 		i++;
-	}
-	j = i;
-	while (expanded_value && *expanded_value)
-	{
-		new_value[i] = *expanded_value;
-		i++;
-		expanded_value++;
-	}
-	while (hb_isallnum(value[i]) || value[i] == '_')
-		j++;
-	while (value[j])
-		new_value[i++] = value[j++];
-	new_value[i] = '\0';
-	value = new_value;
+	if (expanded_value)
+		while (expanded_value[j])
+			new_value[k++] = expanded_value[j++];
+	while ((*value)[i])
+		new_value[k++] = (*value)[i++];
+	new_value[k] = '\0';
+	free(*value);
+	*value = new_value;
 }
 
-void start_expand_variable(char *value, char *var, t_env *env, char mask)
+void start_expand_variable(char **value, char *var, t_env *env, char mask)
 {
 	char *expanded_value;
 
-	expanded_value = get_value_with_mask(mask, *env, var);
-	if (expanded_value)
-	{
-		if (mask & 4)
-			replace_variable(value, var, expanded_value);
-	}
+	expanded_value = get_value_with_mask(mask, env, var);
+	if (!expanded_value)
+		expanded_value = "";
+	replace_variable(value, var, expanded_value);
 }

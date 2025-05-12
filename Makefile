@@ -9,7 +9,9 @@ SRCS = main.c builtins/cd.c getpath.c \
 	parsing/lexer.c parsing/lexer_utils.c parsing/lexer_utils_extra.c \
 	parsing/lexer_handlers.c parsing/tokenizer.c parsing/token_utils.c \
 	parsing/redirection_helpers.c parsing/helper_functions.c \
-	parsing/gramer.c
+	parsing/gramer.c \
+	expand/expand_utils.c \
+	expand/expand.c
 
 OBJS = $(SRCS:.c=.o)
 LIBHB_PATH = libhb/

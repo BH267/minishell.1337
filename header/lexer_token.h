@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/12 11:58:37 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 12:22:27 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,15 @@ typedef struct s_cmd
 	t_redirect		*redirect_list;
 	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct e_list
+{
+	char			*var;
+	char			*value;
+	int				exp;
+	struct e_list	*next;
+}					t_env;
+
 
 // Lexer
 int				is_space(char c);
