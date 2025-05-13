@@ -98,7 +98,7 @@ int count_args_with_mask(char *mask)
 	flag = mask[0];
 	while(mask[i])
 	{
-		while(mask[i] && (mask[i] | MASK_QUOTES || mask[i] | MASK_S_QUOTES)  && mask[i] == flag)
+		while (mask[i] && ((mask[i] & MASK_QUOTES) || (mask[i] & MASK_S_QUOTES)) && mask[i] == flag)
 			i++;
 		flag = mask[i];
 		count++;
@@ -147,12 +147,12 @@ void fix_mask_sq(t_token *token)
 		if (token->mask[i] & MASK_S_QUOTES )
 		{
 			j = i;
-			while(!is_space(token->value[j]) && j >= 0)
+			while(j >= 0 && !is_space(token->value[j]))
 			{
 				token->mask[j] = token->mask[j] | MASK_S_QUOTES;
 				j--;
 			}
-			while(!is_space(token->value[i]) && token->value[i])
+			while(token->value[i] && !is_space(token->value[i]))
 			{
 				token->mask[i] = token->mask[i] | MASK_S_QUOTES;
 				i++;
@@ -164,60 +164,79 @@ void fix_mask_sq(t_token *token)
 
 char **split_with_mask(t_token *token)
 {
-	int count;
-	char **args;
-	int i;
-	int flag;
-	int start;
-	int index;
+	int     count;
+	char    **args;
+	int     i;
+	int     flag;
+	int     start;
+	int     index;
 
 	index = 0;
 	i = 0;
 	fix_mask_dq(token);
 	fix_mask_sq(token);
 	count = count_args_with_mask(token->mask);
-	args = (char **)ft_malloc(count + 1);
-	while(token->value[i])
+	args = (char **)ft_malloc(sizeof(char *) * (count + 1));
+	while (token->value[i])
 	{
-		flag = token->mask[i] & MASK_QUOTES & MASK_S_QUOTES;
-		start = i;
-		while(token->mask[i] && flag == token->mask[i])
+		while (token->value[i] && is_space(token->value[i]))
 			i++;
-		args[index++] = hb_substr(token->value,start,start - i);
+		if (!token->value[i])
+			break;
+		start = i;
+		flag = token->mask[i] & (MASK_QUOTES | MASK_S_QUOTES);
+
+		while (token->value[i])
+		{
+			if (is_space(token->value[i]) && !(token->mask[i] & (MASK_QUOTES | MASK_S_QUOTES)))
+				break;
+			if ((token->mask[i] & (MASK_QUOTES | MASK_S_QUOTES)) != flag)
+				break;
+			i++;
+		}
+		args[index++] = hb_substr(token->value, start, i - start);
 	}
 	args[index] = NULL;
 	return args;
 }
 
-void	add_token_ae(t_token **lst, char *value, t_token_type type, char *mask)
+void add_token_ae(t_token **lst, char *value, t_token_type type, char *mask)
 {
-	t_token	*new;
+	t_token *new;
 
 	new = (t_token *)ft_malloc(sizeof(t_token));
 	new->value = value;
 	new->type = type;
-	new->next = (*lst)->next;
 	new->mask = mask;
-	(*lst)->next = new;
+	new->next = NULL;
 
+	if (*lst)
+	{
+		new->next = (*lst)->next;
+		(*lst)->next = new;
+	}
+	else
+		*lst = new;
 }
 
-void replace_args(t_token *tok , char **args)
+void replace_args(t_token *tok, char **args)
 {
-	int i;
-	t_token_type type;
+	int i = 0;
+	t_token_type type = tok->type;
+	t_token *current = tok;
+	t_token *next_orig = tok->next;
 
-	type = tok->type;
-	i = 0;
 	if (!args || !args[0])
-        return;
-    tok->value = args[i++];
-	while(args[i])
+		return;
+	current->value = args[i++];
+	current->mask = NULL;
+	while (args[i])
 	{
-		add_token_ae(&tok, args[i], type, NULL);
-		tok = tok->next;
+		add_token_ae(&current, args[i], type, NULL);
+		current = current->next;
 		i++;
 	}
+	current->next = next_orig;
 }
 
 void split_tokens_by_mask(t_token *tokens)
