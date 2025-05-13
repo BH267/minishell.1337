@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/12 21:30:13 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 22:08:23 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ t_cmd *parse_tokens(t_token *tokens , t_env *env)
 	t_cmd *cmd_head;
 
 	expansion_loop(tokens, env);
-	//split_tokens_by_mask(tokens);
+	split_tokens_by_mask(tokens);
 	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);
 	return (cmd_head);
