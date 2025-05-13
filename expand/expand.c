@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/12 18:42:17 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/12 20:51:15 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void expansion_loop(t_token *tokens , t_env *env)
 		if (tok->type == 0 && is_expansion_needed(tok))
 		{
 			expand_variable(&tok->value , &tok->mask, env);
+			tok->flag = 42;
 		}
 		i++;
 		tok = tok->next;
