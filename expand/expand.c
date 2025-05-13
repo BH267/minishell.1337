@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/12 22:12:39 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/13 08:55:48 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ void expansion_loop(t_token *tokens , t_env *env)
 			tok->flag = 42;
 		}
 		else
-			tok->flag = 42;
+			tok->flag = -42;
 
 		i++;
 		tok = tok->next;
