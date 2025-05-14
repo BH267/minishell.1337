@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:57:25 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/12 18:31:49 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 05:17:57 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	signals(int mode)
 	}
 	return (0);
 }
-// New test main for parsing/tokenizing and printing command linked list
+
 int	main(int ac, char **av, char **env)
 {
 	char	*line;

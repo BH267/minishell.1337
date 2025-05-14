@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hb_mtrfree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:12:23 by habenydi          #+#    #+#             */
-/*   Updated: 2025/03/09 12:12:57 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/14 05:09:58 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	hb_mtrfree(char **mtr)
 
 	i = 0;
 	while (mtr && mtr[i])
-		free(mtr[i++]);
+	{
+		free(mtr[i]);
+		i++;
+	}
 	free(mtr);
 }

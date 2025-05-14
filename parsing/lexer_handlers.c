@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:04:55 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/11 17:39:09 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 05:09:56 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,34 +58,38 @@ static char *join_and_free(char *s1, char *s2)
 
 static char *make_mask(int len, char flag)
 {
-	char *mask;
-	int i;
-	mask = (char *)ft_malloc(len + 1);
-	i = 0;
-	while (i < len)
-	{
-		mask[i] = flag;
-		i++;
-	}
-	mask[len] = '\0';
-	return mask;
+    char *mask;
+    int i;
+
+    mask = (char *)ft_malloc(len + 1);
+    if (!mask) return NULL;
+
+    i = 0;
+    while (i < len)
+    {
+        mask[i] = flag;
+        i++;
+    }
+
+    mask[len] = '\0';  // Ensure the mask is properly null-terminated
+    return mask;
 }
+// 7ad chi 7al li 3ndna f l'export
 // hadi 5as tanchof liha chi 7al bach n9as params ; (hbil ana b7al walo nsayb va_arg dyali hhh)
 static void fill_mask_for_expansion(const char *val, char *mask, int start, int flag)
 {
-	int i;
+    int i = start;
 
-	i = start;
-	if (val[i] == '$')
-	{
-		mask[i] |= MASK_EXPANSION | flag;
-		i++;
-		while (val[i] && (hb_isalnum(val[i]) || val[i] == '_'))
-		{
-			mask[i] |= MASK_EXPANSION | flag;
-			i++;
-		}
-	}
+    if (val[i] == '$')
+    {
+        mask[i] |= MASK_EXPANSION | flag;  // Ensure we don't mix with uninitialized values
+        i++;
+        while (val[i] && (hb_isalnum(val[i]) || val[i] == '_'))
+        {
+            mask[i] |= MASK_EXPANSION | flag;
+            i++;
+        }
+    }
 }
 
 static int handle_quoted_mask(const char *input, int i, char **out_val, char **out_mask)

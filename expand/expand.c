@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/13 08:55:48 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 05:15:38 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,67 +27,74 @@ typedef struct expand_data
 static void handle_quote_state(const char *value, char *mask, int *i, char *quote)
 {
 	if (!*quote && (value[*i] == '\'' || value[*i] == '"'))
-	{
-		*quote = value[*i];
-		if (*quote == '\'')
+    {
+	    *quote = value[*i];
+		if (*quote == '\'') {
 			mask[*i] = MASK_S_QUOTES;
-		else if (*quote == '"')
-			mask[*i] = MASK_QUOTES;
-		else
-			mask[*i] = MASK_ORIGIN;
-		(*i)++;
-	}
-	else if (*quote && value[*i] == *quote)
-	{
-		if (*quote == '\'')
-			mask[*i] = MASK_S_QUOTES;
-		else if (*quote == '"')
-			mask[*i] = MASK_QUOTES;
-		else
-			mask[*i] = MASK_ORIGIN;
-		*quote = 0;
-		(*i)++;
-	}
+        } else
+            mask[*i] = MASK_QUOTES;
+        (*i)++;
+    } else if (*quote && value[*i] == *quote) {
+        if (*quote == '\'') {
+            mask[*i] = MASK_S_QUOTES;
+        } else {
+            mask[*i] = MASK_QUOTES;
+        }
+        *quote = 0;
+        (*i)++;
+    } else if (*quote) {
+        if (*quote == '\'') {
+            mask[*i] = MASK_S_QUOTES;
+        } else {
+            mask[*i] = MASK_QUOTES;
+        }
+        (*i)++;
+    }
 }
 
 static void handle_expansion(const char *value, char *mask, int i, char quote)
 {
-	if (value[i] == '$' && quote != '\'')
-	{
-		mask[i] |= MASK_EXPANSION;
-		int j = i + 1;
-		while (value[j] && (hb_isalnum(value[j]) || value[j] == '_'))
-		{
-			mask[j] |= MASK_EXPANSION;
-			j++;
-		}
-	}
+    if (value[i] == '$' && quote != '\'') {
+        mask[i] |= MASK_EXPANSION;
+        int j = i + 1;
+        while (value[j] && (hb_isalnum(value[j]) || value[j] == '_')) {
+            mask[j] |= MASK_EXPANSION;
+            j++;
+        }
+    }
 }
 
 
 char *update_mask(char *value)
 {
-	int i = 0;
-	char quote = 0;
-	int len = hb_strlen(value);
-	char *mask = (char *)malloc(len + 1);
-	while (i < len)
-	{
-		handle_quote_state(value, mask, &i, &quote);
-		if (i >= len)
-			break;
-		if (quote == '\'')
-			mask[i] = MASK_S_QUOTES;
-		else if (quote == '"')
-			mask[i] = MASK_QUOTES;
-		else
-			mask[i] = MASK_ORIGIN;
-		handle_expansion(value, mask, i, quote);
-		i++;
-	}
-	mask[len + 1] = '\0';
-	return mask;
+    int i = 0;
+    char quote = 0;
+    int len = hb_strlen(value);
+    char *mask = (char *)malloc(len + 1);
+    while (i <= len) {
+        handle_quote_state(value, mask, &i, &quote);
+        if (i >= len) break;
+
+        if (quote == '\'')
+            mask[i] = MASK_S_QUOTES;
+        else if (quote == '"')
+            mask[i] = MASK_QUOTES;
+        else
+            mask[i] = MASK_ORIGIN;
+        handle_expansion(value, mask, i, quote);
+        i++;
+    }
+    i = 0;
+    while (i < len) {
+        if (value[i] == ' ' && mask[i] != MASK_EXPANSION) {
+            mask[i] = MASK_ORIGIN;
+        }
+        i++;
+    }
+    mask[len] = '\0';
+    return mask;
 }
+
 
 t_expand_data get_index(const char *value)
 {
@@ -113,27 +120,26 @@ t_expand_data get_index(const char *value)
 	return data;
 }
 
-void expand_variable(char **value , char **mask , t_env *env)
+void expand_variable(char **value, char **mask, t_env *env)
 {
-	t_expand_data data;
-	char *var;
-	char *new_mask;
-	data = get_index(*value);
-	if (data.start == -1 || data.end == -1)
-		return ;
-	while(data.start != -1)
+    t_expand_data data;
+    char *var;
+    char *new_mask;
+    data = get_index(*value);
+    if (data.start == -1 || data.end == -1)
+		return;
+    while (data.start != -1)
 	{
-		var = hb_substr(*value, data.start + 1, data.end - data.start);
-		if (((*mask)[data.start] & MASK_EXPANSION) != 0)
-			start_expand_variable(value, var, env, (*mask)[data.start]);
-		// Update mask after expansion
-		new_mask = update_mask(*value);
-		free(*mask);
-		*mask = new_mask;
-		data = get_index(*value);
-		if (data.start == -1 || data.end == -1)
-			break;
-	}
+        var = hb_substr(*value, data.start + 1, data.end - data.start);
+        if (((*mask)[data.start] & MASK_EXPANSION) != 0)
+            start_expand_variable(value, var, env, (*mask)[data.start]);
+        new_mask = update_mask(*value);
+        free(*mask);
+        *mask = new_mask;
+
+        data = get_index(*value);
+        if (data.start == -1 || data.end == -1) break;
+    }
 }
 
 
@@ -147,7 +153,7 @@ int is_expansion_needed(t_token *tok)
 	lent = hb_strlen(tok->value);
 	while (i <= lent)
 	{
-		if ((tok->mask[i] & MASK_EXPANSION) != 0)
+		if ((tok->mask[i] & MASK_EXPANSION) != 0 && (tok->mask[i] & MASK_S_QUOTES ) == 0)
 		{
 			return (1);
 		}
@@ -158,27 +164,18 @@ int is_expansion_needed(t_token *tok)
 
 void expansion_loop(t_token *tokens , t_env *env)
 {
-	int i;
 	t_token *tok;
 
-	i = 0;
 	tok = tokens;
 	while(tok)
 	{
-		// if (tok->type == TOKEN_REDIR_OUT || tok->type == TOKEN_REDIR_IN) // hadi bach nhadli out file and in file fi lmost9bal
-		// {
-		// 	tok = tok->next;
-		// 	continue ;
-		// }
-		if (tok->type == 0 && is_expansion_needed(tok))
+		if (tok->type == TOKEN_WORD && is_expansion_needed(tok))
 		{
-			expand_variable(&tok->value , &tok->mask, env);
+			expand_variable(&tok->value, &tok->mask, env);
 			tok->flag = 42;
 		}
 		else
 			tok->flag = -42;
-
-		i++;
 		tok = tok->next;
 	}
 }

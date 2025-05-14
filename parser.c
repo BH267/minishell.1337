@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/12 22:08:23 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 05:17:44 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,19 @@
 #include <ctype.h>
 
 int	fill_redir(t_cmd *cmd, t_token *tok);
+
+void print_mask(char *mask)
+{
+	int i = 0;
+	while (mask[i])
+	{
+		printf("%d", (unsigned char)mask[i]);
+		if (mask[i + 1])
+			printf(" ");
+		i++;
+	}
+	printf("\n");
+}
 
 static void add_arg_to_cmd(t_cmd *cmd, char *value)
 {
@@ -109,96 +122,129 @@ int count_args_with_mask(char *mask)
 
 void fix_mask_dq(t_token *token)
 {
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while(token->mask[i])
-	{
-		if (token->mask[i] & MASK_QUOTES)
-		{
-			j = i;
-			while(!is_space(token->value[j]) && j >= 0)
-			{
-				token->mask[j] = token->mask[j] | MASK_QUOTES;
-				j--;
-			}
-			while(!is_space(token->value[i]) && token->value[i])
-			{
-				token->mask[i] = token->mask[i] | MASK_QUOTES;
-				i++;
-			}
-		}
-		i++;
-	}
+    int i = 0;
+    int start = -1;
+    while (token->value[i])
+    {
+        if (token->mask[i] & MASK_QUOTES)
+        {
+            start = i;
+            i++;
+            while (token->value[i] && !(token->mask[i] & MASK_QUOTES))
+                i++;
+            if (token->value[i] && (token->mask[i] & MASK_QUOTES))
+            {
+                int j = start;
+                while (j <= i) {
+                    token->mask[j] = MASK_QUOTES;
+                    j++;
+                }
+                i++;
+            }
+        }
+        else {
+            i++;
+        }
+    }
 }
-
 
 void fix_mask_sq(t_token *token)
 {
-	int i;
-	int j;
+    int i = 0;
+    int start = -1;
+    while (token->value[i])
+    {
+        if (token->mask[i] & MASK_S_QUOTES)
+        {
+            start = i;
+            i++;
+            while (token->value[i] && !(token->mask[i] & MASK_S_QUOTES))
+                i++;
+            if (token->value[i] && (token->mask[i] & MASK_S_QUOTES))
+            {
+                int j = start;
+                while (j <= i) {
+                    token->mask[j] = MASK_S_QUOTES;
+                    j++;
+                }
+                i++;
+            }
+        }
+        else {
+            i++;
+        }
+    }
+}
 
-	i = 0;
-	j = 0;
-	while(token->mask[i])
-	{
-		if (token->mask[i] & MASK_S_QUOTES )
-		{
-			j = i;
-			while(j >= 0 && !is_space(token->value[j]))
-			{
-				token->mask[j] = token->mask[j] | MASK_S_QUOTES;
-				j--;
-			}
-			while(token->value[i] && !is_space(token->value[i]))
-			{
-				token->mask[i] = token->mask[i] | MASK_S_QUOTES;
-				i++;
-			}
-		}
-		i++;
-	}
+static int is_inside_quotes(char mask) {
+    return (mask & MASK_QUOTES) || (mask & MASK_S_QUOTES);
 }
 
 char **split_with_mask(t_token *token)
 {
-	int     count;
-	char    **args;
-	int     i;
-	int     flag;
-	int     start;
-	int     index;
+    int fully_quoted = 1;
+    int len = hb_strlen(token->value);
+    int i = 0;
 
-	index = 0;
-	i = 0;
-	fix_mask_dq(token);
-	fix_mask_sq(token);
-	count = count_args_with_mask(token->mask);
-	args = (char **)ft_malloc(sizeof(char *) * (count + 1));
-	while (token->value[i])
-	{
-		while (token->value[i] && is_space(token->value[i]))
-			i++;
-		if (!token->value[i])
-			break;
-		start = i;
-		flag = token->mask[i] & (MASK_QUOTES | MASK_S_QUOTES);
+    while (i < len) {
+        if (!is_inside_quotes(token->mask[i]) && token->value[i] != ' ' &&
+            !(i == 0 && token->value[i] == '"') &&
+            !(i == len-1 && token->value[i] == '"')) {
+            fully_quoted = 0;
+            break;
+        }
+        i++;
+    }
 
-		while (token->value[i])
-		{
-			if (is_space(token->value[i]) && !(token->mask[i] & (MASK_QUOTES | MASK_S_QUOTES)))
-				break;
-			if ((token->mask[i] & (MASK_QUOTES | MASK_S_QUOTES)) != flag)
-				break;
-			i++;
-		}
-		args[index++] = hb_substr(token->value, start, i - start);
-	}
-	args[index] = NULL;
-	return args;
+    if (fully_quoted) {
+        char **args = (char **)ft_malloc(sizeof(char *) * 2);
+        args[0] = hb_strdup(token->value);
+        args[1] = NULL;
+        return args;
+    }
+
+    int count = 0;
+    i = 0;
+    int start = 0;
+    char **args;
+
+    while (i < len) {
+        while (i < len && is_space(token->value[i]) && !is_inside_quotes(token->mask[i]))
+            i++;
+
+        if (i >= len)
+            break;
+
+        start = i;
+        while (i < len && (!is_space(token->value[i]) || is_inside_quotes(token->mask[i])))
+            i++;
+
+        count++;
+    }
+
+    args = (char **)ft_malloc(sizeof(char *) * (count + 1));
+    i = 0;
+    int idx = 0;
+
+    while (i < len) {
+        while (i < len && is_space(token->value[i]) && !is_inside_quotes(token->mask[i]))
+            i++;
+
+        if (i >= len)
+            break;
+
+        start = i;
+        while (i < len && (!is_space(token->value[i]) || is_inside_quotes(token->mask[i])))
+            i++;
+
+        args[idx++] = hb_substr(token->value, start, i - start);
+    }
+
+    args[idx] = NULL;
+    return args;
 }
+
+
 
 void add_token_ae(t_token **lst, char *value, t_token_type type, char *mask)
 {
@@ -260,8 +306,37 @@ void split_tokens_by_mask(t_token *tokens)
 t_cmd *parse_tokens(t_token *tokens , t_env *env)
 {
 	t_cmd *cmd_head;
+	t_token *tok;
 
 	expansion_loop(tokens, env);
+
+	tok = tokens;
+	while (tok) {
+		if (tok->type == TOKEN_WORD) {
+			int len = hb_strlen(tok->value);
+			if (len >= 2) {
+				if ((tok->value[0] == '"' && tok->value[len-1] == '"') ||
+					(tok->value[0] == '\'' && tok->value[len-1] == '\'')) {
+					tok->flag = 42;
+				}
+			}
+		}
+
+		tok = tok->next;
+	}
+	tok = tokens;
+	while (tok) {
+		if (tok->mask) {
+			fix_mask_dq(tok);
+			fix_mask_sq(tok);
+		}
+		tok = tok->next;
+	}
+
+	printf("\n\n");
+	print_tokens(tokens);
+	printf("\n\n");
+
 	split_tokens_by_mask(tokens);
 	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);
