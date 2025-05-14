@@ -42,7 +42,7 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 	return (WEXITSTATUS(status));
 }
 
-int	child(t_ms *ms, int *fd, int pfd)
+void	child(t_ms *ms, int *fd, int pfd)
 {
 	signals(CHILD);
 	if (pfd != -1)
@@ -56,7 +56,7 @@ int	child(t_ms *ms, int *fd, int pfd)
 	if (builtins(ms->args[0], ms) != 99)
 		ft_exit(ms->e);
 	ms->e = execute(ms);
-	return (ms->e);
+	ft_exit (ms->e);
 }
 
 int	parent(t_cmd **cmd, int	*fd, int *pfd, int pid)
@@ -91,7 +91,7 @@ int	pipeline(t_ms *ms, t_cmd *cmd)
 		pid = fork();
 		if (pid == 0)
 		{
-			ms->e = child(ms, fd, pfd);
+			child(ms, fd, pfd);
 			if (ms->e)
 				ft_exit(ms->e);
 		}

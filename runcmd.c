@@ -12,7 +12,6 @@
 
 #include "ms.h"
 
-
 int	pars_exec(t_cmd *cmd, t_ms *ms)
 {
 	ms->args = cmd->args;
@@ -20,7 +19,6 @@ int	pars_exec(t_cmd *cmd, t_ms *ms)
 		return (1);
 	ms->cmd = cmd->args[0];
 	ms->rdctl = cmd->redirect_list;
-	varexp(ms);
 	return (0);
 }
 
