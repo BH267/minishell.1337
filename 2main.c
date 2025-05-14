@@ -51,13 +51,17 @@ int	signals(int mode)
 	}
 	return (0);
 }
+#define blue "\033[0;36m"
+#define red "\033[0;31m"
+#define green "\033[0;32m"
+#define normal "\033[0m"
 
 int	promptline(t_ms *ms)
 {
 	if (!ms->e)
-		ms->cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;32m❱ \033[0m");
+		ms->cmd = readline("мιηιѕнєℓℓ ❱ ");
 	else
-		ms->cmd = readline("\033[0;36mмιηιѕнєℓℓ \033[0;31m❱ \033[0m");
+		ms->cmd = readline("мιηιѕнєℓℓ ❱ ");
 	if (!ms->cmd)
 	{
 		hb_printerr("exit\n");
@@ -78,7 +82,7 @@ int	prompt(t_ms *ms)
 		if (!*ms->cmd)// || signals(NORMAL))
 			continue ;
 		add_history(ms->cmd);
-		cmd = parsing(ms->cmd);
+		cmd = parsing(ms->cmd, ms->env);
 		if (!cmd)
 		{
 			ms->e = 2;
