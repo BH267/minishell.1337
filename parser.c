@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:10:45 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/14 10:20:49 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 10:52:23 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -526,16 +526,16 @@ t_cmd *parse_tokens(t_token *tokens , t_env *env)
 		tok = tok->next;
 	}
 
-	printf("\n\n");
-	print_tokens(tokens);
-	printf("\n\n");
+	//printf("\n\n");
+	//print_tokens(tokens);
+	//printf("\n\n");
 
 	remove_extra_quotes(tokens);
 
 	fix_token_masks(tokens);
-	printf("\nafter fix MASK: \n");
-	print_tokens(tokens);
-	printf("\n\n");
+	//printf("\nafter fix MASK: \n");
+	//print_tokens(tokens);
+	//printf("\n\n");
 	split_tokens_by_mask(tokens);
 	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);
