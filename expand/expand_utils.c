@@ -6,11 +6,34 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:08:12 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/12 17:33:03 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 10:12:00 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
+
+char *strip_surrounding_quotes(char *str)
+{
+    int len;
+    char *result;
+
+    if (!str)
+        return NULL;
+
+    len = hb_strlen(str);
+
+    if (len >= 2 && ((str[0] == '"' && str[len-1] == '"') ||
+                     (str[0] == '\'' && str[len-1] == '\'')))
+    {
+        result = ft_malloc(sizeof(char) * (len - 1));
+        if (!result)
+            return NULL;
+        hb_strlcpy(result, str + 1, len - 1);
+        return result;
+    }
+
+    return hb_strdup(str);
+}
 
 char *add_quotes(char *str)
 {
@@ -66,6 +89,7 @@ char *dellet_all_quotes(char *str)
 	res[j] = '\0';
 	return (res);
 }
+
 char *get_value_with_mask(char mask, t_env *env, char *var)
 {
 	char *value_var;
@@ -75,8 +99,9 @@ char *get_value_with_mask(char mask, t_env *env, char *var)
 	if (!value_var)
 		value_var = hb_strdup("");
 	value_var = dellet_all_quotes(value_var);
-	if ((mask & 4) != 0)
+	if ((mask & MASK_QUOTES) != 0)
 		value_var = add_quotes(value_var);
+
 	return (value_var);
 }
 

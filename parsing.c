@@ -6,15 +6,13 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/12 16:21:03 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 10:12:21 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 #include "expand/expand.h"
 
-// some functions to test created by chatgpt
-// and modified by me
 void	print_tokens(t_token *tok)
 {
 	int i;
@@ -89,15 +87,11 @@ void	parsing2(char *cmdl , t_env *env)
 	tokens = lexer(cmdl);
 	if (!tokens)
 		return;
-	// Syntax check before proceeding
 	if (!check_grammar(tokens))
 	{
 		hb_printerr("minishell: syntax error\n");
 		return;
 	}
-	// Expand tokens before printing and parsing
-	//expansion_loop(tokens, env);
-	// Print tokens after expansion
 	printf("Tokens:\n");
 	print_tokens(tokens);
 	cmds = parse_tokens(tokens, env);

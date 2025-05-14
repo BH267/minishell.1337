@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:04:55 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/14 05:09:56 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 09:19:17 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,16 @@ static char *make_mask(int len, char flag)
     mask[len] = '\0';  // Ensure the mask is properly null-terminated
     return mask;
 }
-// 7ad chi 7al li 3ndna f l'export
-// hadi 5as tanchof liha chi 7al bach n9as params ; (hbil ana b7al walo nsayb va_arg dyali hhh)
+
 static void fill_mask_for_expansion(const char *val, char *mask, int start, int flag)
 {
     int i = start;
 
     if (val[i] == '$')
     {
-        mask[i] |= MASK_EXPANSION | flag;  // Ensure we don't mix with uninitialized values
+        mask[i] |= MASK_EXPANSION | flag;  // Mark the $ character
         i++;
+        // Mark all characters that are part of the variable name
         while (val[i] && (hb_isalnum(val[i]) || val[i] == '_'))
         {
             mask[i] |= MASK_EXPANSION | flag;
@@ -147,33 +147,46 @@ static int handle_unquoted_mask(const char *input, int i, char **out_val, char *
 
 int handle_word(const char *input, int i, t_token **lst)
 {
-	char *val;
-	char *mask;
-	char *tmp_val;
-	char *tmp_mask;
-	int ret;
+    char *val;
+    char *mask;
+    char *tmp_val;
+    char *tmp_mask;
+    int ret;
+    int j;
 
-	val = hb_strdup("");
-	mask = hb_strdup("");
-	while (input[i] && !is_space(input[i]) && !is_operator(input[i]))
-	{
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			ret = handle_quoted_mask(input, i, &tmp_val, &tmp_mask);
-			if (ret == -1)
-				return -1;
-			val = join_and_free(val, tmp_val);
-			mask = join_and_free(mask, tmp_mask);
-			i = ret;
-		}
-		else
-		{
-			ret = handle_unquoted_mask(input, i, &tmp_val, &tmp_mask);
-			val = join_and_free(val, tmp_val);
-			mask = join_and_free(mask, tmp_mask);
-			i = ret;
-		}
-	}
-	add_token(lst, val, TOKEN_WORD, mask);
-	return i;
+    val = hb_strdup("");
+    mask = hb_strdup("");
+    while (input[i] && !is_space(input[i]) && !is_operator(input[i]))
+    {
+        if (input[i] == '\'' || input[i] == '"')
+        {
+            ret = handle_quoted_mask(input, i, &tmp_val, &tmp_mask);
+            if (ret == -1)
+                return -1;
+            val = join_and_free(val, tmp_val);
+            mask = join_and_free(mask, tmp_mask);
+            i = ret;
+        }
+        else
+        {
+            ret = handle_unquoted_mask(input, i, &tmp_val, &tmp_mask);
+            val = join_and_free(val, tmp_val);
+            mask = join_and_free(mask, tmp_mask);
+            i = ret;
+        }
+    }
+
+    // Scan the entire token for $ characters and mark them as expansions
+    j = 0;
+    while (val[j])
+    {
+        if (val[j] == '$')
+        {
+            fill_mask_for_expansion(val, mask, j, 0);
+        }
+        j++;
+    }
+
+    add_token(lst, val, TOKEN_WORD, mask);
+    return i;
 }

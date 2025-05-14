@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/14 05:43:40 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 10:24:27 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,36 +64,74 @@ static void handle_expansion(const char *value, char *mask, int i, char quote)
     }
 }
 
+static int is_inside_quotes(char mask) {
+    return (mask & MASK_QUOTES) || (mask & MASK_S_QUOTES);
+}
+
 static void flood_quotes(char *value, char *mask, int len)
 {
-    int i = 0;
-    int start, end;
-    char current_mask;
-    while (i < len)
-    {
-        if ((mask[i] & MASK_QUOTES) == 0 && (mask[i] & MASK_S_QUOTES) == 0)
-        {
-            i++;
-            continue;
-        }
-        start = i;
-        current_mask = mask[i] & (MASK_QUOTES | MASK_S_QUOTES);
-        while (i < len && (mask[i] & current_mask))
-            i++;
+    int i, j;
+    int in_quotes;
+    char quote_type;
 
-        end = i - 1;
-        i = start;
-        while (i > 0 && !is_space(value[i-1]) && value[i-1] != '"' && value[i-1] != '\'')
-        {
-            i--;
-            mask[i] |= current_mask;
-        }
-        i = end + 1;
-        while (i < len && !is_space(value[i]) && value[i] != '"' && value[i] != '\'')
-        {
-            mask[i] |= current_mask;
+    i = 0;
+    while (i < len) {
+        if ((value[i] == '"' || value[i] == '\'') &&
+            ((mask[i] & MASK_QUOTES) || (mask[i] & MASK_S_QUOTES))) {
+
+            if (value[i] == '"')
+                quote_type = MASK_QUOTES;
+            else
+                quote_type = MASK_S_QUOTES;
+
+            j = i + 1;
+            while (j < len && !(value[j] == value[i] &&
+                  ((mask[j] & MASK_QUOTES) || (mask[j] & MASK_S_QUOTES)))) {
+                mask[j] |= quote_type;
+                j++;
+            }
+
+            if (j < len) {
+                i = j + 1;
+            } else {
+                i++;
+            }
+        } else {
             i++;
         }
+    }
+
+    i = 0;
+    while (i < len) {
+        if ((mask[i] & MASK_QUOTES) || (mask[i] & MASK_S_QUOTES)) {
+            quote_type = mask[i] & (MASK_QUOTES | MASK_S_QUOTES);
+            in_quotes = 1;
+
+            j = i;
+            while (j < len && in_quotes) {
+                if (value[j] == ' ' && is_inside_quotes(mask[j])) {
+                    mask[j] = quote_type;
+                }
+                j++;
+
+                if (j < len && !(mask[j] & quote_type)) {
+                    in_quotes = 0;
+                }
+            }
+        }
+        i++;
+    }
+
+    i = 0;
+    while (i < len - 1) {
+        if (is_inside_quotes(mask[i]) && is_inside_quotes(mask[i+1])) {
+            if ((mask[i] & MASK_QUOTES) && (mask[i+1] & MASK_S_QUOTES)) {
+                mask[i+1] |= MASK_QUOTES;
+            } else if ((mask[i] & MASK_S_QUOTES) && (mask[i+1] & MASK_QUOTES)) {
+                mask[i+1] |= MASK_S_QUOTES;
+            }
+        }
+        i++;
     }
 }
 
@@ -107,7 +145,8 @@ char *update_mask(char *value)
     while (i <= len) {
         handle_quote_state(value, mask, &i, &quote);
 
-        if (i >= len) break;
+        if (i >= len)
+            break;
         if (quote == '\'')
             mask[i] = MASK_S_QUOTES;
         else if (quote == '"')
