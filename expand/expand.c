@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/14 05:15:38 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/14 05:43:40 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,38 @@ static void handle_expansion(const char *value, char *mask, int i, char quote)
     }
 }
 
+static void flood_quotes(char *value, char *mask, int len)
+{
+    int i = 0;
+    int start, end;
+    char current_mask;
+    while (i < len)
+    {
+        if ((mask[i] & MASK_QUOTES) == 0 && (mask[i] & MASK_S_QUOTES) == 0)
+        {
+            i++;
+            continue;
+        }
+        start = i;
+        current_mask = mask[i] & (MASK_QUOTES | MASK_S_QUOTES);
+        while (i < len && (mask[i] & current_mask))
+            i++;
+
+        end = i - 1;
+        i = start;
+        while (i > 0 && !is_space(value[i-1]) && value[i-1] != '"' && value[i-1] != '\'')
+        {
+            i--;
+            mask[i] |= current_mask;
+        }
+        i = end + 1;
+        while (i < len && !is_space(value[i]) && value[i] != '"' && value[i] != '\'')
+        {
+            mask[i] |= current_mask;
+            i++;
+        }
+    }
+}
 
 char *update_mask(char *value)
 {
@@ -71,19 +103,22 @@ char *update_mask(char *value)
     char quote = 0;
     int len = hb_strlen(value);
     char *mask = (char *)malloc(len + 1);
+
     while (i <= len) {
         handle_quote_state(value, mask, &i, &quote);
-        if (i >= len) break;
 
+        if (i >= len) break;
         if (quote == '\'')
             mask[i] = MASK_S_QUOTES;
         else if (quote == '"')
             mask[i] = MASK_QUOTES;
         else
             mask[i] = MASK_ORIGIN;
+
         handle_expansion(value, mask, i, quote);
         i++;
     }
+
     i = 0;
     while (i < len) {
         if (value[i] == ' ' && mask[i] != MASK_EXPANSION) {
@@ -91,6 +126,8 @@ char *update_mask(char *value)
         }
         i++;
     }
+    flood_quotes(value, mask, len);
+
     mask[len] = '\0';
     return mask;
 }
