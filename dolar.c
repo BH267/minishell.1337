@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:37 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/06 13:44:38 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/16 11:12:48 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,16 @@ int	varexp(t_ms *ms)
 		if (hb_strncmp(ms->args[i], "$", 1) == 0)
 		{
 			if (hb_strcmp(ms->args[i], "$?") == 0)
+			{
 				ms->args[i] = hb_itoa(ms->e);
-			else if (hb_strcmp(ms->args[i], "$") != 0)
-				ms->args[i] = getfromenv(ms->env, ms->args[i]);
+			}
+			else
+			{
+				if (hb_strcmp(ms->args[i], "$") != 0)
+				{
+					ms->args[i] = getfromenv(ms->env, ms->args[i]);
+				}
+			}
 		}
 		i++;
 	}

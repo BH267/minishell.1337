@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/16 04:38:18 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/16 11:17:27 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,50 @@ int count_dolar(char *str)
     return (count);
 }
 
-static void handle_expansion(char *value, char *mask, int i, char quote)
+static char *find_variable_name(char *str)
 {
-    if (value[i] == '$' && quote != '\'') {
-        mask[i] |= MASK_EXPANSION;
-        if (i >= 1 && value[i - 1] == '=' && count_dolar(value) != 1)
-            mask[i] |= MASK_QUOTES;
-        int j = i + 1;
-        while (value[j] && (hb_isalnum(value[j]) || value[j] == '_')) {
-            mask[j] |= MASK_EXPANSION;
-            j++;
-        }
+    int i = 0;
+    int j = 0;
+    char *var_name;
+
+    if (!str || !str[0] || str[0] != '$')
+        return NULL;
+    i = 1;
+    while (str[i] && (hb_isalnum(str[i]) || str[i] == '_'))
+        i++;
+    var_name = ft_malloc(sizeof(char) * i);
+    if (!var_name)
+        return NULL;
+    i = 1;
+    while (str[i] && (hb_isalnum(str[i]) || str[i] == '_'))
+        var_name[j++] = str[i++];
+    var_name[j] = '\0';
+    return var_name;
+}
+
+static void handle_expansion(t_token *tok, char *var_name, int pos, t_env *env)
+{
+    char *value;
+    char mask;
+
+    if (tok->mask)
+    {
+        mask = tok->mask[pos];
     }
+    else
+    {
+        mask = 0;
+    }
+    if (mask & MASK_S_QUOTES)
+        return;
+
+    value = hb_strdup(tok->value);
+    if (!value)
+        return;
+
+    start_expand_variable(&value, var_name, env, mask);
+    free(tok->value);
+    tok->value = value;
 }
 
 static int is_inside_quotes(char mask) {
@@ -173,8 +205,6 @@ char *update_mask(char *value)
             mask[i] = MASK_QUOTES;
         else
             mask[i] = MASK_ORIGIN;
-
-        handle_expansion(value, mask, i, quote);
         i++;
     }
 
@@ -258,24 +288,41 @@ int is_expansion_needed(t_token *tok)
 	return (0);
 }
 
-void expansion_loop(t_token *tokens , t_env *env)
+void expansion_loop(t_token *tokens, t_env *env)
 {
 	t_token *tok;
+    char *var_name;
     int i;
-    int j;
-	tok = tokens;
 
-    i = 42;
-    j = -42;
-	while(tok)
+	tok = tokens;
+    while (tok)
 	{
-		if (tok->type == TOKEN_WORD && is_expansion_needed(tok))
+		if (tok->type == TOKEN_WORD && tok->value)
 		{
-			expand_variable(&tok->value, &tok->mask, env);
-			tok->flag = i;
+			i = 0;
+			while (tok->value[i])
+			{
+				if (tok->mask && (tok->mask[i] & MASK_S_QUOTES))
+				{
+					i++;
+					continue;
+				}
+
+				if (tok->value[i] == '$' && tok->value[i + 1] && (hb_isalnum(tok->value[i + 1]) || tok->value[i + 1] == '_'))
+				{
+					var_name = find_variable_name(tok->value + i);
+					if (var_name)
+					{
+						handle_expansion(tok, var_name, i, env);
+						i = 0;
+					}
+					else
+						i++;
+				}
+				else
+					i++;
+			}
 		}
-		else
-			tok->flag = j;
 		tok = tok->next;
 	}
 }

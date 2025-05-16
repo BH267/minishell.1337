@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:08:12 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/16 05:40:29 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/16 11:17:06 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,39 +106,87 @@ char	*get_value_with_mask(char mask, t_env *env, char *var)
 void	replace_variable(char **value, char *var, char *expanded_value)
 {
 	char	*new_value;
-	int		i;
-	int		j;
-	int		k;
+	int		dollar_pos = -1;
+	int		i, j, k;
 	int		value_len;
 	int		var_len;
 	int		expanded_len;
+	int		v;
+	int		match;
 
-	i = 0;
-	j = 0;
-	k = 0;
 	if (!value || !*value)
 		return ;
+	i = 0;
+	while ((*value)[i])
+	{
+		if ((*value)[i] == '$')
+		{
+			match = 1;
+			v = 0;
+			while (var[v])
+			{
+				if (!(*value)[i + 1 + v] || (*value)[i + 1 + v] != var[v])
+				{
+					match = 0;
+					break;
+				}
+				v++;
+			}
+
+			if (match)
+			{
+				dollar_pos = i;
+				break;
+			}
+		}
+		i++;
+	}
+
+	if (dollar_pos == -1)
+		return ;
+
 	value_len = hb_strlen(*value);
-	var_len = hb_strlen(var);
+	var_len = hb_strlen(var) + 1;
+
 	if (expanded_value)
+	{
 		expanded_len = hb_strlen(expanded_value);
+	}
 	else
+	{
 		expanded_len = 0;
-	new_value = ft_malloc(value_len + expanded_len - var_len + 2);
+	}
+	new_value = ft_malloc(sizeof(char) * (value_len - var_len + expanded_len + 1));
 	if (!new_value)
 		return ;
-	while ((*value)[i] && (*value)[i] != '$')
-		new_value[k++] = (*value)[i++];
-	if ((*value)[i] == '$')
+
+	i = 0;
+	while (i < dollar_pos)
+	{
+		new_value[i] = (*value)[i];
 		i++;
-	while ((*value)[i] && (hb_isalnum((*value)[i]) || (*value)[i] == '_'))
-		i++;
+	}
+	k = dollar_pos;
 	if (expanded_value)
+	{
+		j = 0;
 		while (expanded_value[j])
-			new_value[k++] = expanded_value[j++];
+		{
+			new_value[k] = expanded_value[j];
+			k++;
+			j++;
+		}
+	}
+	i = dollar_pos + var_len;
 	while ((*value)[i])
-		new_value[k++] = (*value)[i++];
+	{
+		new_value[k] = (*value)[i];
+		k++;
+		i++;
+	}
+
 	new_value[k] = '\0';
+
 	free(*value);
 	*value = new_value;
 }
