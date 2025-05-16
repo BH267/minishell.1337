@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 10:10:45 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/14 10:52:23 by deepseeko        ###   ########.fr       */
+/*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
+/*   Updated: 2025/05/16 05:41:14 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ void fix_mask_dq(t_token *token)
             if (token->value[i] && (token->mask[i] & MASK_QUOTES))
             {
                 int j = start;
-                while (j <= i) {
+                while (j <= i)
+                {
                     token->mask[j] = MASK_QUOTES;
                     j++;
                 }
@@ -163,7 +164,8 @@ void fix_mask_sq(t_token *token)
             if (token->value[i] && (token->mask[i] & MASK_S_QUOTES))
             {
                 int j = start;
-                while (j <= i) {
+                while (j <= i)
+                {
                     token->mask[j] = MASK_S_QUOTES;
                     j++;
                 }
@@ -180,109 +182,68 @@ static int is_inside_quotes(char mask) {
     return (mask & MASK_QUOTES) || (mask & MASK_S_QUOTES);
 }
 
-static char *process_quoted_token(char *value, int start, int end) {
-    char *result = ft_malloc(sizeof(char) * (end - start + 2));
-    int i = start;
-    int j = 0;
-
-    if (!result)
-        return NULL;
-
-    while (i <= end) {
-        result[j++] = value[i++];
-    }
-    result[j] = '\0';
-
-    int len = hb_strlen(result);
-    if (len >= 2 && ((result[0] == '"' && result[len-1] == '"') ||
-                     (result[0] == '\'' && result[len-1] == '\''))) {
-        char *stripped = ft_malloc(sizeof(char) * (len - 1));
-        if (!stripped)
-            return result;
-
-        j = 0;
-        i = 1;
-        while (i < len - 1) {
-            stripped[j++] = result[i++];
-        }
-        stripped[j] = '\0';
-        free(result);
-        return stripped;
-    }
-
-    return result;
-}
-
 char **split_with_mask(t_token *token)
 {
+    int fully_quoted = 1;
     int len = hb_strlen(token->value);
-    char *value = token->value;
-    char *mask = token->mask;
 
-    int all_quoted = 1;
     int i = 0;
     while (i < len) {
-        if (!is_inside_quotes(mask[i]) && value[i] != ' ') {
-            all_quoted = 0;
+        if (!is_inside_quotes(token->mask[i]) && token->value[i] != ' ' &&
+            !(i == 0 && token->value[i] == '"') &&
+            !(i == len-1 && token->value[i] == '"')) {
+            fully_quoted = 0;
             break;
         }
         i++;
     }
 
-    if (all_quoted) {
+    if (fully_quoted) {
         char **args = (char **)ft_malloc(sizeof(char *) * 2);
-        if (!args)
-            return NULL;
-
-        args[0] = process_quoted_token(value, 0, len-1);
+        args[0] = hb_strdup(token->value);
         args[1] = NULL;
         return args;
     }
 
-    int count = 0;
-    int in_arg = 0;
-    i = 0;
+    int count = 0, start = 0;
+    char **args;
 
+    i = 0;
     while (i < len) {
-        if (is_space(value[i]) && !is_inside_quotes(mask[i])) {
-            in_arg = 0;
-            i++;
-            continue;
-        }
-
-        if (!in_arg) {
-            count++;
-            in_arg = 1;
-        }
-
-        i++;
-    }
-
-    char **args = (char **)ft_malloc(sizeof(char *) * (count + 1));
-    if (!args)
-        return NULL;
-
-    int arg_idx = 0;
-    i = 0;
-
-    while (i < len && arg_idx < count) {
-        while (i < len && is_space(value[i]) && !is_inside_quotes(mask[i]))
+        while (i < len && is_space(token->value[i]) && !is_inside_quotes(token->mask[i]))
             i++;
 
         if (i >= len)
             break;
 
-        int start = i;
+        start = i;
 
-        while (i < len && (!is_space(value[i]) || is_inside_quotes(mask[i])))
+        while (i < len && (!is_space(token->value[i]) || is_inside_quotes(token->mask[i])))
             i++;
 
-        if (start < i) {
-            args[arg_idx++] = process_quoted_token(value, start, i-1);
-        }
+        count++;
     }
 
-    args[arg_idx] = NULL;
+    args = (char **)ft_malloc(sizeof(char *) * (count + 1));
+    i = 0;
+    int idx = 0;
+
+    while (i < len) {
+        while (i < len && is_space(token->value[i]) && !is_inside_quotes(token->mask[i]))
+            i++;
+
+        if (i >= len)
+            break;
+
+        start = i;
+
+        while (i < len && (!is_space(token->value[i]) || is_inside_quotes(token->mask[i])))
+            i++;
+
+        args[idx++] = hb_substr(token->value, start, i - start);
+    }
+
+    args[idx] = NULL;
     return args;
 }
 
@@ -342,160 +303,6 @@ void split_tokens_by_mask(t_token *tokens)
 	}
 }
 
-static int should_stop_flood(char c) {
-    return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
-}
-
-void fix_token_masks(t_token *tokens)
-{
-    t_token *tok = tokens;
-
-    while (tok)
-    {
-        if (tok->type == TOKEN_WORD && tok->mask && tok->flag == 42)
-        {
-            char *value = tok->value;
-            char *mask = tok->mask;
-            int len = hb_strlen(value);
-            int i = 0;
-
-            while (i < len)
-            {
-                if ((value[i] == '"' && (mask[i] & MASK_QUOTES)) ||
-                    (value[i] == '\'' && (mask[i] & MASK_S_QUOTES)))
-                {
-                    char curr_quote = value[i];
-                    char curr_mask;
-
-                    if (curr_quote == '"')
-                        curr_mask = MASK_QUOTES;
-                    else
-                        curr_mask = MASK_S_QUOTES;
-
-                    int start = i;
-
-                    mask[i] = curr_mask;
-                    i++;
-
-                    while (i < len && value[i] != curr_quote)
-                    {
-                        mask[i] = curr_mask;
-                        i++;
-                    }
-
-                    if (i < len && value[i] == curr_quote)
-                    {
-                        mask[i] = curr_mask;
-                        i++;
-                    }
-
-                    int j = i;
-                    while (j < len && !should_stop_flood(value[j]) &&
-                           !(value[j] == '"' || value[j] == '\''))
-                    {
-                        mask[j] = curr_mask;
-                        j++;
-                    }
-
-                    j = start - 1;
-                    while (j >= 0 && !should_stop_flood(value[j]) &&
-                           !(value[j] == '"' || value[j] == '\''))
-                    {
-                        mask[j] = curr_mask;
-                        j--;
-                    }
-                }
-                else
-                {
-                    i++;
-                }
-            }
-        }
-        tok = tok->next;
-    }
-}
-
-void remove_extra_quotes(t_token *tokens)
-{
-    t_token *tok = tokens;
-
-    while (tok)
-    {
-        if (tok->type == TOKEN_WORD && tok->flag == 42 && tok->value)
-        {
-            char *value = tok->value;
-            int len = hb_strlen(value);
-            int i = 0;
-            int j = 0;
-            char *new_value;
-
-            if (len >= 4 && value[0] == '"' && value[1] == '"' &&
-                value[len-2] == '"' && value[len-1] == '"')
-            {
-                new_value = ft_malloc(len - 1);
-                if (!new_value)
-                    continue;
-
-                new_value[j++] = value[i++];
-                i++;
-
-                while (i < len - 2)
-                {
-                    new_value[j++] = value[i++];
-                }
-
-                new_value[j++] = value[i++];
-                i++;
-
-                new_value[j] = '\0';
-
-                tok->value = new_value;
-            }
-            else
-            {
-                int has_adjacent_quotes = 0;
-                i = 0;
-
-                while (i < len - 1)
-                {
-                    if (value[i] == '"' && value[i+1] == '"')
-                    {
-                        has_adjacent_quotes = 1;
-                        break;
-                    }
-                    i++;
-                }
-
-                if (has_adjacent_quotes)
-                {
-                    new_value = ft_malloc(len + 1);
-                    if (!new_value)
-                        continue;
-
-                    i = 0;
-                    j = 0;
-                    while (i < len)
-                    {
-                        if (i < len - 1 && value[i] == '"' && value[i+1] == '"')
-                        {
-                            new_value[j++] = value[i];
-                            i += 2;
-                        }
-                        else
-                        {
-                            new_value[j++] = value[i++];
-                        }
-                    }
-                    new_value[j] = '\0';
-
-                    tok->value = new_value;
-                }
-            }
-        }
-        tok = tok->next;
-    }
-}
-
 t_cmd *parse_tokens(t_token *tokens , t_env *env)
 {
 	t_cmd *cmd_head;
@@ -517,6 +324,7 @@ t_cmd *parse_tokens(t_token *tokens , t_env *env)
 
 		tok = tok->next;
 	}
+
 	tok = tokens;
 	while (tok) {
 		if (tok->mask) {
@@ -526,16 +334,10 @@ t_cmd *parse_tokens(t_token *tokens , t_env *env)
 		tok = tok->next;
 	}
 
-	//printf("\n\n");
-	//print_tokens(tokens);
-	//printf("\n\n");
+	printf("\n\n");
+	print_tokens(tokens);
+	printf("\n\n");
 
-	remove_extra_quotes(tokens);
-
-	fix_token_masks(tokens);
-	//printf("\nafter fix MASK: \n");
-	//print_tokens(tokens);
-	//printf("\n\n");
 	split_tokens_by_mask(tokens);
 	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);

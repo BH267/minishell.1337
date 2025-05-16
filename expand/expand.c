@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/14 10:24:27 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/16 04:38:18 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,30 @@ static void handle_quote_state(const char *value, char *mask, int *i, char *quot
     }
 }
 
-static void handle_expansion(const char *value, char *mask, int i, char quote)
+
+int count_dolar(char *str)
+{
+    int i;
+    int count;
+
+    i = 0;
+    count = 0;
+    while(str[i])
+    {
+        if (str[i] == '$')
+            count++;
+        i++;
+    }
+    printf("count = %d\n", count);
+    return (count);
+}
+
+static void handle_expansion(char *value, char *mask, int i, char quote)
 {
     if (value[i] == '$' && quote != '\'') {
         mask[i] |= MASK_EXPANSION;
+        if (i >= 1 && value[i - 1] == '=' && count_dolar(value) != 1)
+            mask[i] |= MASK_QUOTES;
         int j = i + 1;
         while (value[j] && (hb_isalnum(value[j]) || value[j] == '_')) {
             mask[j] |= MASK_EXPANSION;
@@ -241,17 +261,21 @@ int is_expansion_needed(t_token *tok)
 void expansion_loop(t_token *tokens , t_env *env)
 {
 	t_token *tok;
-
+    int i;
+    int j;
 	tok = tokens;
+
+    i = 42;
+    j = -42;
 	while(tok)
 	{
 		if (tok->type == TOKEN_WORD && is_expansion_needed(tok))
 		{
 			expand_variable(&tok->value, &tok->mask, env);
-			tok->flag = 42;
+			tok->flag = i;
 		}
 		else
-			tok->flag = -42;
+			tok->flag = j;
 		tok = tok->next;
 	}
 }

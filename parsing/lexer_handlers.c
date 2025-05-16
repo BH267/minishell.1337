@@ -6,7 +6,7 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:04:55 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/14 09:19:17 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/16 05:42:23 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char *make_mask(int len, char flag)
         i++;
     }
 
-    mask[len] = '\0';  // Ensure the mask is properly null-terminated
+    mask[len] = '\0';
     return mask;
 }
 
@@ -81,9 +81,8 @@ static void fill_mask_for_expansion(const char *val, char *mask, int start, int 
 
     if (val[i] == '$')
     {
-        mask[i] |= MASK_EXPANSION | flag;  // Mark the $ character
+        mask[i] |= MASK_EXPANSION | flag;
         i++;
-        // Mark all characters that are part of the variable name
         while (val[i] && (hb_isalnum(val[i]) || val[i] == '_'))
         {
             mask[i] |= MASK_EXPANSION | flag;
@@ -175,8 +174,6 @@ int handle_word(const char *input, int i, t_token **lst)
             i = ret;
         }
     }
-
-    // Scan the entire token for $ characters and mark them as expansions
     j = 0;
     while (val[j])
     {

@@ -6,46 +6,44 @@
 /*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:08:12 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/14 10:12:00 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/16 05:40:29 by deepseeko        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
 
-char *strip_surrounding_quotes(char *str)
+char	*strip_surrounding_quotes(char *str)
 {
-    int len;
-    char *result;
+	int		len;
+	char	*result;
 
-    if (!str)
-        return NULL;
-
-    len = hb_strlen(str);
-
-    if (len >= 2 && ((str[0] == '"' && str[len-1] == '"') ||
-                     (str[0] == '\'' && str[len-1] == '\'')))
-    {
-        result = ft_malloc(sizeof(char) * (len - 1));
-        if (!result)
-            return NULL;
-        hb_strlcpy(result, str + 1, len - 1);
-        return result;
-    }
-
-    return hb_strdup(str);
+	if (!str)
+		return (NULL);
+	len = hb_strlen(str);
+	if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"')
+			|| (str[0] == '\'' && str[len - 1] == '\'')))
+	{
+		result = ft_malloc(sizeof(char) * (len - 1));
+		if (!result)
+			return (NULL);
+		hb_strlcpy(result, str + 1, len - 1);
+		return (result);
+	}
+	return (hb_strdup(str));
 }
 
-char *add_quotes(char *str)
+char	*add_quotes(char *str)
 {
-	int i;
-	char *res;
+	int		i;
+	char	*res;
+
 	i = hb_strlen(str);
 	res = ft_malloc(sizeof(char) * (i + 3));
 	if (!res)
 		return (NULL);
 	res[0] = '"';
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		res[i + 1] = str[i];
 		i++;
@@ -55,10 +53,11 @@ char *add_quotes(char *str)
 	return (res);
 }
 
-int count_quotes(char *str)
+int	count_quotes(char *str)
 {
-	int i;
-	int count;
+	int		i;
+	int		count;
+
 	i = 0;
 	count = 0;
 	while (str[i])
@@ -70,11 +69,12 @@ int count_quotes(char *str)
 	return (count);
 }
 
-char *dellet_all_quotes(char *str)
+char	*dellet_all_quotes(char *str)
 {
-	int i;
-	int j;
-	char *res;
+	int		i;
+	int		j;
+	char	*res;
+
 	i = 0;
 	j = 0;
 	res = ft_malloc(sizeof(char) * (hb_strlen(str) - count_quotes(str) + 1));
@@ -90,32 +90,34 @@ char *dellet_all_quotes(char *str)
 	return (res);
 }
 
-char *get_value_with_mask(char mask, t_env *env, char *var)
+char	*get_value_with_mask(char mask, t_env *env, char *var)
 {
-	char *value_var;
+	char	*value_var;
 
 	value_var = getfromenv(env, var);
-
 	if (!value_var)
 		value_var = hb_strdup("");
 	value_var = dellet_all_quotes(value_var);
 	if ((mask & MASK_QUOTES) != 0)
 		value_var = add_quotes(value_var);
-
 	return (value_var);
 }
 
-void replace_variable(char **value, char *var, char *expanded_value)
+void	replace_variable(char **value, char *var, char *expanded_value)
 {
-	char *new_value;
-	int i = 0;
-	int j = 0;
-	int k = 0;
-	int value_len;
-	int var_len;
-	int expanded_len;
+	char	*new_value;
+	int		i;
+	int		j;
+	int		k;
+	int		value_len;
+	int		var_len;
+	int		expanded_len;
+
+	i = 0;
+	j = 0;
+	k = 0;
 	if (!value || !*value)
-		return;
+		return ;
 	value_len = hb_strlen(*value);
 	var_len = hb_strlen(var);
 	if (expanded_value)
@@ -124,7 +126,7 @@ void replace_variable(char **value, char *var, char *expanded_value)
 		expanded_len = 0;
 	new_value = ft_malloc(value_len + expanded_len - var_len + 2);
 	if (!new_value)
-		return;
+		return ;
 	while ((*value)[i] && (*value)[i] != '$')
 		new_value[k++] = (*value)[i++];
 	if ((*value)[i] == '$')
@@ -141,9 +143,9 @@ void replace_variable(char **value, char *var, char *expanded_value)
 	*value = new_value;
 }
 
-void start_expand_variable(char **value, char *var, t_env *env, char mask)
+void	start_expand_variable(char **value, char *var, t_env *env, char mask)
 {
-	char *expanded_value;
+	char	*expanded_value;
 
 	expanded_value = get_value_with_mask(mask, env, var);
 	if (!expanded_value)
