@@ -6,3 +6,4 @@ libhb/libhb.a
 a.out
 *.o
 *.swp
+test/

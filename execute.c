@@ -33,7 +33,7 @@ int	run(t_ms *ms)
 
 int	execute(t_ms *ms)
 {
-	ms->cmd = getpath(ms->cmd, ms->p2env);
+	ms->cmd = getpath(ms->cmd, ms->env);
 	if (!ms->cmd)
 	{
 		ms->e = 127;

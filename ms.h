@@ -31,6 +31,7 @@
 char *dellet_all_quotes(char *str);
 void	print_tokens(t_token *tok);
 void		b2o(int doit);
+int			*estate(void);
 int			signals(int mode);
 char		*getenvalue(char **env, char *var);
 int			runheredoc(t_cmd *cmd);
@@ -47,7 +48,7 @@ int			varexp(t_ms *ms);
 t_token		*lexer(const char *input);
 int			beforequ(char *str);
 int			execute(t_ms *ms);
-char		*getpath(char *cmd, char **env);
+char		*getpath(char *cmd, t_env *env);
 t_cmd		*parsing(char *cmdl, t_env *env);
 void		parsing2(char *cmdl,t_env *env);
 

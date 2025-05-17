@@ -12,12 +12,12 @@
 
 #include "ms.h"
 
-char	**getpaths(char *cmd, char **env)
+char	**getpaths(char *cmd, t_env *env)
 {
 	char	**paths;
 	int		i;
 
-	paths = hb_split(hb_mtrfchr(env, "PATH="), ':');
+	paths = hb_split(getvalue(env, "PATH"), ':');
 	paths[0] = hb_substr(paths[0], 5, hb_strlen(paths[0]));
 	i = 0;
 	while (paths[i])
@@ -29,12 +29,12 @@ char	**getpaths(char *cmd, char **env)
 	return (paths);
 }
 
-char	*getpath(char *cmd, char **env)
+char	*getpath(char *cmd, t_env *env)
 {
 	char	**paths;
 	int		i;
 
-	if (!cmd || !*env || !env)
+	if (!cmd || !env)
 		return (NULL);
 	if (!access(cmd, X_OK))
 		return (cmd);

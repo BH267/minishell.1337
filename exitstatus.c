@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   exitstatus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 17:01:20 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/16 17:03:14 by habenydi         ###   ########.fr       */
+/*   Created: 2025/05/17 15:43:25 by habenydi          #+#    #+#             */
+/*   Updated: 2025/05/17 15:48:18 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
-void	ft_exit(int e)
+int	*estate(void)
 {
-	ft_free();
-	exit(e);
+	static int exit_status;
+
+	return (&exit_status);
 }

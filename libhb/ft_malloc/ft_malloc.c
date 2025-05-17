@@ -30,9 +30,9 @@ void	ft_free(void)
 
 struct s_gc	**get_box(void)
 {
-	static struct s_gc	*g_head;
+	static struct s_gc	*head;
 
-	return (&g_head);
+	return (&head);
 }
 
 void	add_to_box(void *addr)
