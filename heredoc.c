@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ms.h"
+#include <fcntl.h>
 
 char	*random_name(void)
 {
@@ -61,6 +62,7 @@ int	heredoc(t_redirect *rdct)
 	int	fd;
 	char	*filename;
 
+	signals(HEREDOC);
 	while (rdct)
 	{
 		if (rdct->type == TOKEN_HEREDOC)
@@ -74,5 +76,7 @@ int	heredoc(t_redirect *rdct)
 		}
 		rdct = rdct->next;
 	}	
+	signals(NORMAL);
+	open("/dev/tty", O_RDONLY);
 	return (0);
 }

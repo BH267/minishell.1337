@@ -34,10 +34,11 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 	}
 	else
 	{
-		signals(NORMAL);
 		if (fd != -1)
 			close(fd);
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
+		signals(NORMAL);
 	}
 	return (WEXITSTATUS(status));
 }
@@ -64,6 +65,7 @@ int	parent(t_cmd **cmd, int	*fd, int *pfd, int pid)
 	int	status;
 
 	status = 0;
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	signals(NORMAL);
 	if (*pfd != -1)

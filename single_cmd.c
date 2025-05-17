@@ -31,6 +31,7 @@ int	singlecmd(t_ms *ms)
 	}
 	else if (pid > 0)
 	{
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
 		signals(NORMAL);
 	}
