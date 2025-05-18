@@ -6,7 +6,7 @@
 /*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:49:39 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/08 19:09:56 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/18 12:15:10 by habenydi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	parent(t_cmd **cmd, int	*fd, int *pfd, int pid)
 	int	status;
 
 	status = 0;
+	*cmd = (*cmd)->next;
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	signals(NORMAL);
@@ -74,7 +75,6 @@ int	parent(t_cmd **cmd, int	*fd, int *pfd, int pid)
 	if (WEXITSTATUS(status))
 		return (WEXITSTATUS(status));
 	*pfd = fd[0];
-	*cmd = (*cmd)->next;
 	return (WEXITSTATUS(status));
 }
 
@@ -98,11 +98,7 @@ int	pipeline(t_ms *ms, t_cmd *cmd)
 				ft_exit(ms->e);
 		}
 		else
-		{
 			ms->e = parent(&cmd, fd, &pfd, pid);
-			if (ms->e)
-				return (ms->e);
-		}
 	}
 	ms->e = lastcmd(cmd, ms, pfd);
 	return (ms->e);

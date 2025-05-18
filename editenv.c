@@ -54,7 +54,7 @@ int	editvar(t_env **env, char *var, char *newv)
 
 int	setvalue(char **env, char *var, char *newv)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 
 	i = 0;
@@ -77,7 +77,7 @@ int	setvalue(char **env, char *var, char *newv)
 
 char	*getenvalue(char **env, char *var)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 
 	i = 0;

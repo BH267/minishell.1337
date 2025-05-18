@@ -22,7 +22,6 @@ int	pars_exec(t_cmd *cmd, t_ms *ms)
 	return (0);
 }
 
-
 int	runcmd(t_ms *ms, t_cmd *cmd)
 {
 	if (pars_exec(cmd, ms))

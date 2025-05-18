@@ -14,7 +14,7 @@
 
 int	*estate(void)
 {
-	static int exit_status;
+	static int	exit_status;
 
 	return (&exit_status);
 }

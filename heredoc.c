@@ -11,12 +11,11 @@
 /* ************************************************************************** */
 
 #include "ms.h"
-#include <fcntl.h>
 
 char	*random_name(void)
 {
 	char	*rand;
-	int	fd;
+	int		fd;
 
 	rand = ft_malloc(10);
 	fd = open("/dev/random", O_RDONLY);
@@ -42,7 +41,8 @@ void	oktob(int fd, char *dl)
 		line = get_next_line(0);
 	}
 	if (!line || !*line)
-		hb_printerr("\nwarning: here-document delimited by end-of-file (wanted `%s')\n", dl);
+		hb_printerr("\nwarning: here-document delimited by end-of-file (wanted `%s')\n",
+			dl);
 }
 
 int	runheredoc(t_cmd *cmd)
@@ -59,7 +59,7 @@ int	runheredoc(t_cmd *cmd)
 
 int	heredoc(t_redirect *rdct)
 {
-	int	fd;
+	int		fd;
 	char	*filename;
 
 	signals(HEREDOC);
@@ -75,7 +75,7 @@ int	heredoc(t_redirect *rdct)
 			rdct->value = filename;
 		}
 		rdct = rdct->next;
-	}	
+	}
 	signals(NORMAL);
 	open("/dev/tty", O_RDONLY);
 	return (0);
