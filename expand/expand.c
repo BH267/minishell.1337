@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/19 14:02:46 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:56:39 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,21 +198,51 @@ int have_space(char *str)
 	}
 	return (1);
 }
+
+int have_space_from_expand(char *str, char *mask)
+{
+	int i;
+	i = 0;
+
+	while(str[i])
+	{
+		if (is_space(str[i]) && (mask[i] & MASK_EXPANSION))
+			return (-1);
+		i++;
+	}
+	return (1);
+}
+
+int check_ambiguous(t_token **tok , char *var)
+{
+	if (have_space_from_expand((*tok)->value , (*tok)->mask) == -1)
+	{
+		(*tok)->value = hb_strdup(var);
+		(*tok)->flag = 404;
+		return -1;
+	}
+	return 1;
+}
 void treat_red(t_token *tok , t_env *env)
 {
-	// char *var;
-	(void)env;
+	char *var;
+	int i;
+
+	i = 0;
 	if (!tok->next || tok->next->value[0] == '\0')
 	{
 		tok->flag = 404;
 		return ;
 	}
-	// if (need_expansion(tok->next) && have_space(get_value_with_mask(NULL, env, tok->next->value))) // 5as nhandli ila da5el leya bezaf $ fi rediredct
-	// {
-	// 	tok->flag = 404;
-	// 	return ;
-	// }
-	// need logique to handle redirection in case of expansion
+	i = need_expansion(tok->next->value ,tok->next->mask);
+	while (i != -1)
+	{
+		var = find_variable_name(tok->next->value, i);
+		handle_expansion(tok->next, var, env, i + 1);
+		if (check_ambiguous(&tok->next ,var) == -1)
+			return ;
+		i = need_expansion(tok->next->value, tok->next->mask);
+	}
 }
 void	expansion_loop(t_token *tokens, t_env *env)
 {
@@ -223,13 +253,13 @@ void	expansion_loop(t_token *tokens, t_env *env)
 	tok = tokens;
 	while (tok)
 	{
-		if (tokens->type == TOKEN_REDIR_OUT || tokens->type == TOKEN_REDIR_IN)
+		if (tok->type == TOKEN_REDIR_OUT || tok->type == TOKEN_REDIR_IN || tok->type == TOKEN_APPEND)
 		{
-			//check null fi file name and $ expand not have space
 			treat_red(tok , env);
-			tok = tok->next->next;
+			if (tok->next)
+                tok = tok->next;
 		}
-		if (tok->type == TOKEN_WORD && tok->value)
+		else if (tok != NULL && tok->type == TOKEN_WORD && tok->value)
 		{
 			i = need_expansion(tok->value , tok->mask);
 			while (i != -1)

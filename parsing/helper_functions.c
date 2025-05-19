@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:16:34 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/19 14:41:13 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:14:08 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_cmd	*new_cmd(void)
 	return (cmd);
 }
 
-void	add_redirect(t_redirect **lst, char *value, t_token_type type)
+void	add_redirect(t_redirect **lst, char *value, t_token_type type ,char *ambiguous)
 {
 	t_redirect	*new;
 	t_redirect	*tmp;
@@ -32,6 +32,7 @@ void	add_redirect(t_redirect **lst, char *value, t_token_type type)
 	new = (t_redirect *)ft_malloc(sizeof(t_redirect));
 	new->value = value;
 	new->type = type;
+	new->ambiguous = ambiguous;
 	new->next = NULL;
 	if (!*lst)
 		*lst = new;

@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/19 14:47:30 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:51:11 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,14 @@ static void	handle_token(t_cmd *cmd, t_token *tok, int *redir_pending)
 {
 	if (*redir_pending)
 	{
-		add_redirect(&cmd->redirect_list, tok->value,
-			(t_token_type)*redir_pending);
+		if (tok->flag == 404)
+		{
+			add_redirect(&cmd->redirect_list, tok->value,
+				(t_token_type)*redir_pending , tok->value);
+		}
+		else
+			add_redirect(&cmd->redirect_list, tok->value,
+				(t_token_type)*redir_pending , NULL);
 		*redir_pending = 0;
 	}
 	else
@@ -246,6 +252,42 @@ void	clear_quotes(t_token *tokens)
 	}
 }
 
+////  test ////
+static void	print_redirects(t_redirect *redir)
+{
+	while (redir)
+	{
+		printf("  redirect: type=%d, value=", redir->type);
+		if (redir->value)
+			printf("%s\n", redir->value);
+		else
+			printf("(null)\n");
+		redir = redir->next;
+	}
+}
+
+static void	print_cmds(t_cmd *cmd)
+{
+	int	i;
+
+	while (cmd)
+	{
+		printf("Command:\n");
+		if (cmd->args)
+		{
+			i = 0;
+			while (cmd->args[i])
+			{
+				printf("  arg[%d]: %s\n", i, cmd->args[i]);
+				i++;
+			}
+		}
+		print_redirects(cmd->redirect_list);
+		cmd = cmd->next;
+	}
+}
+
+
 t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 {
 	t_cmd	*cmd_head;
@@ -254,12 +296,6 @@ t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 	split_tokens_by_mask(tokens);
 	clear_quotes(tokens);
 	cmd_head = new_cmd();
-	// print_tokens(tokens);
 	parse_tokens_loop(cmd_head, tokens);
 	return (cmd_head);
 }
-// ```
-// мιηιѕнєℓℓ ❱ export a='"'
-// мιηιѕнєℓℓ ❱ echo $x
-// a b
-// ```

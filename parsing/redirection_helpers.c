@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/04/27 17:45:35 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:21:35 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 int	fill_redir(t_cmd *cmd, t_token *tok)
 {
-	if (tok->next)
-		add_redirect(&cmd->redirect_list, tok->next->value, tok->type);
+	if (tok->next->flag == 404)
+		add_redirect(&cmd->redirect_list, tok->next->value, tok->type ,
+			tok->next->value);
 	else
-		add_redirect(&cmd->redirect_list, NULL, tok->type);
+		add_redirect(&cmd->redirect_list, tok->next->value, tok->type,
+			NULL);
 	return (1);
 }
 
