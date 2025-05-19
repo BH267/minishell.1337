@@ -6,24 +6,13 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:04:55 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/18 18:48:11 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:47:48 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/lexer_token.h"
 #include "../header/mini.h"
 
-int	handle_quoted(const char *input, int i, char **out_val)
-{
-	char	*val;
-	int		ret;
-
-	ret = extract_quoted(input, i, &val);
-	if (ret == -1)
-		return (-1);
-	*out_val = val;
-	return (ret);
-}
 
 int	handle_operator(const char *input, int i, t_token **lst)
 {
@@ -49,7 +38,7 @@ static char *create_zero_mask(int len)
     i = 0;
     while (i < len)
     {
-        mask[i] = MASK_ORIGIN;  // Set all to 0
+        mask[i] = MASK_ORIGIN;
         i++;
     }
     mask[i] = '\0';
@@ -95,7 +84,7 @@ void edit_mask(char *val, char *mask)
 				flag &= ~MASK_S_QUOTES;
 				mask[i] = flag;
 			}
-        }
+		}
         else
             mask[i] |= flag;
 

@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/18 17:15:29 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:52:12 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ void	parsing2(char *cmdl , t_env *env)
 		hb_printerr("minishell: syntax error\n");
 		return;
 	}
-	printf("Tokens:\n");
-	print_tokens(tokens);
+
 	cmds = parse_tokens(tokens, env);
 	printf("\nParsed commands:\n");
 	print_cmds(cmds);

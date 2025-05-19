@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/19 09:46:28 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:52:57 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ char *c_new_mask(char *value, char type)
     int i;
     char *new_mask;
 
-    // Keep original mask bits (like quote status) and add MASK_EXPANSION
-    // This ensures quote masks (4) are preserved and EXPANSION is added
     type = (type & ~MASK_EXPANSION) | MASK_EXPANSION;
-    printf("new mask : %d\n", type);
 
     i = 0;
     new_mask = (char *)malloc(hb_strlen(value) + 1);
@@ -72,29 +69,6 @@ char *c_new_mask(char *value, char type)
 
     return new_mask;
 }
-
-// char *c_new_mask(char *value, char type)
-// {
-//     int i;
-//     char *new_mask;
-
-//     type = type | MASK_EXPANSION;
-// 	printf("new mask : %d\n", type);
-//     i = 0;
-//     new_mask = (char *)malloc(hb_strlen(value) + 1);
-//     if (!new_mask)
-//         return NULL;
-
-//     while(value[i])
-//     {
-//         new_mask[i] = type;
-//         i++;
-//     }
-//     new_mask[i] = '\0';
-
-//     return new_mask;
-// }
-
 
 
 void update_mask(t_token **tok, char *new_mask, int pos, int len, int lent_mask)
@@ -190,10 +164,8 @@ static void handle_expansion(t_token *tok, char *var_name, t_env *env, int pos)
         expanded_value = hb_strdup("");
 	}
 	new_mask = c_new_mask(expanded_value, tok->mask[pos - 1]);
-	printf("tok->value pos : %c \t mask : %d\n", tok->value[pos - 1], tok->mask[pos - 1]);
 	update_mask(&tok, new_mask, pos, hb_strlen(var_name) , hb_strlen(expanded_value));
 	replace_variable(&tok, var_name, expanded_value, pos - 1);
-
     tok->flag = 42;
 }
 

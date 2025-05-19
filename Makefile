@@ -7,7 +7,7 @@ SRCS = 2main.c builtins/cd.c getpath.c \
        redirection.c pipeline.c single_cmd.c runcmd.c isbins.c heredoc.c \
        parsing.c parser.c exitstatus.c \
 	parsing/lexer.c parsing/lexer_utils.c parsing/lexer_utils_extra.c \
-	parsing/lexer_handlers.c parsing/tokenizer.c parsing/token_utils.c \
+	parsing/lexer_handlers.c \
 	parsing/redirection_helpers.c parsing/helper_functions.c \
 	parsing/gramer.c \
 	expand/expand_utils.c \

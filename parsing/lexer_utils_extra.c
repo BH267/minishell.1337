@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_extra.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:16 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/12 12:05:53 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/19 13:48:21 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,6 @@ int	check_balanced_quotes(const char *input)
 	return (1);
 }
 
-int	extract_quoted(const char *input, int i, char **val)
-{
-	char	quote;
-	int		start;
-	int		end;
-
-	quote = input[i];
-	start = i;
-	i++;
-	while (input[i] && input[i] != quote)
-		i++;
-	if (input[i] != quote)
-		return (-1);
-	end = i;
-	*val = hb_substr(input, start, end - start + 1);
-	return (i + 1);
-}
 
 int	extract_word(const char *input, int i, char **val)
 {

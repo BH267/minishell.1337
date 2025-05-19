@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/18 15:44:01 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:48:10 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,9 @@ int						is_operator(char c);
 int						skip_spaces(const char *s, int i);
 int						get_op_len(const char *s);
 t_token_type			get_operator_type(const char *s);
-int						handle_quoted(const char *input, int i, char **out_val);
 int						handle_operator(const char *input, int i,
 							t_token **lst);
 int						handle_word(const char *input, int i, t_token **lst);
-int						extract_quoted(const char *input, int i, char **val);
 int						extract_word(const char *input, int i, char **val);
 void					add_token(t_token **lst, char *value, t_token_type type,
 							char *mask);
@@ -84,15 +82,12 @@ int						check_balanced_quotes(const char *input);
 int						check_grammar(t_token *tok);
 
 // Tokenizer/Parser
-int						count_args(t_token *lst);
-char					**tokens_to_args(t_token *lst, int n);
 int						is_redir(t_token_type t);
 void					add_redirect(t_redirect **lst, char *value,
 							t_token_type type);
 void					free_redirects(t_redirect *lst);
 t_cmd					*new_cmd(void);
 t_cmd					*parse_tokens(t_token *tokens, t_env *env);
-void					free_tokens(t_token *lst);
 void					free_cmds(t_cmd *lst);
 
 // here-doc
