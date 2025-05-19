@@ -14,7 +14,7 @@ SRC = hb_isprint.c    hb_putnbr_fd.c  hb_strlen.c hb_atoi.c \
 	  hb_isorted.c hb_cputchar.c hb_cputnbr.c hb_cputuh.c hb_cputstr.c \
 	  hb_strstr.c hb_mtrchr.c hb_mtrrchr.c hb_lstaddin.c hb_strcmp.c \
 	  hb_mtrfchr.c hb_printerr.c get_next_line.c get_next_line_utils.c \
-	  ft_malloc/ft_malloc.c
+	  ft_malloc/ft_malloc.c hb_malloc/hb_malloc.c
 
 NAME = libhb.a
 OBJ = $(SRC:.c=.o)
