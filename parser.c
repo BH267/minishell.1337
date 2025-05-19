@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/16 11:55:48 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/19 13:23:59 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ms.h"
 #include "expand/expand.h"
 #include <ctype.h>
+#include "expand/expand.h"
 
 int	fill_redir(t_cmd *cmd, t_token *tok);
 
@@ -100,163 +101,18 @@ static void	parse_tokens_loop(t_cmd *cmd_head, t_token *tokens)
 		handle_token_loop(&cmd_curr, &tok, &redir_pending);
 }
 
-int count_args_with_mask(char *mask)
-{
-	int		i;
-	int		count;
-	char	flag;
 
-	i = 0;
-	count = 0;
-	flag = mask[0];
-	while(mask[i])
-	{
-		while (mask[i] && ((mask[i] & MASK_QUOTES) || (mask[i] & MASK_S_QUOTES)) && mask[i] == flag)
-			i++;
-		flag = mask[i];
-		count++;
-		i++;
-	}
-	return (count);
-}
 
-void fix_mask_dq(t_token *token)
-{
-    int i = 0;
-    int start = -1;
-    while (token->value[i])
-    {
-        if (token->mask[i] & MASK_QUOTES)
-        {
-            start = i;
-            i++;
-            while (token->value[i] && !(token->mask[i] & MASK_QUOTES))
-                i++;
-            if (token->value[i] && (token->mask[i] & MASK_QUOTES))
-            {
-                int j = start;
-                while (j <= i)
-                {
-                    token->mask[j] = MASK_QUOTES;
-                    j++;
-                }
-                i++;
-            }
-        }
-        else {
-            i++;
-        }
-    }
-}
-
-void fix_mask_sq(t_token *token)
-{
-    int i = 0;
-    int start = -1;
-    while (token->value[i])
-    {
-        if (token->mask[i] & MASK_S_QUOTES)
-        {
-            start = i;
-            i++;
-            while (token->value[i] && !(token->mask[i] & MASK_S_QUOTES))
-                i++;
-            if (token->value[i] && (token->mask[i] & MASK_S_QUOTES))
-            {
-                int j = start;
-                while (j <= i)
-                {
-                    token->mask[j] = MASK_S_QUOTES;
-                    j++;
-                }
-                i++;
-            }
-        }
-        else {
-            i++;
-        }
-    }
-}
-
-static int is_inside_quotes(char mask) {
-    return (mask & MASK_QUOTES) || (mask & MASK_S_QUOTES);
-}
-
-char **split_with_mask(t_token *token)
-{
-    int fully_quoted = 1;
-    int len = hb_strlen(token->value);
-
-    int i = 0;
-    while (i < len) {
-        if (!is_inside_quotes(token->mask[i]) && token->value[i] != ' ' &&
-            !(i == 0 && token->value[i] == '"') &&
-            !(i == len-1 && token->value[i] == '"')) {
-            fully_quoted = 0;
-            break;
-        }
-        i++;
-    }
-
-    if (fully_quoted) {
-        char **args = (char **)ft_malloc(sizeof(char *) * 2);
-        args[0] = hb_strdup(token->value);
-        args[1] = NULL;
-        return args;
-    }
-
-    int count = 0, start = 0;
-    char **args;
-
-    i = 0;
-    while (i < len) {
-        while (i < len && is_space(token->value[i]) && !is_inside_quotes(token->mask[i]))
-            i++;
-
-        if (i >= len)
-            break;
-
-        start = i;
-
-        while (i < len && (!is_space(token->value[i]) || is_inside_quotes(token->mask[i])))
-            i++;
-
-        count++;
-    }
-
-    args = (char **)ft_malloc(sizeof(char *) * (count + 1));
-    i = 0;
-    int idx = 0;
-
-    while (i < len) {
-        while (i < len && is_space(token->value[i]) && !is_inside_quotes(token->mask[i]))
-            i++;
-
-        if (i >= len)
-            break;
-
-        start = i;
-
-        while (i < len && (!is_space(token->value[i]) || is_inside_quotes(token->mask[i])))
-            i++;
-
-        args[idx++] = hb_substr(token->value, start, i - start);
-    }
-
-    args[idx] = NULL;
-    return args;
-}
-
-void add_token_ae(t_token **lst, char *value, t_token_type type, char *mask)
+void add_token_ae(t_token **lst, t_data_splited *data, int index)
 {
 	t_token *new;
 
 	new = (t_token *)ft_malloc(sizeof(t_token));
-	new->value = value;
-	new->type = type;
-	new->mask = mask;
+	new->value = data->args[index];
+	new->type = TOKEN_WORD;
+	new->mask = data->mask_args[index];
 	new->next = NULL;
-
+	new->flag = 42;
 	if (*lst)
 	{
 		new->next = (*lst)->next;
@@ -266,20 +122,20 @@ void add_token_ae(t_token **lst, char *value, t_token_type type, char *mask)
 		*lst = new;
 }
 
-void replace_args(t_token *tok, char **args)
+void replace_args(t_token *tok, t_data_splited *data)
 {
 	int i = 0;
-	t_token_type type = tok->type;
+
 	t_token *current = tok;
 	t_token *next_orig = tok->next;
 
-	if (!args || !args[0])
+	if (!data || !data->args || !data->args[0])
 		return;
-	current->value = args[i++];
-	current->mask = NULL;
-	while (args[i])
+	current->mask = data->mask_args[i];
+	current->value = data->args[i++];
+	while (data->args[i])
 	{
-		add_token_ae(&current, args[i], type, NULL);
+		add_token_ae(&current, data, i);
 		current = current->next;
 		i++;
 	}
@@ -289,15 +145,95 @@ void replace_args(t_token *tok, char **args)
 void split_tokens_by_mask(t_token *tokens)
 {
 	t_token *tok;
-	char **args;
+	t_data_splited *data;
 
 	tok = tokens;
 	while(tok)
 	{
 		if (tok->flag == 42)
 		{
-			args = split_with_mask(tok);
-			replace_args(tok,args);
+			data = split_args(tok);
+			replace_args(tok,data);
+		}
+		tok = tok->next;
+	}
+}
+
+int is_quote(char c)
+{
+	return (c == '\'' || c == '\"');
+}
+int has_quotes_mask_zero(t_token *tok)
+{
+	int i;
+
+	i = 0;
+	if (!tok || !tok->value || !tok->mask)
+		return (0);
+	while (tok->value[i])
+	{
+		if (is_quote(tok->value[i]) && tok->mask[i] == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int count_zeromask_quotes(t_token *tok)
+{
+	int count;
+	int i;
+
+	i = 0;
+	count = 0;
+
+	while (tok->value[i])
+	{
+		if (is_quote(tok->value[i]) && !(tok->mask[i] & 1))
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+void delete_zeromask_quotes(t_token *tok)
+{
+	int count;
+	char *new_value;
+	int i;
+	int k;
+	count = count_zeromask_quotes(tok);
+	printf("count = %d\n", count);
+	if (count == 0)
+		return;
+	new_value = (char *)ft_malloc(sizeof(char) * (count + 1));
+	i = 0;
+	k = 0;
+	while (tok->value[i])
+	{
+		if (is_quote(tok->value[i]) && !(tok->mask[i] & 1))
+		{
+			i++;
+			continue;
+		}
+		new_value[k] = tok->value[i];
+		k++;
+		i++;
+	}
+	new_value[k] = '\0';
+	tok->value = new_value;
+}
+
+void clear_quotes(t_token *tokens)
+{
+	t_token *tok;
+
+	tok = tokens;
+	while (tok)
+	{
+		if (tok->flag == 42 && has_quotes_mask_zero(tok))
+		{
+			delete_zeromask_quotes(tok);
 		}
 		tok = tok->next;
 	}
@@ -306,40 +242,15 @@ void split_tokens_by_mask(t_token *tokens)
 t_cmd *parse_tokens(t_token *tokens , t_env *env)
 {
 	t_cmd *cmd_head;
-	t_token *tok;
 
 	expansion_loop(tokens, env);
-
-	tok = tokens;
-	while (tok) {
-		if (tok->type == TOKEN_WORD) {
-			int len = hb_strlen(tok->value);
-			if (len >= 2) {
-				if ((tok->value[0] == '"' && tok->value[len-1] == '"') ||
-					(tok->value[0] == '\'' && tok->value[len-1] == '\'')) {
-					tok->flag = 42;
-				}
-			}
-		}
-
-		tok = tok->next;
-	}
-
-	tok = tokens;
-	while (tok) {
-		if (tok->mask) {
-			fix_mask_dq(tok);
-			fix_mask_sq(tok);
-		}
-		tok = tok->next;
-	}
-
-	//printf("\n\n");
-	//print_tokens(tokens);
-	//printf("\n\n");
-
 	split_tokens_by_mask(tokens);
+	clear_quotes(tokens);
+	// printf("after split : \n");
+	// print_tokens(tokens);
+
 	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);
+
 	return (cmd_head);
 }

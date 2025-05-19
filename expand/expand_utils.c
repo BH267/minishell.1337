@@ -3,200 +3,166 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:08:12 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/16 11:17:06 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/19 11:47:25 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
 
-char	*strip_surrounding_quotes(char *str)
+int	count_args_using_mask(t_token *token)
 {
-	int		len;
-	char	*result;
-
-	if (!str)
-		return (NULL);
-	len = hb_strlen(str);
-	if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"')
-			|| (str[0] == '\'' && str[len - 1] == '\'')))
-	{
-		result = ft_malloc(sizeof(char) * (len - 1));
-		if (!result)
-			return (NULL);
-		hb_strlcpy(result, str + 1, len - 1);
-		return (result);
-	}
-	return (hb_strdup(str));
-}
-
-char	*add_quotes(char *str)
-{
-	int		i;
-	char	*res;
-
-	i = hb_strlen(str);
-	res = ft_malloc(sizeof(char) * (i + 3));
-	if (!res)
-		return (NULL);
-	res[0] = '"';
-	i = 0;
-	while (str[i])
-	{
-		res[i + 1] = str[i];
-		i++;
-	}
-	res[i + 1] = '"';
-	res[i + 2] = '\0';
-	return (res);
-}
-
-int	count_quotes(char *str)
-{
-	int		i;
-	int		count;
+	int	i;
+	int	count_args;
+	int	max;
+	int	in_word;
 
 	i = 0;
-	count = 0;
-	while (str[i])
+	count_args = 0;
+	in_word = 0;
+	max = hb_strlen(token->value);
+	while (i < max)
 	{
-		if (str[i] == '"' || str[i] == '\'')
-			count++;
+		if (token->mask[i] == MASK_EXPANSION && !is_space(token->value[i]))
+		{
+			if (!in_word)
+			{
+				count_args++;
+				in_word = 1;
+			}
+		}
+		else if (token->mask[i] == MASK_EXPANSION && is_space(token->value[i]))
+			in_word = 0;
+		else if (!in_word)
+		{
+			count_args++;
+			in_word = 1;
+		}
 		i++;
 	}
-	return (count);
+	return (count_args);
 }
 
-char	*dellet_all_quotes(char *str)
+char *submem(char *str, int start , int len)
 {
+	char	*sub;
+	int		i;
+
+	sub = (char *)ft_malloc(sizeof(char) * (len + 1));
+	if (!sub)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		sub[i] = str[start + i];
+		i++;
+	}
+	sub[i] = '\0';
+	return (sub);
+}
+
+t_data_splited	*split_args(t_token *token)
+{
+	t_data_splited	*data;
 	int		i;
 	int		j;
-	char	*res;
+	int		count_args;
+	int		start;
+	int		max;
+	int		in_word;
 
+	count_args = count_args_using_mask(token);
+	data = (t_data_splited *)ft_malloc(sizeof(t_data_splited));
+	if (!data)
+		return (NULL);
+	data->args = (char **)ft_malloc(sizeof(char *) * (count_args + 1));
+	data->mask_args = (char **)ft_malloc(sizeof(char *) * (count_args + 1));
+	if (!data->args || !data->mask_args)
+		return (NULL);
 	i = 0;
 	j = 0;
-	res = ft_malloc(sizeof(char) * (hb_strlen(str) - count_quotes(str) + 1));
-	if (!res)
-		return (NULL);
-	while (str[i])
+	in_word = 0;
+	max = hb_strlen(token->value);
+	while (i < max)
 	{
-		if (str[i] != '"' && str[i] != '\'')
-			res[j++] = str[i];
-		i++;
-	}
-	res[j] = '\0';
-	return (res);
-}
-
-char	*get_value_with_mask(char mask, t_env *env, char *var)
-{
-	char	*value_var;
-
-	value_var = getfromenv(env, var);
-	if (!value_var)
-		value_var = hb_strdup("");
-	value_var = dellet_all_quotes(value_var);
-	if ((mask & MASK_QUOTES) != 0)
-		value_var = add_quotes(value_var);
-	return (value_var);
-}
-
-void	replace_variable(char **value, char *var, char *expanded_value)
-{
-	char	*new_value;
-	int		dollar_pos = -1;
-	int		i, j, k;
-	int		value_len;
-	int		var_len;
-	int		expanded_len;
-	int		v;
-	int		match;
-
-	if (!value || !*value)
-		return ;
-	i = 0;
-	while ((*value)[i])
-	{
-		if ((*value)[i] == '$')
+		if ((token->mask[i] == MASK_EXPANSION && !is_space(token->value[i]))
+			|| (token->mask[i] != MASK_EXPANSION && !in_word))
 		{
-			match = 1;
-			v = 0;
-			while (var[v])
+			if (!in_word)
 			{
-				if (!(*value)[i + 1 + v] || (*value)[i + 1 + v] != var[v])
-				{
-					match = 0;
-					break;
-				}
-				v++;
+				start = i;
+				in_word = 1;
 			}
-
-			if (match)
+		}
+		else if (token->mask[i] == MASK_EXPANSION && is_space(token->value[i]))
+		{
+			if (in_word)
 			{
-				dollar_pos = i;
-				break;
+				data->mask_args[j] = submem(token->mask, start, i - start);
+				data->args[j++] = hb_substr(token->value, start, i - start);
+				in_word = 0;
 			}
 		}
 		i++;
 	}
-
-	if (dollar_pos == -1)
-		return ;
-
-	value_len = hb_strlen(*value);
-	var_len = hb_strlen(var) + 1;
-
-	if (expanded_value)
+	if (in_word)
 	{
-		expanded_len = hb_strlen(expanded_value);
+		data->mask_args[j] = submem(token->mask, start, i - start);
+		data->args[j++] = hb_substr(token->value, start, i - start);
 	}
-	else
-	{
-		expanded_len = 0;
-	}
-	new_value = ft_malloc(sizeof(char) * (value_len - var_len + expanded_len + 1));
-	if (!new_value)
-		return ;
-
-	i = 0;
-	while (i < dollar_pos)
-	{
-		new_value[i] = (*value)[i];
-		i++;
-	}
-	k = dollar_pos;
-	if (expanded_value)
-	{
-		j = 0;
-		while (expanded_value[j])
-		{
-			new_value[k] = expanded_value[j];
-			k++;
-			j++;
-		}
-	}
-	i = dollar_pos + var_len;
-	while ((*value)[i])
-	{
-		new_value[k] = (*value)[i];
-		k++;
-		i++;
-	}
-
-	new_value[k] = '\0';
-
-	free(*value);
-	*value = new_value;
+	data->args[j] = NULL;
+	data->mask_args[j] = NULL;
+	return (data);
 }
 
-void	start_expand_variable(char **value, char *var, t_env *env, char mask)
-{
-	char	*expanded_value;
+// t_token	*new_token(char *value, t_token **tok )
+// {
+// 	t_token	*new;
 
-	expanded_value = get_value_with_mask(mask, env, var);
-	if (!expanded_value)
-		expanded_value = "";
-	replace_variable(value, var, expanded_value);
-}
+// 	new = (t_token *)ft_malloc(sizeof(t_token));
+// 	if (!new)
+// 		return (NULL);
+// 	new->value = value;
+// 	new->type = (*tok)->type;
+// 	new->mask = (*tok)->mask;
+// 	new->next = NULL;
+// 	return (new);
+// }
+
+// void extract_tokens(t_token **tok, char **args)
+// {
+// 	t_token	*curent;
+// 	t_token *next;
+// 	int		i;
+// 	int		max;
+
+// 	i = 0;
+// 	curent = *tok;
+// 	next = (*tok)->next;
+// 	max = count_args_using_mask(*tok);
+// 	while (i < max)
+// 	{
+
+// 	}
+// 	(*tok)->next = next;
+// }
+
+// void	field_spliting_with_mask(t_token **tok)
+// {
+// 	t_token	*curent;
+// 	char	**args;
+// 	int		max;
+// 	int		i;
+
+// 	i = 0;
+// 	curent = *tok;
+// 	while (curent)
+// 	{
+// 		args = split_args(*tok);
+// 		if (args[1] != NULL )
+// 			extract_tokens(tok , args);
+// 		curent = curent->next;
+// 	}
+// }
