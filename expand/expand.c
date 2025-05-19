@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/19 18:56:39 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/20 00:12:33 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static char	*find_variable_name(char *str, int pos)
 
 	i = pos + 1;
 	len = 0;
+	if (str[i] == '?')
+		return (hb_strdup("?"));
 	while (str[i] && (str[i] == '_' || hb_isalnum(str[i])))
 	{
 		len++;
@@ -44,7 +46,10 @@ char	*get_value_with_mask(char mask, t_env *env, char *var)
 	char	*value;
 
 	(void)mask;
-	value = getfromenv(env, var);
+	if (strcmp(var, "?") == 0)
+		value = hb_itoa(*(estate()));
+	else
+		value = getfromenv(env, var);
 	return (value);
 }
 
@@ -178,7 +183,7 @@ static int need_expansion(char *str , char *mask)
 
     while (str[i])
     {
-        if (str[i] == '$' && str[i+1] && (hb_isalnum(str[i + 1]) || str[i + 1] == '_') && !(mask[i] & MASK_S_QUOTES))
+        if (str[i] == '$' && str[i+1] && (hb_isalnum(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?') && !(mask[i] & MASK_S_QUOTES))
             return i;
         i++;
     }
