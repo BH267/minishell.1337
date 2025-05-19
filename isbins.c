@@ -3,19 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   isbins.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:18:22 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/08 14:54:06 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/20 00:40:24 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms.h"
 
+int	isbins(t_ms *ms)
+{
+	if (hb_strcmp(ms->cmd, "cd") == 0)
+		return (0);
+	else if (hb_strcmp(ms->cmd, "echo") == 0)
+		return (0);
+	else if (hb_strcmp(ms->cmd, "env") == 0)
+		return (0);
+	else if (hb_strcmp(ms->cmd, "pwd") == 0)
+		return (0);
+	else if (hb_strcmp(ms->cmd, "export") == 0)
+		return (0);
+	else if (hb_strcmp(ms->cmd, "unset") == 0)
+		return (0);
+	else if (hb_strcmp(ms->cmd, "exit") == 0)
+		return (0);
+	return (1);
+}
+
 int	builtins(char *cmd, t_ms *ms)
 {
-	if (redirect(ms))
-		return (1);
+	redirect(ms);
 	if (hb_strcmp(cmd, "cd") == 0)
 		ms->e = cd(ms->args, ms);
 	else if (hb_strcmp(cmd, "echo") == 0)
@@ -36,6 +54,5 @@ int	builtins(char *cmd, t_ms *ms)
 		return (99);
 	}
 	b2o(0);
-	*(estate()) = ms->e;
 	return (ms->e);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:04:28 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/06 12:09:23 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/20 00:39:28 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int	run(t_ms *ms)
 {
-	if (redirect(ms))
-		return (1);
+	redirect(ms);
 	if (execve(ms->cmd, ms->args, ms->p2env) == -1)
 	{
 		if (!closedir(opendir(ms->cmd)))

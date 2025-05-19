@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2main.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:25:28 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/12 08:09:30 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/20 00:38:41 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	prompt(t_ms *ms)
 	while (1)
 	{
 		signals(NORMAL);
+		*(estate()) = ms->e;
+	 	ms->e = *(estate());
 		if (promptline(ms))
 			break ;
 		if (!*ms->cmd)
@@ -72,6 +74,6 @@ int	main(int ac, char **av, char **env)
 	signals(NORMAL);
 	if (ac > 1)
 		return (hb_printerr("usage: <./minishell>\n"), 1);
-	*(estate()) = prompt(&ms);
-	ft_exit(*(estate()));
+	prompt(&ms);
+	ft_exit(ms.e);
 }
