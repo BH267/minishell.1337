@@ -28,6 +28,11 @@
 # define CHILD 2
 # define HEREDOC 3
 
+#define BLUE "\033[0;36m"
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define DFLTCOL "\033[0m"
+
 char *dellet_all_quotes(char *str);
 void	print_tokens(t_token *tok);
 void		b2o(int doit);

@@ -12,56 +12,12 @@
 
 #include "ms.h"
 
-void	signal_for_herdoc(int sig)
-{
-	(void)sig;
-	close(0);
-}
-
-void	sighand(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write (1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-int	signals(int mode)
-{
-	if (mode == NORMAL)
-	{
-		signal(SIGINT, sighand);
-		signal(SIGQUIT, SIG_IGN);
-		return (1);
-	}
-	else if (mode == CHILD)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		return (1);
-	}
-	else if (mode == HEREDOC)
-	{
-		signal(SIGINT, signal_for_herdoc);
-		signal(SIGQUIT, SIG_DFL);
-		return (1);
-	}
-	return (0);
-}
-#define blue "\033[0;36m"
-#define RED "\033[0;31m"
-#define GREEN "\033[0;32m"
-#define normal "\033[0m"
-
 int	promptline(t_ms *ms)
 {
 	if (!ms->e)
-		ms->cmd = readline(blue"мιηιѕнєℓℓ "GREEN"❱ "normal);
+		ms->cmd = readline(BLUE"мιηιѕнєℓℓ "GREEN"❱ "DFLTCOL);
 	else
-		ms->cmd = readline(blue"мιηιѕнєℓℓ "RED"❱ "normal);
+		ms->cmd = readline(BLUE"мιηιѕнєℓℓ "RED"❱ "DFLTCOL);
 	if (!ms->cmd)
 	{
 		hb_printerr("exit\n");
@@ -76,9 +32,11 @@ int	prompt(t_ms *ms)
 
 	while (1)
 	{
+		signals(NORMAL);
+		*(estate()) = ms->e;
+	 	ms->e = *(estate());
 		if (promptline(ms))
 			break ;
-		signals(NORMAL);
 		if (!*ms->cmd)
 			continue ;
 		add_history(ms->cmd);
