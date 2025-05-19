@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/14 10:12:21 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/18 17:15:29 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,5 @@ t_cmd	*parsing(char *cmdl, t_env *env )
 		hb_printerr("minishell: syntax error\n");
 		return NULL;
 	}
-	tokens = lexer(cmdl);
 	return (parse_tokens(tokens, env));
 }
