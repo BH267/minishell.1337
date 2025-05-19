@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:16 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/19 13:48:21 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:41:43 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	add_token(t_token **lst, char *value, t_token_type type, char *mask)
 	new->type = type;
 	new->next = NULL;
 	new->mask = mask;
+	new->flag = 0;
 	if (!*lst)
 		*lst = new;
 	else

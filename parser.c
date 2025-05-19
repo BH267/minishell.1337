@@ -6,21 +6,22 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/19 14:03:21 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:47:30 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "expand/expand.h"
 #include "header/lexer_token.h"
 #include "ms.h"
-#include "expand/expand.h"
 #include <ctype.h>
-#include "expand/expand.h"
 
-int	fill_redir(t_cmd *cmd, t_token *tok);
+int			fill_redir(t_cmd *cmd, t_token *tok);
 
-void print_mask(char *mask)
+void	print_mask(char *mask)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (mask[i])
 	{
 		printf("%d", (unsigned char)mask[i]);
@@ -31,11 +32,11 @@ void print_mask(char *mask)
 	printf("\n");
 }
 
-static void add_arg_to_cmd(t_cmd *cmd, char *value)
+static void	add_arg_to_cmd(t_cmd *cmd, char *value)
 {
-	int argc ;
-	int i ;
-	char **new_args;
+	int		argc;
+	int		i;
+	char	**new_args;
 
 	argc = 0;
 	i = 0;
@@ -56,18 +57,20 @@ static void add_arg_to_cmd(t_cmd *cmd, char *value)
 	cmd->args = new_args;
 }
 
-static void handle_token(t_cmd *cmd, t_token *tok, int *redir_pending)
+static void	handle_token(t_cmd *cmd, t_token *tok, int *redir_pending)
 {
 	if (*redir_pending)
 	{
-		add_redirect(&cmd->redirect_list, tok->value, (t_token_type)*redir_pending);
+		add_redirect(&cmd->redirect_list, tok->value,
+			(t_token_type)*redir_pending);
 		*redir_pending = 0;
 	}
 	else
 		add_arg_to_cmd(cmd, tok->value);
 }
 
-static void	handle_token_loop(t_cmd **cmd_curr, t_token **tok, int *redir_pending)
+static void	handle_token_loop(t_cmd **cmd_curr, t_token **tok,
+		int *redir_pending)
 {
 	if ((*tok)->type == TOKEN_PIPE)
 	{
@@ -75,13 +78,13 @@ static void	handle_token_loop(t_cmd **cmd_curr, t_token **tok, int *redir_pendin
 		*cmd_curr = (*cmd_curr)->next;
 		*tok = (*tok)->next;
 		*redir_pending = 0;
-		return;
+		return ;
 	}
 	if (is_redir((*tok)->type))
 	{
 		*redir_pending = (*tok)->type;
 		*tok = (*tok)->next;
-		return;
+		return ;
 	}
 	if ((*tok)->type == TOKEN_WORD)
 		handle_token(*cmd_curr, *tok, redir_pending);
@@ -90,9 +93,9 @@ static void	handle_token_loop(t_cmd **cmd_curr, t_token **tok, int *redir_pendin
 
 static void	parse_tokens_loop(t_cmd *cmd_head, t_token *tokens)
 {
-	t_cmd *cmd_curr;
-	t_token *tok;
-	int redir_pending;
+	t_cmd	*cmd_curr;
+	t_token	*tok;
+	int		redir_pending;
 
 	cmd_curr = cmd_head;
 	tok = tokens;
@@ -101,11 +104,9 @@ static void	parse_tokens_loop(t_cmd *cmd_head, t_token *tokens)
 		handle_token_loop(&cmd_curr, &tok, &redir_pending);
 }
 
-
-
-void add_token_ae(t_token **lst, t_data_splited *data, int index)
+void	add_token_ae(t_token **lst, t_data_splited *data, int index)
 {
-	t_token *new;
+	t_token	*new;
 
 	new = (t_token *)ft_malloc(sizeof(t_token));
 	new->value = data->args[index];
@@ -122,15 +123,17 @@ void add_token_ae(t_token **lst, t_data_splited *data, int index)
 		*lst = new;
 }
 
-void replace_args(t_token *tok, t_data_splited *data)
+void	replace_args(t_token *tok, t_data_splited *data)
 {
-	int i = 0;
+	int		i;
+	t_token	*current;
+	t_token	*next_orig;
 
-	t_token *current = tok;
-	t_token *next_orig = tok->next;
-
+	i = 0;
+	current = tok;
+	next_orig = tok->next;
 	if (!data || !data->args || !data->args[0])
-		return;
+		return ;
 	current->mask = data->mask_args[i];
 	current->value = data->args[i++];
 	while (data->args[i])
@@ -142,30 +145,30 @@ void replace_args(t_token *tok, t_data_splited *data)
 	current->next = next_orig;
 }
 
-void split_tokens_by_mask(t_token *tokens)
+void	split_tokens_by_mask(t_token *tokens)
 {
-	t_token *tok;
-	t_data_splited *data;
+	t_token			*tok;
+	t_data_splited	*data;
 
 	tok = tokens;
-	while(tok)
+	while (tok)
 	{
 		if (tok->flag == 42)
 		{
 			data = split_args(tok);
-			replace_args(tok,data);
+			replace_args(tok, data);
 		}
 		tok = tok->next;
 	}
 }
 
-int is_quote(char c)
+int	is_quote(char c)
 {
 	return (c == '\'' || c == '\"');
 }
-int has_quotes_mask_zero(t_token *tok)
+int	has_quotes_mask_zero(t_token *tok)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!tok || !tok->value || !tok->mask)
@@ -179,14 +182,13 @@ int has_quotes_mask_zero(t_token *tok)
 	return (0);
 }
 
-int count_zeromask_quotes(t_token *tok)
+int	count_zeromask_quotes(t_token *tok)
 {
-	int count;
-	int i;
+	int	count;
+	int	i;
 
 	i = 0;
 	count = 0;
-
 	while (tok->value[i])
 	{
 		if (is_quote(tok->value[i]) && !(tok->mask[i] & 1))
@@ -196,16 +198,22 @@ int count_zeromask_quotes(t_token *tok)
 	return (count);
 }
 
-void delete_zeromask_quotes(t_token *tok)
+void	delete_zeromask_quotes(t_token *tok)
 {
-	int count;
-	char *new_value;
-	int i;
-	int k;
-	count = count_zeromask_quotes(tok);
-	if (count == 0)
-		return;
-	new_value = (char *)ft_malloc(sizeof(char) * (count + 1));
+	int		quote_count;
+	char	*new_value;
+	int		i;
+	int		k;
+	int		original_length;
+
+	quote_count = count_zeromask_quotes(tok);
+	if (quote_count == 0)
+		return ;
+	original_length = hb_strlen(tok->value);
+	new_value = (char *)ft_malloc(sizeof(char) * (original_length - quote_count
+				+ 1));
+	if (!new_value)
+		return ;
 	i = 0;
 	k = 0;
 	while (tok->value[i])
@@ -213,7 +221,7 @@ void delete_zeromask_quotes(t_token *tok)
 		if (is_quote(tok->value[i]) && !(tok->mask[i] & 1))
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		new_value[k] = tok->value[i];
 		k++;
@@ -223,9 +231,9 @@ void delete_zeromask_quotes(t_token *tok)
 	tok->value = new_value;
 }
 
-void clear_quotes(t_token *tokens)
+void	clear_quotes(t_token *tokens)
 {
-	t_token *tok;
+	t_token	*tok;
 
 	tok = tokens;
 	while (tok)
@@ -238,16 +246,14 @@ void clear_quotes(t_token *tokens)
 	}
 }
 
-t_cmd *parse_tokens(t_token *tokens , t_env *env)
+t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 {
-	t_cmd *cmd_head;
+	t_cmd	*cmd_head;
 
 	expansion_loop(tokens, env);
 	split_tokens_by_mask(tokens);
 	clear_quotes(tokens);
-
 	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);
-
 	return (cmd_head);
 }
