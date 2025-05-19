@@ -14,7 +14,8 @@
 
 int	run(t_ms *ms)
 {
-	redirect(ms);
+	if (redirect(ms))
+		return (1);
 	if (execve(ms->cmd, ms->args, ms->p2env) == -1)
 	{
 		if (!closedir(opendir(ms->cmd)))

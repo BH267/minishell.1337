@@ -12,28 +12,10 @@
 
 #include "ms.h"
 
-int	isbins(t_ms *ms)
-{
-	if (hb_strcmp(ms->cmd, "cd") == 0)
-		return (0);
-	else if (hb_strcmp(ms->cmd, "echo") == 0)
-		return (0);
-	else if (hb_strcmp(ms->cmd, "env") == 0)
-		return (0);
-	else if (hb_strcmp(ms->cmd, "pwd") == 0)
-		return (0);
-	else if (hb_strcmp(ms->cmd, "export") == 0)
-		return (0);
-	else if (hb_strcmp(ms->cmd, "unset") == 0)
-		return (0);
-	else if (hb_strcmp(ms->cmd, "exit") == 0)
-		return (0);
-	return (1);
-}
-
 int	builtins(char *cmd, t_ms *ms)
 {
-	redirect(ms);
+	if (redirect(ms))
+		return (1);
 	if (hb_strcmp(cmd, "cd") == 0)
 		ms->e = cd(ms->args, ms);
 	else if (hb_strcmp(cmd, "echo") == 0)
@@ -54,5 +36,6 @@ int	builtins(char *cmd, t_ms *ms)
 		return (99);
 	}
 	b2o(0);
+	*(estate()) = ms->e;
 	return (ms->e);
 }

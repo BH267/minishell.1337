@@ -33,8 +33,6 @@ int	prompt(t_ms *ms)
 	while (1)
 	{
 		signals(NORMAL);
-		*(estate()) = ms->e;
-	 	ms->e = *(estate());
 		if (promptline(ms))
 			break ;
 		if (!*ms->cmd)
@@ -74,6 +72,6 @@ int	main(int ac, char **av, char **env)
 	signals(NORMAL);
 	if (ac > 1)
 		return (hb_printerr("usage: <./minishell>\n"), 1);
-	prompt(&ms);
-	ft_exit(ms.e);
+	*(estate()) = prompt(&ms);
+	ft_exit(*(estate()));
 }

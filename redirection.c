@@ -28,24 +28,34 @@ int	redout(t_redirect *rdct)
 {
 	int	fd;
 
-	fd = open(rdct->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return (hb_printerr("%s\n", strerror(errno)), errno);
-	dup2(fd, 1);
-	close(fd);
-	return (0);
+	if (!(rdct->ambiguous))
+	{
+		fd = open(rdct->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd == -1)
+			return (hb_printerr("%s\n", strerror(errno)), errno);
+		dup2(fd, 1);
+		close(fd);
+		return (0);
+	}
+	hb_printerr("$%s: ambiguous redirect\n", rdct->value);
+	return (1);
 }
 
 int	append(t_redirect *rdct)
 {
 	int	fd;
 
-	fd = open(rdct->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-		return (hb_printerr("%s\n", strerror(errno)), errno);
-	dup2(fd, 1);
-	close(fd);
-	return (0);
+	if (!(rdct->ambiguous))
+	{
+		fd = open(rdct->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
+			return (hb_printerr("%s\n", strerror(errno)), errno);
+		dup2(fd, 1);
+		close(fd);
+		return (0);
+	}
+	hb_printerr("$%s: ambiguous redirect\n", rdct->value);
+	return (1);
 }
 
 int	hrdoc(t_redirect *rdct)
