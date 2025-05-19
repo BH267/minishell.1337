@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/19 21:03:16 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/20 00:18:20 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 	clear_quotes(tokens);
 	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);
-	//print_cmds(cmd_head);
+	////print_cmds(cmd_head);
 	return (cmd_head);
 }
+
