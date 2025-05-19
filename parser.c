@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/19 13:51:59 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:03:21 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,6 @@ void delete_zeromask_quotes(t_token *tok)
 	int i;
 	int k;
 	count = count_zeromask_quotes(tok);
-	printf("count = %d\n", count);
 	if (count == 0)
 		return;
 	new_value = (char *)ft_malloc(sizeof(char) * (count + 1));

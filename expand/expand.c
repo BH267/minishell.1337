@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/19 13:52:57 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:02:46 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ static void handle_expansion(t_token *tok, char *var_name, t_env *env, int pos)
     tok->flag = 42;
 }
 
-static int need_expansion(char *str)
+static int need_expansion(char *str , char *mask)
 {
     int i = 0;
 
@@ -178,7 +178,7 @@ static int need_expansion(char *str)
 
     while (str[i])
     {
-        if (str[i] == '$' && str[i+1] && (hb_isalnum(str[i + 1]) || str[i + 1] == '_'))
+        if (str[i] == '$' && str[i+1] && (hb_isalnum(str[i + 1]) || str[i + 1] == '_') && !(mask[i] & MASK_S_QUOTES))
             return i;
         i++;
     }
@@ -225,18 +225,18 @@ void	expansion_loop(t_token *tokens, t_env *env)
 	{
 		if (tokens->type == TOKEN_REDIR_OUT || tokens->type == TOKEN_REDIR_IN)
 		{
-			 //check null fi file name and $ expand not have space
+			//check null fi file name and $ expand not have space
 			treat_red(tok , env);
 			tok = tok->next->next;
 		}
 		if (tok->type == TOKEN_WORD && tok->value)
 		{
-			i = need_expansion(tok->value);
+			i = need_expansion(tok->value , tok->mask);
 			while (i != -1)
 			{
 				var_name = find_variable_name(tok->value, i);
 				handle_expansion(tok, var_name, env, i + 1);
-				i = need_expansion(tok->value);
+				i = need_expansion(tok->value, tok->mask);
 			}
 		}
 		else
