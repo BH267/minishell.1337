@@ -175,7 +175,7 @@ int	has_quotes_mask_zero(t_token *tok)
 		return (0);
 	while (tok->value[i])
 	{
-		if (is_quote(tok->value[i]) && tok->mask[i] == 0)
+		if (is_quote(tok->value[i]) && (tok->mask[i] == 0))
 			return (1);
 		i++;
 	}
@@ -191,7 +191,7 @@ int	count_zeromask_quotes(t_token *tok)
 	count = 0;
 	while (tok->value[i])
 	{
-		if (is_quote(tok->value[i]) && !(tok->mask[i] & 1))
+		if (is_quote(tok->value[i]) && (tok->mask[i] == 0))
 			count++;
 		i++;
 	}
@@ -218,7 +218,7 @@ void	delete_zeromask_quotes(t_token *tok)
 	k = 0;
 	while (tok->value[i])
 	{
-		if (is_quote(tok->value[i]) && !(tok->mask[i] & 1))
+		if (is_quote(tok->value[i]) && (tok->mask[i] == 0))
 		{
 			i++;
 			continue ;
@@ -238,7 +238,7 @@ void	clear_quotes(t_token *tokens)
 	tok = tokens;
 	while (tok)
 	{
-		if (tok->flag == 42 && has_quotes_mask_zero(tok))
+		if (has_quotes_mask_zero(tok))
 		{
 			delete_zeromask_quotes(tok);
 		}
@@ -254,6 +254,12 @@ t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 	split_tokens_by_mask(tokens);
 	clear_quotes(tokens);
 	cmd_head = new_cmd();
+	// print_tokens(tokens);
 	parse_tokens_loop(cmd_head, tokens);
 	return (cmd_head);
 }
+// ```
+// мιηιѕнєℓℓ ❱ export a='"'
+// мιηιѕнєℓℓ ❱ echo $x
+// a b
+// ```

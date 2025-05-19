@@ -45,6 +45,19 @@ static char *create_zero_mask(int len)
     return mask;
 }
 
+void prnt_mask(int lent, char *mask)
+{
+    int i;
+    i = 0;
+    while(i < lent)
+    {
+        printf("%d ",(unsigned int)mask[i]);
+        i++;
+    }
+    printf("\n");
+    
+}
+
 void edit_mask(char *val, char *mask)
 {
     int i = 0;
@@ -90,6 +103,7 @@ void edit_mask(char *val, char *mask)
 
         i++;
     }
+    // prnt_mask(hb_strlen(val),mask);
 }
 
 int extract_word_with_mask(const char *input, int i, char **out_val, char **out_mask)

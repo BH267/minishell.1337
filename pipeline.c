@@ -60,22 +60,15 @@ void	child(t_ms *ms, int *fd, int pfd)
 	ft_exit (ms->e);
 }
 
-int	parent(t_cmd **cmd, int	*fd, int *pfd, int pid)
+void	parent(t_cmd **cmd, int	*fd, int *pfd)
 {
-	int	status;
-
-	status = 0;
 	*cmd = (*cmd)->next;
 	signal(SIGINT, SIG_IGN);
-	waitpid(pid, &status, 0);
 	signals(NORMAL);
 	if (*pfd != -1)
 		close(*pfd);
 	close(fd[1]);
-	if (WEXITSTATUS(status))
-		return (WEXITSTATUS(status));
 	*pfd = fd[0];
-	return (WEXITSTATUS(status));
 }
 
 int	pipeline(t_ms *ms, t_cmd *cmd)
@@ -83,6 +76,7 @@ int	pipeline(t_ms *ms, t_cmd *cmd)
 	int	fd[2];
 	int	pfd;
 	int	pid;
+	int	status;
 
 	pfd = -1;
 	while (cmd->next)
@@ -97,9 +91,13 @@ int	pipeline(t_ms *ms, t_cmd *cmd)
 			if (ms->e)
 				ft_exit(ms->e);
 		}
+		else if (pid > 0)
+			parent(&cmd, fd, &pfd);
 		else
-			ms->e = parent(&cmd, fd, &pfd, pid);
+			return (hb_printerr("%s\n", strerror(errno)), errno);
 	}
 	ms->e = lastcmd(cmd, ms, pfd);
+	while (wait(&status) > 0)
+		ms->e = WEXITSTATUS(status);
 	return (ms->e);
 }
