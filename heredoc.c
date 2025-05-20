@@ -37,8 +37,7 @@ void	oktob(int fd, char *dl)
 		if (hb_strcmp(line, hb_strjoin(dl, "\n")) == 0)
 			break ;
 		write(fd, line, hb_strlen(line));
-		write(0, "> ", 2);
-		line = get_next_line(0);
+		line = readline(">");
 	}
 	if (!line || !*line)
 		hb_printerr("\nwarning: here-document delimited by end-of-file (wanted `%s')\n",

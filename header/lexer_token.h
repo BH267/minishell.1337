@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/19 18:16:51 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:48:10 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_token
 typedef struct s_redirect
 {
 	char				*value;
-	char				*ambiguous;
 	t_token_type		type;
 	struct s_redirect	*next;
 }						t_redirect;
@@ -85,7 +84,7 @@ int						check_grammar(t_token *tok);
 // Tokenizer/Parser
 int						is_redir(t_token_type t);
 void					add_redirect(t_redirect **lst, char *value,
-							t_token_type type, char *ambiguous);
+							t_token_type type);
 void					free_redirects(t_redirect *lst);
 t_cmd					*new_cmd(void);
 t_cmd					*parse_tokens(t_token *tokens, t_env *env);
