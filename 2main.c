@@ -44,9 +44,9 @@ int	prompt(t_ms *ms)
 			ms->e = 2;
 			continue ;
 		}
-		ms->e = setes(runcmd(ms, cmd));
+		ms->e = runcmd(ms, cmd);
 	}
-	return (ms->e);
+	return (setes(ms->e));
 }
 
 int	shlvl(char **env)
@@ -72,6 +72,6 @@ int	main(int ac, char **av, char **env)
 	signals(NORMAL);
 	if (ac > 1)
 		return (hb_printerr("usage: <./minishell>\n"), 1);
-	*(estate()) = prompt(&ms);
+	prompt(&ms);
 	ft_exit(*(estate()));
 }
