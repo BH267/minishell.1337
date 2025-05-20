@@ -36,6 +36,6 @@ int	singlecmd(t_ms *ms)
 		signals(NORMAL);
 	}
 	else
-		return (hb_printerr("%s\n", strerror(errno)), errno);
-	return (WEXITSTATUS(status));
+		return (hb_printerr("%s\n", strerror(errno)), setes(errno));
+	return (setes(WEXITSTATUS(status)));
 }
