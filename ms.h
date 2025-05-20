@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:23:36 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/14 13:51:53 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/20 14:05:11 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include "builtins/bins.h"
 # include "header/lexer_token.h"
 # include "libhb/libhb.h"
+
+
+#define IS_QUOTE(c) ((c) == '\'' || (c) == '\"')
 
 # define NORMAL 1
 # define CHILD 2
@@ -53,8 +56,9 @@ int			varexp(t_ms *ms);
 t_token		*lexer(const char *input);
 int			beforequ(char *str);
 int			execute(t_ms *ms);
+t_cmd		*parse_tokens(t_token *tokens, t_env *env);
 char		*getpath(char *cmd, t_env *env);
 t_cmd		*parsing(char *cmdl, t_env *env);
-void		parsing2(char *cmdl,t_env *env);
+// void		parsing2(char *cmdl,t_env *env);
 
 #endif
