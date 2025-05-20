@@ -36,10 +36,11 @@
 #define GREEN "\001\033[0;32m\002"
 #define DFLTCOL "\001\033[0m\002"
 
-char *dellet_all_quotes(char *str);
-void	print_tokens(t_token *tok);
+char		*dellet_all_quotes(char *str);
+void		print_tokens(t_token *tok);
 void		b2o(int doit);
 int			*estate(void);
+int			setes(int e);
 int			signals(int mode);
 char		*getenvalue(char **env, char *var);
 int			runheredoc(t_cmd *cmd);

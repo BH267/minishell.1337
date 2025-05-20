@@ -18,3 +18,9 @@ int	*estate(void)
 
 	return (&exit_status);
 }
+
+int	setes(int e)
+{
+	*(estate()) = e;
+	return (e);
+}

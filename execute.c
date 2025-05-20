@@ -14,7 +14,8 @@
 
 int	run(t_ms *ms)
 {
-	redirect(ms);
+	if (redirect(ms))
+		return (1);
 	if (execve(ms->cmd, ms->args, ms->p2env) == -1)
 	{
 		if (!closedir(opendir(ms->cmd)))
@@ -25,10 +26,10 @@ int	run(t_ms *ms)
 		else
 		{
 			hb_printerr("%s\n", strerror(errno));
-			return (errno);
+			return (setes(errno));
 		}
 	}
-	return (0);
+	return (setes(0));
 }
 
 int	execute(t_ms *ms)

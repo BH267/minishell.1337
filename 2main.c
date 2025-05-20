@@ -14,7 +14,7 @@
 
 int	promptline(t_ms *ms)
 {
-	if (!ms->e)
+	if (!(*(estate())))
 		ms->cmd = readline(BLUE"мιηιѕнєℓℓ "GREEN"❱ "DFLTCOL);
 	else
 		ms->cmd = readline(BLUE"мιηιѕнєℓℓ "RED"❱ "DFLTCOL);
@@ -44,7 +44,7 @@ int	prompt(t_ms *ms)
 			ms->e = 2;
 			continue ;
 		}
-		ms->e = runcmd(ms, cmd);
+		ms->e = setes(runcmd(ms, cmd));
 	}
 	return (ms->e);
 }
