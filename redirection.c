@@ -94,6 +94,9 @@ int	redirect(t_ms *ms)
 		if (rdct->type == TOKEN_APPEND)
 			if (append(rdct))
 				return (1);
+		if (rdct->type == HEREDOC)
+			if (redin(rdct))
+				return (1);
 		rdct = rdct->next;
 	}
 	return (0);
