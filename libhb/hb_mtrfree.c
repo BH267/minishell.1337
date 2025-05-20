@@ -22,4 +22,5 @@ void	hb_mtrfree(char **mtr)
 		free(mtr[i]);
 		i++;
 	}
+	free(mtr);
 }

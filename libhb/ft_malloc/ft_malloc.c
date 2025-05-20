@@ -39,7 +39,7 @@ void	add_to_box(void *addr)
 {
 	struct s_gc	*mem_node;
 
-	mem_node = ft_malloc(sizeof(struct s_gc));
+	mem_node = malloc(sizeof(struct s_gc));
 	if (!mem_node)
 		return (ft_free(), exit(1));
 	mem_node->p = addr;
@@ -51,7 +51,7 @@ void	*ft_malloc(size_t bytes)
 {
 	void	*p;
 
-	p = ft_malloc(bytes);
+	p = malloc(bytes);
 	if (!p)
 		return (ft_free(), exit(1), NULL);
 	add_to_box(p);

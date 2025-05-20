@@ -24,7 +24,7 @@ void	sighand(int sig)
 	{
 		write (1, "\n", 1);
 		*(estate()) = 130;
-		rl_on_new_line(); 
+		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
