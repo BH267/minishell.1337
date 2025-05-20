@@ -6,13 +6,15 @@ SRCS = 2main.c builtins/cd.c getpath.c \
        envlst.c builtins/unset.c builtins/exit.c builtins/expars.c \
        redirection.c pipeline.c single_cmd.c runcmd.c isbins.c heredoc.c \
        signals.c \
-       parsing.c parser.c exitstatus.c \
+    parsing.c parscmd/parser.c parscmd/splitcmd.c exitstatus.c  parscmd/parscmd_utils.c\
 	parsing/lexer.c parsing/lexer_utils.c parsing/lexer_utils_extra.c \
 	parsing/lexer_handlers.c \
 	parsing/redirection_helpers.c parsing/helper_functions.c \
 	parsing/gramer.c \
 	expand/expand_utils.c \
-	expand/expand.c
+	expand/expand.c \
+	expand/expand_check.c \
+	expand/expand_mask.c
 
 OBJS = $(SRCS:.c=.o)
 LIBHB_PATH = libhb/

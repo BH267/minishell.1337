@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/19 18:16:51 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:47:16 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void					add_redirect(t_redirect **lst, char *value,
 							t_token_type type, char *ambiguous);
 void					free_redirects(t_redirect *lst);
 t_cmd					*new_cmd(void);
-t_cmd					*parse_tokens(t_token *tokens, t_env *env);
 void					free_cmds(t_cmd *lst);
 
 // here-doc
