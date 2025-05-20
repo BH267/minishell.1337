@@ -23,7 +23,7 @@ char	*c_new_mask(char *value, char type)
 
 	type = (type & ~MASK_EXPANSION) | MASK_EXPANSION;
 	i = 0;
-	new_mask = (char *)malloc(hb_strlen(value) + 1);
+	new_mask = (char *)ft_malloc(hb_strlen(value) + 1);
 	if (!new_mask)
 		return (NULL);
 	while (value[i])
@@ -45,7 +45,7 @@ void	update_mask(t_token **tok, char *new_mask, int pos, int len, int lent_mask)
 
 	if (!tok || !(*tok) || !new_mask)
 		return ;
-	updated_mask = (char *)malloc(hb_strlen((*tok)->value) - len + lent_mask + 1);
+	updated_mask = (char *)ft_malloc(hb_strlen((*tok)->value) - len + lent_mask + 1);
 	if (!updated_mask)
 		return ;
 	i = 0;
@@ -78,7 +78,7 @@ void	replace_variable(t_token **tok, char *var_name, char *expanded_value, int p
 	var_len = hb_strlen(var_name) + 1;
 	if (!expanded_value)
 		expanded_value = "";
-	new_str = (char *)malloc(
+	new_str = (char *)ft_malloc(
 			hb_strlen(old_value) - var_len + hb_strlen(expanded_value) + 1);
 	if (!new_str)
 		return ;
