@@ -58,18 +58,6 @@ int	append(t_redirect *rdct)
 	return (1);
 }
 
-int	hrdoc(t_redirect *rdct)
-{
-	int	fd;
-
-	fd = open(rdct->value, O_RDONLY);
-	if (fd == -1)
-		return (hb_printerr("%s\n", strerror(errno)), errno);
-	dup2(fd, 0);
-	close(fd);
-	return (0);
-}
-
 void	b2o(int doit)
 {
 	static int	std_out;
@@ -105,9 +93,6 @@ int	redirect(t_ms *ms)
 				return (1);
 		if (rdct->type == TOKEN_APPEND)
 			if (append(rdct))
-				return (1);
-		if (rdct->type == TOKEN_HEREDOC)
-			if (hrdoc(rdct))
 				return (1);
 		rdct = rdct->next;
 	}

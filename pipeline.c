@@ -98,6 +98,7 @@ int	pipeline(t_ms *ms, t_cmd *cmd)
 	}
 	ms->e = lastcmd(cmd, ms, pfd);
 	while (wait(&status) > 0)
-		ms->e = WEXITSTATUS(status);
+		if (WEXITSTATUS(status) != 0)
+			ms->e = WEXITSTATUS(status);
 	return (ms->e);
 }

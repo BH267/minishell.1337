@@ -44,7 +44,7 @@ int	prompt(t_ms *ms)
 			ms->e = 2;
 			continue ;
 		}
-		ms->e = runcmd(ms, cmd);
+		ms->e = setes(runcmd(ms, cmd));
 	}
 	return (setes(ms->e));
 }
