@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/20 12:18:19 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:20:05 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,13 @@ static void	parse_tokens_loop(t_cmd *cmd_head, t_token *tokens)
 	tok = tokens;
 	redir_pending = 0;
 	while (tok)
-		handle_token_loop(&cmd_curr, &tok, &redir_pending);
+	{
+		if (tok->value[0] != '\0')
+			handle_token_loop(&cmd_curr, &tok, &redir_pending);
+		else
+			tok = tok->next;
+	}
 }
-
 t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 {
 	t_cmd	*cmd_head;
