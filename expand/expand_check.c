@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 10:25:07 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/21 12:54:38 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:52:26 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@
 #include "../ms.h"
 #include "expand.h"
 
-/**
- * Checks if a string contains spaces
- * Returns -1 if the string has spaces, 1 otherwise
- */
 int	have_space(char *str)
 {
 	int	i;
@@ -34,10 +30,6 @@ int	have_space(char *str)
 	return (1);
 }
 
-/**
- * Checks if a string has spaces that were added during expansion
- * Returns -1 if the string has spaces from expansion, 1 otherwise
- */
 int	have_space_from_expand(char *str, char *mask)
 {
 	int	i;
@@ -52,10 +44,6 @@ int	have_space_from_expand(char *str, char *mask)
 	return (1);
 }
 
-/**
- * Checks if a token is ambiguous after expansion
- * Returns -1 if ambiguous, 1 otherwise
- */
 int	check_ambiguous(t_token **tok, char *var)
 {
 	if (have_space_from_expand((*tok)->value, (*tok)->mask) == -1)
@@ -67,10 +55,6 @@ int	check_ambiguous(t_token **tok, char *var)
 	return (1);
 }
 
-/**
- * Gets the value of a variable based on mask
- * Returns the expanded value or NULL if not found
- */
 char	*get_value_with_mask(char mask, t_env *env, char *var)
 {
 	char	*value;
