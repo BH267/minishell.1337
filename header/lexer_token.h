@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:42 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/20 11:47:16 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:43:14 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ t_cmd					*new_cmd(void);
 void					free_cmds(t_cmd *lst);
 
 // here-doc
-int						heredoc(t_redirect *rdct);
+int						heredoc(t_redirect *rdct , t_env *env);
 
 #endif

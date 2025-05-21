@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dolar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:37 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/16 11:12:48 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/21 12:51:17 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*getfromenv(t_env *env, char *var)
 	int	i;
 
 	i = 0;
-	if (var[i] == '$')
+	if (var && var[i] == '$')
 		i++;
 	while (env)
 	{

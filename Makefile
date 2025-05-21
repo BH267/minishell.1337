@@ -14,7 +14,8 @@ SRCS = 2main.c builtins/cd.c getpath.c \
 	expand/expand_utils.c \
 	expand/expand.c \
 	expand/expand_check.c \
-	expand/expand_mask.c
+	expand/expand_mask.c \
+	expand/expand_herdoc.c \
 
 OBJS = $(SRCS:.c=.o)
 LIBHB_PATH = libhb/

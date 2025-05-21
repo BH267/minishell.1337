@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editenv.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 21:02:40 by habenydi          #+#    #+#             */
-/*   Updated: 2025/04/20 21:04:23 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:48:40 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*getenvalue(char **env, char *var)
 	char	*tmp;
 
 	i = 0;
-	while (env[i])
+	while (env && env[i])
 	{
 		tmp = hb_strdup(env[i]);
 		tmp[beforequ(tmp)] = '\0';

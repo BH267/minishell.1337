@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:23:36 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/20 14:05:11 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:58:35 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ int			*estate(void);
 int			setes(int e);
 int			signals(int mode);
 char		*getenvalue(char **env, char *var);
-int			runheredoc(t_cmd *cmd);
+int			runheredoc(t_cmd *cmd , t_env *env);
 int			setvalue(char **env, char *var, char *newv);
 int			isbins(t_ms *ms);
 int			runcmd(t_ms *ms, t_cmd *cmd);
-int			heredoc(t_redirect *rdct);
+int			heredoc(t_redirect *rdct , t_env *env);
 int			pipeline(t_ms *ms, t_cmd *cmd);
 int			builtins(char *cmd, t_ms *ms);
 int			singlecmd(t_ms *ms);

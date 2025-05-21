@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:38 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/20 13:15:29 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:17:26 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,8 @@ int					have_space(char *str);
 int					have_space_from_expand(char *str, char *mask);
 int					check_ambiguous(t_token **tok, char *var);
 char				*get_value_with_mask(char mask, t_env *env, char *var);
+
+/* expand herdoc */
+void	expand_herdoce(char *str , t_env *env);
 
 #endif

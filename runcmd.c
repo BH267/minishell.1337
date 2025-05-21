@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   runcmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <habenydi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:10:09 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/08 14:48:46 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:12:57 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	runcmd(t_ms *ms, t_cmd *cmd)
 {
 	if (pars_exec(cmd, ms))
 		return (setes(1));
-	ms->e = runheredoc(cmd);
+	ms->e = runheredoc(cmd , ms->env);
 	if (!cmd->next)
 		return (singlecmd(ms));
 	ms->e = pipeline(ms, cmd);
