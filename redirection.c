@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "header/lexer_token.h"
 #include "ms.h"
 
 int	redin(t_redirect *rdct)
@@ -94,7 +95,7 @@ int	redirect(t_ms *ms)
 		if (rdct->type == TOKEN_APPEND)
 			if (append(rdct))
 				return (1);
-		if (rdct->type == HEREDOC)
+		if (rdct->type == TOKEN_HEREDOC)
 			if (redin(rdct))
 				return (1);
 		rdct = rdct->next;

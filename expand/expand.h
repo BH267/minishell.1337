@@ -51,6 +51,6 @@ int					check_ambiguous(t_token **tok, char *var);
 char				*get_value_with_mask(char mask, t_env *env, char *var);
 
 /* expand herdoc */
-void	expand_herdoce(char *str , t_env *env);
+char	*expand_herdoce(char *str , t_env *env);
 
 #endif

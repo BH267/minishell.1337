@@ -53,13 +53,12 @@ void	oktob(int fd, char *dl , t_env *env)
 		if (hb_strcmp(line, dl) == 0 || !line)
 			break ;
 		if (vdl)
-			expand_herdoce(line , env);
+			line = expand_herdoce(line , env);
 		write(fd, line, hb_strlen(line));
 		write(fd, "\n", 1);
 	}
 	if (!line || !*line)
-		hb_printerr("warning: here-document delimited by end-of-file (wanted `%s')\n",
-			dl);
+		hb_printerr("warning: here-document delimited by end-of-file (wanted `%s')\n", dl);
 }
 
 int	runheredoc(t_cmd *cmd , t_env *env)

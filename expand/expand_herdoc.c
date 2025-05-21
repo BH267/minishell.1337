@@ -77,10 +77,11 @@ void replace_variable_herdoc(char **str, char *var_name,char *expanded_value, in
 }
 
 
-void	expand_herdoce(char *str , t_env *env)
+char	*expand_herdoce(char *str , t_env *env)
 {
 	int i;
 	int flag;
+
 	i = 0;
 	flag = need_expansion_true(str);
 	while(flag != -1)
@@ -94,4 +95,5 @@ void	expand_herdoce(char *str , t_env *env)
 		replace_variable_herdoc(&str, var_name, expanded_value, flag);
 		flag = need_expansion_true(str);
 	}
+	return (str);
 }
