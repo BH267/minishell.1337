@@ -24,7 +24,7 @@ char	*random_name(void)
 		return (NULL);
 	if (read(fd, rand, 10) == -1)
 		return (NULL);
-	rand[9] = '\0';
+	rand[10] = '\0';
 	return (hb_strjoin("/tmp/.", rand));
 }
 
