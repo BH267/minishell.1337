@@ -18,12 +18,13 @@ char	*random_name(void)
 	char	*rand;
 	int		fd;
 
-	rand = ft_malloc(10);
-	fd = open("/dev/random", O_RDONLY);
+	rand = ft_malloc(11);
+	fd = open("/dev/urandom", O_RDONLY);
 	if (fd == -1)
 		return (NULL);
 	if (read(fd, rand, 10) == -1)
 		return (NULL);
+	rand[9] = '\0';
 	return (hb_strjoin("/tmp/.", rand));
 }
 
