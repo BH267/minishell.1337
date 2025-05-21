@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:21:47 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/18 17:45:23 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:14:22 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static int	check_pipe_and_redir(t_token *tok, int *expect_word)
 			return (0);
 		*expect_word = 1;
 	}
-	else if (tok->type == TOKEN_WORD)
+	else if (tok->type == TOKEN_WORD || (tok->type == TOKEN_HEREDOC && tok->next && tok->next->type == TOKEN_WORD)) // zedt ha line but kandon aysebeb fichi mochkil a5or anyway ila tra chi mochkil anraj3o lih
 		*expect_word = 0;
 	else if (is_redir_token(tok->type))
 	{
-		if (!tok->next || tok->next->type != TOKEN_WORD)
+		if ((!tok->next || tok->next->type != TOKEN_WORD))
 			return (0);
 	}
 	return (1);
