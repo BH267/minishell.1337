@@ -69,6 +69,7 @@ int	main(int ac, char **av, char **env)
 	shlvl(env);
 	ms.env = envtolist(env);
 	ms.p2env = env;
+	b2o(1);
 	signals(NORMAL);
 	if (ac > 1)
 		return (hb_printerr("usage: <./minishell>\n"), 1);

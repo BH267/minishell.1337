@@ -56,24 +56,27 @@ static void	ft_getline(char **string, char **line)
 	*string = ft_strdup(&(*string)[i + 1]);
 }
 
-char	*get_next_line(int fd)
+int	get_next_line(char **str)
 {
 	char		*buff;
 	static char	*string;
 	char		*line;
 
 	buff = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+	if (BUFFER_SIZE <= 0)
+		return (1);
 	if (!ft_strchr(string, '\n'))
 	{
 		buff = ft_malloc(BUFFER_SIZE + 1);
 		if (!buff)
-			return (NULL);
-		string = ft_readline(fd, string, buff);
+			return (1);
+		if (write(0, "> ", 2) == -1)
+			return (1);
+		string = ft_readline(0, string, buff);
 		if (!string)
-			return (NULL);
+			return (1);
 	}
 	ft_getline(&string, &line);
-	return (line);
+	*str = line;
+	return (0);
 }

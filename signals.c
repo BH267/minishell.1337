@@ -15,6 +15,7 @@
 void	signal_for_herdoc(int sig)
 {
 	(void)sig;
+	write(1, "\n", 1);
 	close(0);
 }
 
@@ -47,7 +48,7 @@ int	signals(int mode)
 	else if (mode == HEREDOC)
 	{
 		signal(SIGINT, signal_for_herdoc);
-		signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
 		return (1);
 	}
 	return (0);

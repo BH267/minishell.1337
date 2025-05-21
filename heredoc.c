@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libhb/get_next_line.h"
 #include "ms.h"
 #include "expand/expand.h"
 
@@ -24,6 +25,7 @@ char	*random_name(void)
 		return (NULL);
 	if (read(fd, rand, 10) == -1)
 		return (NULL);
+	close(fd);
 	rand[10] = '\0';
 	return (hb_strjoin("/tmp/.", rand));
 }
@@ -50,16 +52,16 @@ void	oktob(int fd, char *dl , t_env *env)
 	vdl = valid(dl);
 	while (1)
 	{
-		line = readline("> ");
-		if (hb_strcmp(line, dl) == 0 || !line)
+		if (get_next_line(&line))
+			return ;
+		if (hb_strcmp(line, hb_strjoin(dl, "\n")) == 0 || !line)
 			break ;
 		if (vdl)
 			line = expand_herdoce(line , env);
 		write(fd, line, hb_strlen(line));
-		write(fd, "\n", 1);
 	}
 	if (!line || !*line)
-		hb_printerr("warning: here-document delimited by end-of-file (wanted `%s')\n", dl);
+		hb_printerr("\nwarning: here-document delimited by end-of-file (wanted `%s')\n", dl);
 }
 
 int	runheredoc(t_cmd *cmd , t_env *env)
@@ -80,6 +82,7 @@ int	heredoc(t_redirect *rdct , t_env *env)
 	char	*filename;
 
 	signals(HEREDOC);
+	b2o(1);
 	while (rdct)
 	{
 		if (rdct->type == TOKEN_HEREDOC)
@@ -93,7 +96,7 @@ int	heredoc(t_redirect *rdct , t_env *env)
 		}
 		rdct = rdct->next;
 	}
+	b2o(0);
 	signals(NORMAL);
-	open("/dev/tty", O_RDONLY);
 	return (0);
 }

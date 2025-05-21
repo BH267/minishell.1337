@@ -24,7 +24,7 @@
 # include <stddef.h>
 # include "ft_malloc/ft_malloc.h"
 
-char	*get_next_line(int fd);
+int		get_next_line(char **str);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char *str, size_t len);
 char	*ft_strjoin(const char *s1, const char *s2);
