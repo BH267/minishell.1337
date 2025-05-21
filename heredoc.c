@@ -26,15 +26,24 @@ char	*random_name(void)
 	return (hb_strjoin("/tmp/.", rand));
 }
 
+//int	valid(dl)
+//{
+
+//}
+
 void	oktob(int fd, char *dl)
 {
 	char	*line;
+//	int	vdl;
 
+//	vdl = valid(dl);
 	while (1)
 	{
 		line = readline("> ");
 		if (hb_strcmp(line, dl) == 0 || !line)
 			break ;
+//		if (vdl)
+//			line = expand(line);
 		write(fd, line, hb_strlen(line));
 		write(fd, "\n", 1);
 	}
