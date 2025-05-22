@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libhb/get_next_line.h"
 #include "ms.h"
 #include "expand/expand.h"
 
@@ -44,7 +43,7 @@ int	valid(char *dl)
 	return (1);
 }
 
-void	oktob(int fd, char *dl , t_env *env)
+int	oktob(int fd, char *dl , t_env *env)
 {
 	char	*line;
 	int	vdl;
@@ -53,7 +52,7 @@ void	oktob(int fd, char *dl , t_env *env)
 	while (1)
 	{
 		if (get_next_line(&line))
-			return ;
+			return (1);
 		if (hb_strcmp(line, hb_strjoin(dl, "\n")) == 0 || !line)
 			break ;
 		if (vdl)
@@ -62,6 +61,7 @@ void	oktob(int fd, char *dl , t_env *env)
 	}
 	if (!line || !*line)
 		hb_printerr("\nwarning: here-document delimited by end-of-file (wanted `%s')\n", dl);
+	return (0);
 }
 
 int	runheredoc(t_cmd *cmd , t_env *env)
@@ -91,7 +91,8 @@ int	heredoc(t_redirect *rdct , t_env *env)
 			fd = open(filename, O_WRONLY | O_CREAT, 0644);
 			if (fd == -1)
 				return (hb_printerr("%s\n", strerror(errno)), setes(errno));
-			oktob(fd, rdct->value , env);
+			if (oktob(fd, rdct->value , env))
+				return (b2o(0), *(estate()));
 			rdct->value = filename;
 		}
 		rdct = rdct->next;

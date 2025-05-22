@@ -17,6 +17,7 @@ void	signal_for_herdoc(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	close(0);
+	setes(130);
 }
 
 void	sighand(int sig)

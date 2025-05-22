@@ -15,18 +15,19 @@
 int	pars_exec(t_cmd *cmd, t_ms *ms)
 {
 	ms->args = cmd->args;
-	if (!ms->args)
-		return (1);
-	ms->cmd = cmd->args[0];
+	if (ms->args)
+		ms->cmd = cmd->args[0];
 	ms->rdctl = cmd->redirect_list;
 	return (0);
 }
 
 int	runcmd(t_ms *ms, t_cmd *cmd)
 {
-	if (pars_exec(cmd, ms))
-		return (setes(1));
 	ms->e = runheredoc(cmd , ms->env);
+	if (ms->e)
+		return (ms->e);
+	if (pars_exec(cmd, ms))
+		return (setes(ms->e));
 	if (!cmd->next)
 		return (singlecmd(ms));
 	ms->e = pipeline(ms, cmd);
