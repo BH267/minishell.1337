@@ -39,6 +39,7 @@
 char		*dellet_all_quotes(char *str);
 void		print_tokens(t_token *tok);
 void		b2o(int doit);
+int			shlvl(char **env);
 int			*estate(void);
 int			setes(int e);
 int			signals(int mode);

@@ -53,11 +53,13 @@ int	shlvl(char **env)
 {
 	char	*value;
 
+	if (!env || !*env)
+		return (0);
 	value = getenvalue(env, "SHLVL");
 	if (!value)
 		return (1);
 	setvalue(env, "SHLVL", hb_itoa(hb_atoi(value)+ 1));
-	return (0);
+	return (hb_atoi(value) + 1);
 }
 
 int	main(int ac, char **av, char **env)

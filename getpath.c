@@ -34,8 +34,8 @@ char	*getpath(char *cmd, t_env *env)
 	char	**paths;
 	int		i;
 
-	if (!cmd || !env)
-		return (NULL);
+	if (!cmd || !env || !*cmd)
+		return (hb_printerr("%s: command not found\n", cmd), NULL);
 	if (!access(cmd, X_OK))
 		return (cmd);
 	paths = getpaths(cmd, env);
