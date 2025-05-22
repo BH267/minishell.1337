@@ -44,8 +44,9 @@ int	need_expansion(char *str, char *mask)
 		return (-1);
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1]) || str[i
-				+ 1] == '_' || str[i + 1] == '?') && !(mask[i] & MASK_S_QUOTES))
+		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1])
+				|| str[i + 1] == '_' || str[i + 1] == '?')
+			&& !(mask[i] & MASK_S_QUOTES))
 			return (i);
 		i++;
 	}

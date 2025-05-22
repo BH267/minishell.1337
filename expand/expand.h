@@ -45,7 +45,7 @@ char			*submem(char *str, int start, int len);
 t_data_splited	*split_args(t_token *token);
 
 /* expand_check.c */
-int				have_space(char *str);
+int				have_space(char	*str);
 int				have_space_from_expand(char *str, char *mask);
 int				check_ambiguous(t_token **tok, char *var);
 char			*get_value_with_mask(char mask, t_env *env, char *var);
