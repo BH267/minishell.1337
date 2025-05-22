@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:23:36 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/21 13:58:35 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:15:49 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,8 @@ t_cmd		*parse_tokens(t_token *tokens, t_env *env);
 char		*getpath(char *cmd, t_env *env);
 t_cmd		*parsing(char *cmdl, t_env *env);
 // void		parsing2(char *cmdl,t_env *env);
+
+/* Wildcard expansion */
+void		card(t_token *tokens);
 
 #endif
