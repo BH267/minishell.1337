@@ -23,7 +23,7 @@ int	builtins(char *cmd, t_ms *ms)
 	else if (hb_strcmp(cmd, "env") == 0)
 		ms->e = envi(ms->env);
 	else if (hb_strcmp(cmd, "pwd") == 0)
-		ms->e = pwd(ms->env);
+		ms->e = pwd();
 	else if (hb_strcmp(cmd, "export") == 0)
 		ms->e = ft_export(ms->args, &(ms->env));
 	else if (hb_strcmp(cmd, "unset") == 0)

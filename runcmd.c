@@ -29,7 +29,7 @@ int	runcmd(t_ms *ms, t_cmd *cmd)
 	if (pars_exec(cmd, ms))
 		return (setes(ms->e));
 	if (!cmd->next)
-		return (singlecmd(ms));
+		return (setes(singlecmd(ms)));
 	ms->e = pipeline(ms, cmd);
 	return (ms->e);
 }

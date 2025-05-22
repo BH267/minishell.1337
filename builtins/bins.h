@@ -21,7 +21,7 @@
 # include <string.h>
 # include <unistd.h>
 
-int	pwd(t_env *env);
+int	pwd(void);
 int	envi(t_env *env);
 int	expars(char **str);
 int	echo(char **args);
