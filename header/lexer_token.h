@@ -91,6 +91,6 @@ t_cmd					*new_cmd(void);
 void					free_cmds(t_cmd *lst);
 
 // here-doc
-int						heredoc(t_redirect *rdct , t_env *env);
+int						heredoc(t_redirect *rdct, t_env *env);
 
 #endif

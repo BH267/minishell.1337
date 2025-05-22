@@ -12,13 +12,11 @@
 
 #include "ms.h"
 
-
 void	sighand(int sig)
 {
 	if (sig == SIGINT)
 	{
 		rl_on_new_line();
-		//write (1, "\n", 1);
 		rl_replace_line("\n", 0);
 		rl_redisplay();
 		return ;
@@ -55,7 +53,7 @@ int	signals(int mode)
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	t_env *lst_env;
+	t_env	*lst_env;
 
 	(void)ac;
 	(void)av;
@@ -64,11 +62,11 @@ int	main(int ac, char **av, char **env)
 	{
 		line = readline("Enter command to parse (or 'exit'): ");
 		if (!line)
-			break;
+			break ;
 		if (!*line)
-			continue;
+			continue ;
 		if (!strcmp(line, "exit"))
-			break;
+			break ;
 		add_history(line);
 		parsing2(line, lst_env);
 	}

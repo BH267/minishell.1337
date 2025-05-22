@@ -16,7 +16,6 @@ int	updatenv(t_env **env, char *var, char *value, int exp)
 {
 	t_env	*tmp;
 
-	//value = hb_strtrim(value, "\"");
 	if (getvalue(*env, var) != NULL)
 		eeditvar(env, var, value, exp);
 	else

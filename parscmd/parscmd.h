@@ -11,13 +11,12 @@
 /* ************************************************************************** */
 
 #ifndef PARSCMD_H
-#define PARSCMD_H
+# define PARSCMD_H
 
-#include "../expand/expand.h"
-#include "../header/lexer_token.h"
-#include "../ms.h"
-#include <ctype.h>
-
+# include "../expand/expand.h"
+# include "../header/lexer_token.h"
+# include "../ms.h"
+# include <ctype.h>
 
 void	print_mask(char *mask);
 int		is_quote(char c);

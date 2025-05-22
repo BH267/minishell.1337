@@ -23,7 +23,7 @@ int	pars_exec(t_cmd *cmd, t_ms *ms)
 
 int	runcmd(t_ms *ms, t_cmd *cmd)
 {
-	ms->e = runheredoc(cmd , ms->env);
+	ms->e = runheredoc(cmd, ms->env);
 	if (ms->e)
 		return (ms->e);
 	if (pars_exec(cmd, ms))

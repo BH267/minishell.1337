@@ -71,8 +71,6 @@ void	handle_expansion(t_token *tok, char *var_name, t_env *env, int pos)
 	tok->flag = 42;
 }
 
-
-
 void	expansion_loop(t_token *tokens, t_env *env)
 {
 	t_token	*tok;
