@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/21 23:20:05 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:56:21 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@ static void	handle_token(t_cmd *cmd, t_token *tok, int *redir_pending)
 		{
 			if (tok->value)
 				add_redirect(&cmd->redirect_list, tok->value,
-					(t_token_type)*redir_pending , tok->value);
-
+					(t_token_type) * redir_pending, tok->value);
 		}
 		else
 			add_redirect(&cmd->redirect_list, tok->value,
-				(t_token_type)*redir_pending , NULL);
+				(t_token_type) * redir_pending, NULL);
 		*redir_pending = 0;
 	}
 	else
@@ -96,6 +95,7 @@ static void	parse_tokens_loop(t_cmd *cmd_head, t_token *tokens)
 			tok = tok->next;
 	}
 }
+
 t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 {
 	t_cmd	*cmd_head;
@@ -107,4 +107,3 @@ t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 	parse_tokens_loop(cmd_head, tokens);
 	return (cmd_head);
 }
-

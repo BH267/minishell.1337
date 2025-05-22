@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deepseeko <deepseeko@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 15:58:41 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/12 17:04:29 by deepseeko        ###   ########.fr       */
+/*   Updated: 2025/05/22 11:04:49 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/lexer_token.h"
-
 
 t_token	*lexer(const char *input)
 {

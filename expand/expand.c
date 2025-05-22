@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/20 13:15:29 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:34:49 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,8 @@ static int	need_expansion(char *str, char *mask)
 		return (-1);
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1])
-				|| str[i + 1] == '_' || str[i + 1] == '?')
-			&& !(mask[i] & MASK_S_QUOTES))
+		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1]) || str[i
+			+ 1] == '_' || str[i + 1] == '?') && !(mask[i] & MASK_S_QUOTES))
 			return (i);
 		i++;
 	}

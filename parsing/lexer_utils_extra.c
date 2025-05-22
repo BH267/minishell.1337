@@ -6,12 +6,11 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:11:16 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/19 17:32:15 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:04:19 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/lexer_token.h"
-
 
 int	check_balanced_quotes(const char *input)
 {
@@ -35,7 +34,6 @@ int	check_balanced_quotes(const char *input)
 	return (1);
 }
 
-
 int	extract_word(const char *input, int i, char **val)
 {
 	int		start;
@@ -52,7 +50,7 @@ int	extract_word(const char *input, int i, char **val)
 			if (input[i] == quote)
 				i++;
 			else
-				break;
+				break ;
 		}
 		else
 			i++;
@@ -82,4 +80,3 @@ void	add_token(t_token **lst, char *value, t_token_type type, char *mask)
 		tmp->next = new;
 	}
 }
-

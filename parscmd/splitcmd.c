@@ -6,10 +6,9 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:01:11 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/21 23:13:23 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:57:45 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../expand/expand.h"
 #include "../header/lexer_token.h"
@@ -56,7 +55,6 @@ void	replace_args(t_token *tok, t_data_splited *data)
 	}
 	current->next = next_orig;
 }
-
 
 void	split_tokens_by_mask(t_token *tokens)
 {

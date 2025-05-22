@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:50:36 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/21 13:49:24 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:07:25 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static int	need_expansion_true(char *str)
 		return (-1);
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1])
-				|| str[i + 1] == '_' || str[i + 1] == '?'))
+		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1]) || str[i
+					+ 1] == '_' || str[i + 1] == '?'))
 			return (i);
 		i++;
 	}
@@ -52,7 +52,8 @@ static char	*find_variable_name_herdoc(char *str, int pos)
 	return (var_name);
 }
 
-void replace_variable_herdoc(char **str, char *var_name,char *expanded_value, int pos)
+void	replace_variable_herdoc(char **str, char *var_name,
+		char *expanded_value, int pos)
 {
 	char	*new_str;
 	char	*old_value;
@@ -64,30 +65,28 @@ void replace_variable_herdoc(char **str, char *var_name,char *expanded_value, in
 	var_len = hb_strlen(var_name) + 1;
 	if (!expanded_value)
 		expanded_value = "";
-	new_str = (char *)ft_malloc(
-			hb_strlen(old_value) - var_len + hb_strlen(expanded_value) + 1);
+	new_str = (char *)ft_malloc(hb_strlen(old_value) - var_len
+			+ hb_strlen(expanded_value) + 1);
 	if (!new_str)
 		return ;
 	hb_strlcpy(new_str, old_value, pos + 1);
-	hb_strlcat(new_str, expanded_value,
-		pos + hb_strlen(expanded_value) + 1);
-	hb_strlcat(new_str, old_value + pos + var_len,
-		hb_strlen(old_value) - var_len + hb_strlen(expanded_value) + 1);
+	hb_strlcat(new_str, expanded_value, pos + hb_strlen(expanded_value) + 1);
+	hb_strlcat(new_str, old_value + pos + var_len, hb_strlen(old_value)
+		- var_len + hb_strlen(expanded_value) + 1);
 	*str = new_str;
 }
 
-
-char	*expand_herdoce(char *str , t_env *env)
+char	*expand_herdoce(char *str, t_env *env)
 {
-	int i;
-	int flag;
+	int		i;
+	int		flag;
+	char	*var_name;
+	char	*expanded_value;
 
 	i = 0;
 	flag = need_expansion_true(str);
-	while(flag != -1)
+	while (flag != -1)
 	{
-		char *var_name;
-		char *expanded_value;
 		var_name = find_variable_name_herdoc(str, flag);
 		expanded_value = get_value_with_mask(*str, env, var_name);
 		if (!expanded_value)

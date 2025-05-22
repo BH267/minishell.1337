@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:42:56 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/20 14:07:19 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:52:24 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	has_quotes_mask_zero(t_token *tok)
 	}
 	return (0);
 }
-
 
 int	count_zeromask_quotes(t_token *tok)
 {
@@ -56,7 +55,8 @@ static char	*create_new_value(t_token *tok, int quote_count)
 	int		k;
 
 	original_length = hb_strlen(tok->value);
-	new_value = (char *)ft_malloc(sizeof(char) * (original_length - quote_count + 1));
+	new_value = (char *)ft_malloc(sizeof(char) * (original_length - quote_count
+				+ 1));
 	if (!new_value)
 		return (NULL);
 	i = 0;

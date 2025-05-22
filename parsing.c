@@ -6,18 +6,18 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:44:04 by habenydi          #+#    #+#             */
-/*   Updated: 2025/05/21 23:23:18 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:21:28 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms.h"
 #include "expand/expand.h"
+#include "ms.h"
 #include "parscmd/parscmd.h"
 
 void	print_tokens(t_token *tok)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	while (tok)
 	{
@@ -75,10 +75,10 @@ static void	print_cmds(t_cmd *cmd)
 	}
 }
 
-void	parsing2(char *cmdl , t_env *env)
+void	parsing2(char *cmdl, t_env *env)
 {
-	t_token *tokens;
-	t_cmd *cmds;
+	t_token	*tokens;
+	t_cmd	*cmds;
 
 	if (!check_balanced_quotes(cmdl))
 	{
@@ -87,35 +87,31 @@ void	parsing2(char *cmdl , t_env *env)
 	}
 	tokens = lexer(cmdl);
 	if (!tokens)
-		return;
+		return ;
 	if (!check_grammar(tokens))
 	{
 		hb_printerr("minishell: syntax error\n");
-		return;
+		return ;
 	}
-
 	cmds = parse_tokens(tokens, env);
 	printf("\nParsed commands:\n");
 	print_cmds(cmds);
 }
 
-t_cmd	*parsing(char *cmdl, t_env *env )
+t_cmd	*parsing(char *cmdl, t_env *env)
 {
-	t_token *tokens;
+	t_token	*tokens;
 
 	if (!check_balanced_quotes(cmdl))
 	{
 		hb_printerr("minishell: syntax error: unclosed quote\n");
-		return NULL;
+		return (NULL);
 	}
 	tokens = lexer(cmdl);
 	if (!check_grammar(tokens))
 	{
 		hb_printerr("minishell: syntax error\n");
-		return NULL;
+		return (NULL);
 	}
-
-
-    //print_cmds(parse_tokens(tokens, env));
 	return (parse_tokens(tokens, env));
 }

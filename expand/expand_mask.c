@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 00:00:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/20 13:15:29 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:04:56 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ char	*c_new_mask(char *value, char type)
 	return (new_mask);
 }
 
-void	update_mask(t_token **tok, char *new_mask, int pos, int len, int lent_mask)
+void	update_mask(t_token **tok, char *new_mask, int pos, int len,
+		int lent_mask)
 {
 	int		i;
 	int		j;
@@ -45,7 +46,8 @@ void	update_mask(t_token **tok, char *new_mask, int pos, int len, int lent_mask)
 
 	if (!tok || !(*tok) || !new_mask)
 		return ;
-	updated_mask = (char *)ft_malloc(hb_strlen((*tok)->value) - len + lent_mask + 1);
+	updated_mask = (char *)ft_malloc(hb_strlen((*tok)->value) - len + lent_mask
+			+ 1);
 	if (!updated_mask)
 		return ;
 	i = 0;
@@ -66,7 +68,8 @@ void	update_mask(t_token **tok, char *new_mask, int pos, int len, int lent_mask)
 	(*tok)->mask = updated_mask;
 }
 
-void	replace_variable(t_token **tok, char *var_name, char *expanded_value, int pos)
+void	replace_variable(t_token **tok, char *var_name, char *expanded_value,
+		int pos)
 {
 	char	*new_str;
 	char	*old_value;
@@ -78,14 +81,13 @@ void	replace_variable(t_token **tok, char *var_name, char *expanded_value, int p
 	var_len = hb_strlen(var_name) + 1;
 	if (!expanded_value)
 		expanded_value = "";
-	new_str = (char *)ft_malloc(
-			hb_strlen(old_value) - var_len + hb_strlen(expanded_value) + 1);
+	new_str = (char *)ft_malloc(hb_strlen(old_value) - var_len
+			+ hb_strlen(expanded_value) + 1);
 	if (!new_str)
 		return ;
 	hb_strlcpy(new_str, old_value, pos + 1);
-	hb_strlcat(new_str, expanded_value,
-		pos + hb_strlen(expanded_value) + 1);
-	hb_strlcat(new_str, old_value + pos + var_len,
-		hb_strlen(old_value) - var_len + hb_strlen(expanded_value) + 1);
+	hb_strlcat(new_str, expanded_value, pos + hb_strlen(expanded_value) + 1);
+	hb_strlcat(new_str, old_value + pos + var_len, hb_strlen(old_value)
+		- var_len + hb_strlen(expanded_value) + 1);
 	(*tok)->value = new_str;
 }

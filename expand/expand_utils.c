@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:08:12 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/19 13:43:29 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:24:53 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 
 int	count_args_using_mask(t_token *token)
 {
-	int	i;
-	int	count_args;
-	int	max;
-	int	in_word;
-
+	int (i), (count_args), (max), (in_word);
 	i = 0;
 	count_args = 0;
 	in_word = 0;
@@ -45,7 +41,7 @@ int	count_args_using_mask(t_token *token)
 	return (count_args);
 }
 
-char *submem(char *str, int start , int len)
+char	*submem(char *str, int start, int len)
 {
 	char	*sub;
 	int		i;
@@ -66,13 +62,8 @@ char *submem(char *str, int start , int len)
 t_data_splited	*split_args(t_token *token)
 {
 	t_data_splited	*data;
-	int		i;
-	int		j;
-	int		count_args;
-	int		start;
-	int		max;
-	int		in_word;
 
+	int (i), (j), (count_args), (start), (max), (in_word);
 	count_args = count_args_using_mask(token);
 	data = (t_data_splited *)ft_malloc(sizeof(t_data_splited));
 	if (!data)
