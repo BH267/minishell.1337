@@ -12,15 +12,15 @@
 
 #include "bins.h"
 
-int	pwd(t_env *env)
+int	pwd(void)
 {
-	printf("%s\n", getvalue(env, "PWD"));
-	return (0);
-}
-	/*char	cwd[1024];
+	char	cwd[1024];
 
 	if (!getcwd(cwd, 1024))
 	{
 		hb_printerr("%s\n", strerror(errno));
 		return (1);
-	}*/
+	}
+	printf("%s\n", cwd);
+	return (0);
+}

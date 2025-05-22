@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/22 20:57:52 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 00:22:19 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	handle_expansion(t_token *tok, char *var_name, t_env *env, int pos)
 	replace_variable(&tok, var_name, expanded_value, pos - 1);
 	tok->flag = 42;
 }
-
-
 
 void	expansion_loop(t_token *tokens, t_env *env)
 {

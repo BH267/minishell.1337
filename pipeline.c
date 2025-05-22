@@ -12,37 +12,6 @@
 
 #include "ms.h"
 
-int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
-{
-	int	pid;
-	int	status;
-
-	status = 0;
-	pars_exec(cmd, ms);
-	pid = fork();
-	if (pid == 0)
-	{
-		signals(CHILD);
-		if (fd != -1)
-		{
-			dup2(fd, 0);
-			close(fd);
-		}
-		execute(ms);
-		if (ms->e)
-			ft_exit(ms->e);
-	}
-	else
-	{
-		if (fd != -1)
-			close(fd);
-		signal(SIGINT, SIG_IGN);
-		waitpid(pid, &status, 0);
-		signals(NORMAL);
-	}
-	return (WEXITSTATUS(status));
-}
-
 void	child(t_ms *ms, int *fd, int pfd)
 {
 	signals(CHILD);
@@ -60,7 +29,7 @@ void	child(t_ms *ms, int *fd, int pfd)
 	ft_exit (ms->e);
 }
 
-void	parent(t_cmd **cmd, int	*fd, int *pfd)
+static void	parent(t_cmd **cmd, int	*fd, int *pfd)
 {
 	*cmd = (*cmd)->next;
 	signal(SIGINT, SIG_IGN);
@@ -71,14 +40,11 @@ void	parent(t_cmd **cmd, int	*fd, int *pfd)
 	*pfd = fd[0];
 }
 
-int	pipeline(t_ms *ms, t_cmd *cmd)
+int	wastloop(t_ms *ms, t_cmd *cmd, int pfd)
 {
 	int	fd[2];
-	int	pfd;
 	int	pid;
-	int	status;
 
-	pfd = -1;
 	while (cmd->next)
 	{
 		pars_exec(cmd, ms);
@@ -97,6 +63,16 @@ int	pipeline(t_ms *ms, t_cmd *cmd)
 			return (hb_printerr("%s\n", strerror(errno)), errno);
 	}
 	ms->e = lastcmd(cmd, ms, pfd);
+	return (ms->e);
+}
+
+int	pipeline(t_ms *ms, t_cmd *cmd)
+{
+	int	pfd;
+	int	status;
+
+	pfd = -1;
+	setes(wastloop(ms, cmd, pfd));
 	while (wait(&status) > 0)
 		if (WEXITSTATUS(status) != 0)
 			ms->e = WEXITSTATUS(status);

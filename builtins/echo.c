@@ -42,7 +42,7 @@ int	echo(char **args)
 	while (args[i])
 	{
 		if (printf("%s", args[i]) == -1)
-			return (1);
+			return (hb_printerr("%s\n", strerror(errno)), errno);
 		if (args[i + 1])
 			printf(" ");
 		i++;

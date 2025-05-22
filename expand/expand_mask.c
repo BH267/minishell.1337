@@ -38,12 +38,9 @@ char	*c_new_mask(char *value, char type)
 void	update_mask(t_token **tok, char *new_mask, int pos, int len,
 		int lent_mask)
 {
-	int		i;
-	int		j;
 	char	*updated_mask;
-	int		remaining_len;
-	int		k;
 
+	int (i), (j), (k), (remaining_len);
 	if (!tok || !(*tok) || !new_mask)
 		return ;
 	updated_mask = (char *)ft_malloc(hb_strlen((*tok)->value) - len + lent_mask

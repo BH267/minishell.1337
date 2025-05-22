@@ -38,8 +38,8 @@ int	execute(t_ms *ms)
 	if (!ms->cmd)
 	{
 		ms->e = 127;
-		return (127);
+		return (setes(127));
 	}
 	ms->e = run(ms);
-	return (ms->e);
+	return (setes(ms->e));
 }

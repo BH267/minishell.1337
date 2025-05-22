@@ -23,13 +23,13 @@ int	pars_exec(t_cmd *cmd, t_ms *ms)
 
 int	runcmd(t_ms *ms, t_cmd *cmd)
 {
-	ms->e = runheredoc(cmd , ms->env);
+	ms->e = runheredoc(cmd, ms->env);
 	if (ms->e)
 		return (ms->e);
 	if (pars_exec(cmd, ms))
 		return (setes(ms->e));
 	if (!cmd->next)
-		return (singlecmd(ms));
+		return (setes(singlecmd(ms)));
 	ms->e = pipeline(ms, cmd);
 	return (ms->e);
 }

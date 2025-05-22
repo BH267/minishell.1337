@@ -5,7 +5,7 @@ SRCS = 2main.c builtins/cd.c getpath.c \
        builtins/env.c builtins/export.c dolar.c editenv.c env.c \
        envlst.c builtins/unset.c builtins/exit.c builtins/expars.c \
        redirection.c pipeline.c single_cmd.c runcmd.c isbins.c heredoc.c \
-       signals.c \
+       signals.c lastcmd.c \
     parsing.c parscmd/parser.c parscmd/splitcmd.c exitstatus.c  parscmd/parscmd_utils.c\
 	parsing/lexer.c parsing/lexer_utils.c parsing/lexer_utils_extra.c \
 	parsing/lexer_handlers.c \

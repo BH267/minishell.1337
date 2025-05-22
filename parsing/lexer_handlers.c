@@ -57,12 +57,7 @@ void	prnt_mask(int lent, char *mask)
 
 void	edit_mask(char *val, char *mask)
 {
-	int	i;
-	int	in_double_quotes;
-	int	in_single_quotes;
-	int	len;
-	int	flag;
-
+	int (i), (in_double_quotes), (in_single_quotes), len, flag;
 	i = 0;
 	in_double_quotes = 0;
 	in_single_quotes = 0;
