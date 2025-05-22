@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:38 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/21 12:17:26 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:10:42 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,15 @@ char				*get_value_with_mask(char mask, t_env *env, char *var);
 /* expand herdoc */
 char	*expand_herdoce(char *str , t_env *env);
 
+
+
+
+/* expand loop utils */
+void	treat_red(t_token *tok, t_env *env);
+void	handle_redirection(t_token **tok, t_env *env);
+void	handle_word_token(t_token *tok, t_env *env);
+void	handle_redirection(t_token **tok, t_env *env);
+char	*find_variable_name(char *str, int pos);
+int		need_expansion(char *str, char *mask);
+void	handle_expansion(t_token *tok, char *var_name, t_env *env, int pos);
 #endif
