@@ -17,7 +17,7 @@
 
 typedef struct s_hgc
 {
-	void		*p;
+	void			*p;
 	struct s_hgc	*next;
 }				t_hgc;
 
