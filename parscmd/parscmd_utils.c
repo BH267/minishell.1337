@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:42:56 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/23 13:59:29 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:58:05 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	clear_quotes(t_token *tokens)
 	{
 		if (has_quotes_mask_zero(tok))
 		{
-
 			delete_zeromask_quotes(tok);
 		}
 		tok = tok->next;

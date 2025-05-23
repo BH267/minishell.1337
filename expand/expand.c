@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/23 00:22:19 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:02:38 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,16 @@ void	expansion_loop(t_token *tokens, t_env *env)
 	tok = tokens;
 	while (tok)
 	{
+		if (tok->type == TOKEN_HEREDOC)
+		{
+			tok->flag = -42;
+			tok = tok->next;
+			if (tok)
+				tok = tok->next;
+			continue ;
+		}
 		if (tok->type == TOKEN_REDIR_OUT || tok->type == TOKEN_REDIR_IN
-			|| tok->type == TOKEN_APPEND)
+			|| tok->type == TOKEN_APPEND )
 			handle_redirection(&tok, env);
 		else if (tok->type == TOKEN_WORD && tok->value)
 			handle_word_token(tok, env);
