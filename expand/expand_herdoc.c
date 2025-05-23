@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:50:36 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/23 20:21:20 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:26:19 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static int	need_expansion_true(char *str)
 	while (str[i])
 	{
 		if (str[i] == '$' && str[i + 1] && ((hb_isalnum(str[i + 1]) || str[i
-					+ 1] == '_' || str[i + 1] == '?') || hb_isdigit(str[i
-					+ 1])))
+						+ 1] == '_' || str[i + 1] == '?') || hb_isdigit(str[i
+						+ 1])))
 			return (i);
 		i++;
 	}

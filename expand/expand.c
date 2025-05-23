@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/23 20:14:24 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 21:40:05 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*find_variable_name(char *str, int pos)
 	if (str[i] == '?')
 		return (hb_strdup("?"));
 	if (hb_isdigit(str[i]))
-    	return (hb_substr(str, i, 1));
+		return (hb_substr(str, i, 1));
 	while (str[i] && (str[i] == '_' || hb_isalnum(str[i])))
 	{
 		len++;
@@ -46,8 +46,8 @@ int	need_expansion(char *str, char *mask)
 		return (-1);
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1]) || str[i
-					+ 1] == '_' || str[i + 1] == '?')
+		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1])
+				|| str[i + 1] == '_' || str[i + 1] == '?')
 			&& !(mask[i] & MASK_S_QUOTES)
 			&& !(mask[i] & MASK_EXPANSION))
 			return (i);
@@ -58,9 +58,10 @@ int	need_expansion(char *str, char *mask)
 
 void	handle_expansion(t_token *tok, char *var_name, t_env *env, int pos)
 {
-	char	*expanded_value;
-	char	*new_mask;
-	int		*data;
+	char			*expanded_value;
+	char			*new_mask;
+	int				*data;
+	t_expand_data	len_data;
 
 	data = ft_malloc(sizeof(int) * 3);
 	if (!var_name || !tok || !tok->value)
@@ -69,8 +70,9 @@ void	handle_expansion(t_token *tok, char *var_name, t_env *env, int pos)
 	if (!expanded_value)
 		expanded_value = hb_strdup("");
 	new_mask = c_new_mask(expanded_value, tok->mask[pos - 1]);
-	update_mask(&tok, new_mask, pos, hb_strlen(var_name),
-		hb_strlen(expanded_value));
+	len_data.start = hb_strlen(var_name);
+	len_data.end = hb_strlen(expanded_value);
+	update_mask(&tok, new_mask, pos, len_data);
 	replace_variable(&tok, var_name, expanded_value, pos - 1);
 	tok->flag = 42;
 }
