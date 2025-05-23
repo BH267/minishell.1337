@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 04:53:07 by deepseeko         #+#    #+#             */
-/*   Updated: 2025/05/23 15:02:38 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:14:24 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*find_variable_name(char *str, int pos)
 	len = 0;
 	if (str[i] == '?')
 		return (hb_strdup("?"));
+	if (hb_isdigit(str[i]))
+    	return (hb_substr(str, i, 1));
 	while (str[i] && (str[i] == '_' || hb_isalnum(str[i])))
 	{
 		len++;
