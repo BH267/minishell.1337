@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:50:36 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/23 19:51:28 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:19:11 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*find_variable_name_herdoc(char *str, int pos)
 	if (str[i] == '?')
 		return (hb_strdup("?"));
 	if (hb_isdigit(str[i]))
-		return (hb_strdup("3"));
+		return (hb_substr(str, i, 1));
 	while (str[i] && (str[i] == '_' || hb_isalnum(str[i])))
 	{
 		len++;
