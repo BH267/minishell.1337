@@ -66,14 +66,14 @@ t_match_list	*get_matches(const char *pattern)
 
 void	replace_token_with_matches(t_token **tok, t_match_list *matches)
 {
+	t_token			*current;
+	t_token			*next;
+	t_token			*new_token;
 	t_match_list	*match;
 
-	t_token (*current), (*next), (*new_token);
 	if (!matches)
 		return ;
-	next = (*tok)->next;
-	current = *tok;
-	match = matches;
+	(1) && (next = (*tok)->next), (current = *tok), (match = matches);
 	current->value = hb_strdup(match->name);
 	match = match->next;
 	while (match)
