@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 02:20:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/23 12:47:21 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 19:25:12 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	handle_token(t_cmd *cmd, t_token *tok, int *redir_pending)
 {
 	if (*redir_pending)
 	{
-		if (tok->flag == 404)
+		if (tok->flag == 404 || (tok->flag == 200 && tok->next && tok->next->flag == 200))
 		{
 			if (tok->value)
 				add_redirect(&cmd->redirect_list, tok->value,
