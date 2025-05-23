@@ -41,7 +41,8 @@ static void	handle_token(t_cmd *cmd, t_token *tok, int *redir_pending)
 {
 	if (*redir_pending)
 	{
-		if (tok->flag == 404 || (tok->flag == 200 && tok->next && tok->next->flag == 200))
+		if (tok->flag == 404 || (tok->flag == 200 && tok->next
+				&& tok->next->flag == 200))
 		{
 			if (tok->value)
 				add_redirect(&cmd->redirect_list, tok->value,
