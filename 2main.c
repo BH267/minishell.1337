@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libhb/libhb.h"
 #include "ms.h"
 
 int	promptline(t_ms *ms)
@@ -26,6 +27,20 @@ int	promptline(t_ms *ms)
 	return (0);
 }
 
+int	whites(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (hb_isprint(cmd[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	prompt(t_ms *ms)
 {
 	t_cmd	*cmd;
@@ -35,7 +50,7 @@ int	prompt(t_ms *ms)
 		signals(NORMAL);
 		if (promptline(ms))
 			break ;
-		if (!*ms->cmd)
+		if (!*ms->cmd || whites(ms->cmd))
 			continue ;
 		add_history(ms->cmd);
 		cmd = parsing(ms->cmd, ms->env);

@@ -14,5 +14,5 @@
 
 int	hb_isprint(int c)
 {
-	return (31 < c && c < 127);
+	return (32 < c && c < 127);
 }
