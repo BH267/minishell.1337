@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 00:00:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/23 22:17:03 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:22:25 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../libhb/libhb.h"
 #include "../ms.h"
 #include "expand.h"
-
 
 int	copy_new_mask(char *dst, char *src, int pos, int len)
 {
