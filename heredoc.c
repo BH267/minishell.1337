@@ -54,16 +54,17 @@ int	oktob(int fd, char *dl, t_env *env)
 	{
 		if (get_next_line(&line) == 99)
 			return (1);
-		if (hb_strcmp(line, hb_strjoin(dl, "\n")) == 0 || !line)
+		if (!line)
+		{
+			hb_printerr("\nwarning: here-document delimited by end-of-file");
+			hb_printerr("(wanted `%s')\n", dl);
+			return (0);
+		}
+		if (hb_strcmp(line, hb_strjoin(dl, "\n")) == 0)
 			break ;
 		if (vdl)
 			line = expand_herdoce(line, env);
 		write(fd, line, hb_strlen(line));
-	}
-	if (!line || !*line)
-	{
-		hb_printerr("\nwarning: here-document delimited by end-of-file");
-		hb_printerr("(wanted `%s')\n", dl);
 	}
 	return (0);
 }
