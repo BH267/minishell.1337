@@ -71,10 +71,10 @@ int	get_next_line(char **str)
 		if (!buff)
 			return (1);
 		if (write(0, "> ", 2) == -1)
-			return (1);
+			return (99);
 		string = ft_readline(0, string, buff);
 		if (!string)
-			return (1);
+			return (99);
 	}
 	ft_getline(&string, &line);
 	*str = line;
