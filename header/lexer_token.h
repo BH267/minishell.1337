@@ -94,8 +94,10 @@ void					free_cmds(t_cmd *lst);
 int						heredoc(t_redirect *rdct, t_env *env);
 // mask
 
-void	edit_mask(char *val, char *mask);
-int	extract_word_with_mask(const char *input, int i, char **out_val, char **out_mask);
-void	help_editmask(char *val, char *mask, int *flag, int reset);
+void					edit_mask(char *val, char *mask);
+int						extract_word_with_mask(const char *input, int i,
+							char **out_val, char **out_mask);
+void					help_editmask(char *val, char *mask, int *flag,
+							int reset);
 
 #endif
