@@ -102,7 +102,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 
 	expansion_loop(tokens, env);
 	split_tokens_by_mask(tokens);
-	card(tokens);  // Add wildcard expansion here
+	card(tokens);
 	clear_quotes(tokens);
 	cmd_head = new_cmd();
 	parse_tokens_loop(cmd_head, tokens);
