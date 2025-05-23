@@ -25,8 +25,9 @@ static int	need_expansion_true(char *str)
 		return (-1);
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && ((hb_isalnum(str[i + 1]) || str[i
-					+ 1] == '_' || str[i + 1] == '?') || hb_isdigit(str[i + 1])))
+		if (str[i] == '$' && str[i + 1] && ((hb_isalnum(str[i + 1])
+					|| str[i + 1] == '_' || str[i + 1] == '?')
+				|| hb_isdigit(str[i + 1])))
 			return (i);
 		i++;
 	}

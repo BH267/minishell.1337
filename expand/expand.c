@@ -27,7 +27,7 @@ char	*find_variable_name(char *str, int pos)
 	if (str[i] == '?')
 		return (hb_strdup("?"));
 	if (hb_isdigit(str[i]))
-    	return (hb_substr(str, i, 1));
+		return (hb_substr(str, i, 1));
 	while (str[i] && (str[i] == '_' || hb_isalnum(str[i])))
 	{
 		len++;
@@ -46,8 +46,8 @@ int	need_expansion(char *str, char *mask)
 		return (-1);
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1]) || str[i
-					+ 1] == '_' || str[i + 1] == '?')
+		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1])
+				|| str[i + 1] == '_' || str[i + 1] == '?')
 			&& !(mask[i] & MASK_S_QUOTES)
 			&& !(mask[i] & MASK_EXPANSION))
 			return (i);
