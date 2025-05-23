@@ -12,10 +12,6 @@
 
 #include "wildcard.h"
 
-
-
-
-
 int	contains_wildcards(const char *str)
 {
 	while (str && *str)

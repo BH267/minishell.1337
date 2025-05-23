@@ -42,4 +42,7 @@ char					**convert_matches_to_array(t_match_list *matches);
 void					replace_token_with_matches(t_token **token,
 							t_match_list *matches);
 
+t_token					*help_rtwm(t_token *nt, t_match_list *match);
+char					*set_mask_expa(t_token *tok);
+
 #endif

@@ -14,7 +14,6 @@
 
 void	*hb_memset(void *arr, int c, size_t l)
 {
-
 	unsigned char	*p;
 
 	p = (unsigned char *)arr;

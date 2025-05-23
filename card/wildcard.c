@@ -30,7 +30,6 @@ static void	process_token(t_token **tok)
 			{
 				replace_token_with_matches(tok, matches);
 			}
-
 			return ;
 		}
 		i++;
@@ -65,7 +64,7 @@ t_match_list	*get_matches(const char *pattern)
 	return (matches);
 }
 
-char* set_mask_expa(t_token *tok)
+char	*set_mask_expa(t_token *tok)
 {
 	int	i;
 
@@ -78,35 +77,29 @@ char* set_mask_expa(t_token *tok)
 	return (tok->mask);
 }
 
-void replace_token_with_matches(t_token **tok, t_match_list *matches)
+void	replace_token_with_matches(t_token **tok, t_match_list *matches)
 {
-    t_token         *current;
-    t_token         *next;
-    t_token         *new_token;
-    t_match_list    *match;
+	t_token			*current;
+	t_token			*next;
+	t_token			*new_token;
+	t_match_list	*match;
 
-    if (!matches)
-        return ;
-    (1) && (next = (*tok)->next), (current = *tok), (match = matches);
-    current->value = hb_strdup(match->name);
-    current->mask = (char *)ft_malloc(hb_strlen(match->name) + 1);
-    current->mask = set_mask_expa(current);
-    current->flag = 200;
-    match = match->next;
-    while (match)
-    {
-        new_token = (t_token *)ft_malloc(sizeof(t_token));
-        new_token->value = hb_strdup(match->name);
-        new_token->type = TOKEN_WORD;
-        new_token->mask = (char *)ft_malloc(hb_strlen(match->name) + 1);
-        new_token->mask = set_mask_expa(new_token);
-        new_token->flag = 200;
-        new_token->next = NULL;
-        current->next = new_token;
-        current = new_token;
-        match = match->next;
-    }
-    current->next = next;
+	if (!matches)
+		return ;
+	(1) && (next = (*tok)->next), (current = *tok), (match = matches);
+	current->value = hb_strdup(match->name);
+	current->mask = (char *)ft_malloc(hb_strlen(match->name) + 1);
+	current->mask = set_mask_expa(current);
+	current->flag = 200;
+	match = match->next;
+	while (match)
+	{
+		new_token = help_rtwm(new_token, match);
+		current->next = new_token;
+		current = new_token;
+		match = match->next;
+	}
+	current->next = next;
 }
 
 void	card(t_token *tokens)
