@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:42:56 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/23 14:58:05 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:57:51 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,17 @@ void	clear_quotes(t_token *tokens)
 	tok = tokens;
 	while (tok)
 	{
-		if (has_quotes_mask_zero(tok))
+		if (tok->type == TOKEN_HEREDOC)
 		{
-			delete_zeromask_quotes(tok);
+			tok = tok->next;
+			if (tok)
+			{
+				tok = tok->next;
+				continue ;
+			}
 		}
+		if (has_quotes_mask_zero(tok))
+			delete_zeromask_quotes(tok);
 		tok = tok->next;
 	}
 }
