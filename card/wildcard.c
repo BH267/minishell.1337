@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:40:25 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/23 00:19:06 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:32:42 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	process_token(t_token **tok)
 			{
 				replace_token_with_matches(tok, matches);
 			}
+
 			return ;
 		}
 		i++;
@@ -64,32 +65,48 @@ t_match_list	*get_matches(const char *pattern)
 	return (matches);
 }
 
-void	replace_token_with_matches(t_token **tok, t_match_list *matches)
+char* set_mask_expa(t_token *tok)
 {
-	t_token			*current;
-	t_token			*next;
-	t_token			*new_token;
-	t_match_list	*match;
+	int	i;
 
-	if (!matches)
-		return ;
-	(1) && (next = (*tok)->next), (current = *tok), (match = matches);
-	current->value = hb_strdup(match->name);
-	match = match->next;
-	while (match)
+	i = 0;
+	while (tok->value[i])
 	{
-		new_token = (t_token *)ft_malloc(sizeof(t_token));
-		new_token->value = hb_strdup(match->name);
-		new_token->type = TOKEN_WORD;
-		new_token->mask = (char *)ft_malloc(hb_strlen(match->name) + 1);
-		hb_memset(new_token->mask, 0, hb_strlen(match->name) + 1);
-		new_token->flag = -42;
-		new_token->next = NULL;
-		current->next = new_token;
-		current = new_token;
-		match = match->next;
+		tok->mask[i] = MASK_EXPANSION;
+		i++;
 	}
-	current->next = next;
+	return (tok->mask);
+}
+
+void replace_token_with_matches(t_token **tok, t_match_list *matches)
+{
+    t_token         *current;
+    t_token         *next;
+    t_token         *new_token;
+    t_match_list    *match;
+
+    if (!matches)
+        return ;
+    (1) && (next = (*tok)->next), (current = *tok), (match = matches);
+    current->value = hb_strdup(match->name);
+    current->mask = (char *)ft_malloc(hb_strlen(match->name) + 1);
+    current->mask = set_mask_expa(current);
+    current->flag = 200;
+    match = match->next;
+    while (match)
+    {
+        new_token = (t_token *)ft_malloc(sizeof(t_token));
+        new_token->value = hb_strdup(match->name);
+        new_token->type = TOKEN_WORD;
+        new_token->mask = (char *)ft_malloc(hb_strlen(match->name) + 1);
+        new_token->mask = set_mask_expa(new_token);
+        new_token->flag = 200;
+        new_token->next = NULL;
+        current->next = new_token;
+        current = new_token;
+        match = match->next;
+    }
+    current->next = next;
 }
 
 void	card(t_token *tokens)

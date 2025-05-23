@@ -6,11 +6,15 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 20:11:58 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/23 00:19:20 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:34:11 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wildcard.h"
+
+
+
+
 
 int	contains_wildcards(const char *str)
 {

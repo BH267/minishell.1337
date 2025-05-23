@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hb_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habenydi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:46:30 by habenydi          #+#    #+#             */
-/*   Updated: 2024/11/04 15:48:07 by habenydi         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:24:41 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	*hb_memset(void *arr, int c, size_t l)
 {
+
 	unsigned char	*p;
 
 	p = (unsigned char *)arr;
