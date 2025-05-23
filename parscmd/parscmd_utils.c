@@ -24,7 +24,7 @@ int	has_quotes_mask_zero(t_token *tok)
 		return (0);
 	while (tok->value[i])
 	{
-		if (IS_QUOTE(tok->value[i]) && (tok->mask[i] == 0))
+		if (is_quote(tok->value[i]) && (tok->mask[i] == 0))
 			return (1);
 		i++;
 	}
@@ -40,7 +40,7 @@ int	count_zeromask_quotes(t_token *tok)
 	count = 0;
 	while (tok->value[i])
 	{
-		if (IS_QUOTE(tok->value[i]) && (tok->mask[i] == 0))
+		if (is_quote(tok->value[i]) && (tok->mask[i] == 0))
 			count++;
 		i++;
 	}
@@ -63,7 +63,7 @@ static char	*create_new_value(t_token *tok, int quote_count)
 	k = 0;
 	while (tok->value[i])
 	{
-		if (IS_QUOTE(tok->value[i]) && (tok->mask[i] == 0))
+		if (is_quote(tok->value[i]) && (tok->mask[i] == 0))
 		{
 			i++;
 			continue ;

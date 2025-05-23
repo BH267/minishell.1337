@@ -35,6 +35,7 @@ typedef struct s_list
 }	t_list;
 
 int		hb_toupper(int c);
+int		is_quote(char c);
 int		hb_tolower(int c);
 int		hb_isalpha(int c);
 int		hb_isdigit(int c);

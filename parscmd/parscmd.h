@@ -19,7 +19,6 @@
 # include <ctype.h>
 
 void	print_mask(char *mask);
-int		is_quote(char c);
 int		has_quotes_mask_zero(t_token *tok);
 void	delete_zeromask_quotes(t_token *tok);
 int		count_zeromask_quotes(t_token *tok);

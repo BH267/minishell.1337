@@ -24,8 +24,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-# define IS_QUOTE(c) ((c) == '\'' || (c) == '\"')
-
 # define NORMAL 1
 # define CHILD 2
 # define HEREDOC 3
