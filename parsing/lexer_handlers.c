@@ -54,7 +54,7 @@ void	edit_mask(char *val, char *mask)
 	flag = 0;
 	while (i < len)
 	{
-		help_editmask(val[i], mask[i], flag, i);
+		help_editmask(&(val[i]), &(mask[i]), &flag, i);
 		i++;
 	}
 }

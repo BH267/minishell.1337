@@ -96,6 +96,6 @@ int						heredoc(t_redirect *rdct, t_env *env);
 
 void	edit_mask(char *val, char *mask);
 int	extract_word_with_mask(const char *input, int i, char **out_val, char **out_mask);
-void	help_editmask(char val, char mask, int flag, int reset);
+void	help_editmask(char *val, char *mask, int *flag, int reset);
 
 #endif

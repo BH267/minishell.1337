@@ -64,7 +64,7 @@ void	help_help_em2(int *ist, int *flag, char *mask)
 	}
 }
 
-void	help_editmask(char val, char mask, int flag, int reset)
+void	help_editmask(char *val, char *mask, int *flag, int reset)
 {
 	static int	indquot;
 	static int	insquot;
@@ -74,10 +74,10 @@ void	help_editmask(char val, char mask, int flag, int reset)
 		indquot = 0;
 		insquot = 0;
 	}
-	if (val == '"' && !insquot)
-		help_help_em(&indquot, &flag, &mask);
-	else if (val == '\'' && !indquot)
-		help_help_em2(&insquot, &flag, &mask);
+	if (*val == '"' && !insquot)
+		help_help_em(&indquot, flag, mask);
+	else if (*val == '\'' && !indquot)
+		help_help_em2(&insquot, flag, mask);
 	else
-		mask |= flag;
+		*mask |= *flag;
 }
