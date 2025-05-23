@@ -22,7 +22,8 @@ static void	process_token(t_token **tok)
 	i = 0;
 	while ((*tok)->value[i])
 	{
-		if ((*tok)->value[i] == '*' && ((*tok)->mask[i] == 0 || (*tok)->mask[i] == 1))
+		if ((*tok)->value[i] == '*' && ((*tok)->mask[i] == 0
+				|| (*tok)->mask[i] == 1))
 		{
 			matches = get_matches((*tok)->value);
 			if (matches)
@@ -46,18 +47,18 @@ t_match_list	*get_matches(const char *pattern)
 	dir = opendir(".");
 	if (!dir)
 		return (NULL);
-
-	while ((entry = readdir(dir)) != NULL)
+	entry = readdir(dir);
+	while (entry != NULL)
 	{
 		if (entry->d_name[0] == '.' && pattern[0] != '.')
-			continue ;
-
+			entry = readdir(dir);
 		if (match_pattern(pattern, entry->d_name))
 		{
 			new = new_match(hb_strdup(entry->d_name));
 			if (new)
 				add_match(&matches, new);
 		}
+		entry = readdir(dir);
 	}
 	closedir(dir);
 	return (matches);
@@ -65,11 +66,9 @@ t_match_list	*get_matches(const char *pattern)
 
 void	replace_token_with_matches(t_token **tok, t_match_list *matches)
 {
-	t_token			*current;
-	t_token			*next;
-	t_token			*new_token;
 	t_match_list	*match;
 
+	t_token (*current), (*next), (*new_token);
 	if (!matches)
 		return ;
 	next = (*tok)->next;
@@ -98,11 +97,9 @@ void	card(t_token *tokens)
 	t_token	*tok;
 
 	tok = tokens;
-
 	while (tok)
 	{
 		process_token(&tok);
 		tok = tok->next;
 	}
 }
-
