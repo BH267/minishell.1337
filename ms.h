@@ -64,6 +64,6 @@ t_cmd	*parsing(char *cmdl, t_env *env);
 // void		parsing2(char *cmdl,t_env *env);
 
 /* Wildcard expansion */
-void		card(t_token *tokens);
+void	card(t_token *tokens);
 
 #endif

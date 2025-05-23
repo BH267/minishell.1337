@@ -45,8 +45,9 @@ int	need_expansion(char *str, char *mask)
 	while (str[i])
 	{
 		if (str[i] == '$' && str[i + 1] && (hb_isalnum(str[i + 1]) || str[i
-				+ 1] == '_' || str[i + 1] == '?') && !(mask[i] & MASK_S_QUOTES) &&
-			 !(mask[i] & MASK_EXPANSION ))
+					+ 1] == '_' || str[i + 1] == '?')
+			&& !(mask[i] & MASK_S_QUOTES)
+			&& !(mask[i] & MASK_EXPANSION))
 			return (i);
 		i++;
 	}
@@ -66,7 +67,6 @@ void	handle_expansion(t_token *tok, char *var_name, t_env *env, int pos)
 	if (!expanded_value)
 		expanded_value = hb_strdup("");
 	new_mask = c_new_mask(expanded_value, tok->mask[pos - 1]);
-
 	update_mask(&tok, new_mask, pos, hb_strlen(var_name),
 		hb_strlen(expanded_value));
 	replace_variable(&tok, var_name, expanded_value, pos - 1);
