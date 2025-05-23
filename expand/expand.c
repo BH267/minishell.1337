@@ -89,7 +89,7 @@ void	expansion_loop(t_token *tokens, t_env *env)
 			continue ;
 		}
 		if (tok->type == TOKEN_REDIR_OUT || tok->type == TOKEN_REDIR_IN
-			|| tok->type == TOKEN_APPEND )
+			|| tok->type == TOKEN_APPEND)
 			handle_redirection(&tok, env);
 		else if (tok->type == TOKEN_WORD && tok->value)
 			handle_word_token(tok, env);

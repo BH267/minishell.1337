@@ -9,6 +9,7 @@ SRCS = 2main.c builtins/cd.c getpath.c \
     parsing.c parscmd/parser.c parscmd/splitcmd.c exitstatus.c  parscmd/parscmd_utils.c\
 	parsing/lexer.c parsing/lexer_utils.c parsing/lexer_utils_extra.c \
 	parsing/lexer_handlers.c \
+	parsing/help_lh.c \
 	parsing/redirection_helpers.c parsing/helper_functions.c \
 	parsing/gramer.c \
 	expand/expand_utils.c \
