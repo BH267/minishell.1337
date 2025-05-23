@@ -52,7 +52,7 @@ int	oktob(int fd, char *dl, t_env *env)
 	while (1)
 	{
 		if (get_next_line(&line))
-			return (1);
+			break ;
 		if (hb_strcmp(line, hb_strjoin(dl, "\n")) == 0 || !line)
 			break ;
 		if (vdl)
