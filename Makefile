@@ -12,12 +12,16 @@ SRCS = 2main.c builtins/cd.c getpath.c \
 	parsing/help_lh.c \
 	parsing/redirection_helpers.c parsing/helper_functions.c \
 	parsing/gramer.c \
+	expand/split_args_utils.c \
 	expand/expand_utils.c \
 	expand/expand.c \
 	expand/expand_check.c \
 	expand/expand_mask.c \
 	expand/expand_herdoc.c \
 	expand/expand_loop_utils.c \
+	expand/expand_handle_word.c \
+	expand/expand_process_utils.c \
+	expand/expand_mask_utils_extra.c \
 	card/wildcard.c \
 	card/wildcard_utils.c \
 	card/help_rtwm.c \

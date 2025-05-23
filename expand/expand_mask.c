@@ -6,7 +6,7 @@
 /*   By: ybouanan <ybouanan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 00:00:00 by ybouanan          #+#    #+#             */
-/*   Updated: 2025/05/22 15:36:51 by ybouanan         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:17:03 by ybouanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,52 +16,56 @@
 #include "../ms.h"
 #include "expand.h"
 
-char	*c_new_mask(char *value, char type)
-{
-	int		i;
-	char	*new_mask;
 
-	type = (type & ~MASK_EXPANSION) | MASK_EXPANSION;
-	i = 0;
-	new_mask = (char *)ft_malloc(hb_strlen(value) + 1);
-	if (!new_mask)
-		return (NULL);
-	while (value[i])
+int	copy_new_mask(char *dst, char *src, int pos, int len)
+{
+	int	j;
+	int	i;
+
+	j = 0;
+	i = pos;
+	while (j < len)
 	{
-		new_mask[i] = type;
-		i++;
+		dst[i++] = src[j++];
 	}
-	new_mask[i] = '\0';
-	return (new_mask);
+	return (i);
 }
 
-void	update_mask(t_token **tok, char *new_mask, int pos, int len,
-		int lent_mask)
+void	copy_suffix(t_suffix_copy *sc)
 {
-	char	*updated_mask;
+	int	k;
 
-	int (i), (j), (k), (remaining_len);
+	k = 0;
+	while (k < sc->len)
+	{
+		sc->dst[sc->dst_pos++] = sc->src[sc->src_pos + k++];
+	}
+	sc->dst[sc->dst_pos] = '\0';
+}
+
+void	update_mask(t_token **tok, char *new_mask, int pos,
+		t_expand_data len_data)
+{
+	char			*updated_mask;
+	int				i;
+	int				remaining_len;
+	t_suffix_copy	sc;
+
 	if (!tok || !(*tok) || !new_mask)
 		return ;
-	updated_mask = (char *)ft_malloc(hb_strlen((*tok)->value) - len + lent_mask
-			+ 1);
+	updated_mask = (char *)ft_malloc(hb_strlen((*tok)->value) - len_data.start
+			+ len_data.end + 1);
 	if (!updated_mask)
 		return ;
-	i = 0;
-	while (i < pos - 1)
-	{
-		updated_mask[i] = (*tok)->mask[i];
-		i++;
-	}
-	j = 0;
-	while (j < lent_mask)
-		updated_mask[i++] = new_mask[j++];
-	j = pos + len;
-	remaining_len = hb_strlen((*tok)->value) - j;
-	k = 0;
-	while (k < remaining_len)
-		updated_mask[i++] = (*tok)->mask[j + k++];
-	updated_mask[i] = '\0';
+	copy_prefix_mask(updated_mask, (*tok)->mask, pos - 1);
+	i = copy_new_mask(updated_mask, new_mask, pos - 1, len_data.end);
+	remaining_len = hb_strlen((*tok)->value) - (pos + len_data.start);
+	sc.dst = updated_mask;
+	sc.dst_pos = i;
+	sc.src = (*tok)->mask;
+	sc.src_pos = pos + len_data.start;
+	sc.len = remaining_len;
+	copy_suffix(&sc);
 	(*tok)->mask = updated_mask;
 }
 
