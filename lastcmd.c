@@ -37,6 +37,8 @@ int	lastcmd(t_cmd *cmd, t_ms *ms, int fd)
 			dup2(fd, 0);
 			close(fd);
 		}
+		if (builtins(ms->cmd, ms) != 99)
+			ft_exit(ms->e);
 		execute(ms);
 		if (ms->e)
 			ft_exit(ms->e);

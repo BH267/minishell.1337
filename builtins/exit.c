@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "bins.h"
+#include "../ms.h"
 
 int	bexit(char **args, int rv)
 {
@@ -18,7 +19,7 @@ int	bexit(char **args, int rv)
 
 	hb_printerr("exit\n");
 	if (!args[1])
-		ft_exit(rv);
+		ft_exit(*(estate()));
 	if (hb_isalphastr(args[1]))
 	{
 		hb_printerr("exit: %s: numeric argument required\n", args[1]);
