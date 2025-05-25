@@ -17,6 +17,7 @@ int	bexit(char **args, int rv)
 {
 	unsigned char	e;
 
+	(void)rv;
 	hb_printerr("exit\n");
 	if (!args[1])
 		ft_exit(*(estate()));
