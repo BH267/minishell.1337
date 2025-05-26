@@ -1,1 +1,1 @@
-3tabro reademe nade
+{https://miro.com/app/board/uXjVIxcCzlM=/}
